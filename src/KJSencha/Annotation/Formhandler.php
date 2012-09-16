@@ -9,7 +9,7 @@ use KJSencha\Direct\Remoting\Api\Object\Method;
  * 
  * @Annotation
  */
-class Formhandler extends AbstractAnnotation
+class Formhandler
 {
     public function decorateObject($object)
     {

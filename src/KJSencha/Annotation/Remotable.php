@@ -5,7 +5,7 @@ namespace KJSencha\Annotation;
 /**
  * @Annotation
  */
-class Remotable extends AbstractAnnotation
+class Remotable
 {
     /**
      * @var string

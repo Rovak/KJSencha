@@ -10,7 +10,7 @@ namespace KJSencha\Annotation;
  * @Annotation
  * @ExtJS\Interval(seconds=60)
  */
-class Interval extends AbstractAnnotation
+class Interval
 {
     protected $seconds = 0;
 
