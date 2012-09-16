@@ -3,7 +3,7 @@ KJSencha Module 0.0.1
 
 Ext JS Module for Zend Framework 2
 
-Master: [![Build Status](https://secure.travis-ci.org/KablauJoustra/KJSencha.png)](http://travis-ci.org/KablauJoustra/KJSencha)
+Master: [![Build Status](https://secure.travis-ci.org/Rovak/KJSencha.png)](http://travis-ci.org/Rovak/KJSencha)
 
 Features
 --------
