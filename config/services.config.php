@@ -2,17 +2,13 @@
 
 namespace KJSencha;
 
-use KJSencha\Direct\Polling\TaskApi;
 use Zend\Cache\StorageFactory;
 use Zend\Code\Annotation\AnnotationManager;
 use Zend\Code\Annotation\Parser\DoctrineAnnotationParser;
 
 return array(
-    'shared' => array(
-//                'kjsencha.annotation_parser' => FALSE,
-    ),
     'aliases' => array(
-        'extjsconf'     => 'kjsencha.config',
+        'extjsconfig'     => 'kjsencha.config',
         'kjsencha.api'   => 'kjsencha.api.module',
     ),
     'factories' => array(
@@ -32,44 +28,12 @@ return array(
         'kjsencha.modulefactory' => function($sm) {
             $moduleFactory = $sm->get('KJSencha\Direct\Remoting\Api\Factory\ModuleFactory');
             $moduleFactory->setAnnotationManager($sm->get('kjsencha.annotation_parser'));
-
             return $moduleFactory;
-        },
-        'kjsencha.task.api' => function($sm) {
-            $config = $sm->get('Config');
-
-            $taskApi = new Direct\Polling\TaskApi;
-            /* @var $moduleFactory TaskApi */
-            $taskApi->setAnnotationManager($sm->get('kjsencha.annotation_parser'));
-
-            // Config
-            if (isset($config['kjsencha']['polling'])) {
-                foreach ($config['kjsencha']['polling']['modules'] as $dir) {
-                    $taskApi->addDirectory($dir['directory']);
-                }
-            }
-            $cachedTaskApi = new Direct\Polling\CachedTaskApi($taskApi, $sm->get('kjsencha.cache'));
-
-            return $cachedTaskApi;
-        },
-        'kjsencha.task.runner' => function($sm) {
-            $taskRunner = new Direct\Polling\TaskRunner($sm->get('kjsencha.task.api'));
-            // Config
-            return $taskRunner;
         },
         'kjsencha.cache' => function($sm) {
             $config = $sm->get('Config');
             $storage = StorageFactory::factory($config['kjsencha']['cache']);
-
             return $storage;
         },
-        'kjsencha.direct.dispatcher' => function($sm) {
-            $config = $sm->get('Config');
-            $dispatcher = $sm->get('KJSencha\Direct\Remoting\Dispatcher');
-            $api = $sm->get('kjsencha.api.module');
-            $dispatcher->setApi($api);
-
-            return $dispatcher;
-        }
     )
 );
