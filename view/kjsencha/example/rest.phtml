@@ -1,0 +1,44 @@
+<script type="text/javascript">
+
+var DataMapper = Ext.create('KJSencha.data.Factory');
+
+Ext.define('TestModel', {
+
+	extend: 'Ext.data.Model',
+
+	fields: [
+		{ name: 'id', type: 'int'},
+		{ name: 'omschrijving', type: 'string' }
+	],
+
+	proxy: DataMapper.createRestConfig({
+		params: {
+			module: 'KJSencha',
+			model: 'Product'	
+		}
+	})
+
+});
+
+Ext.define('TestKlant', {
+
+	extend: 'Ext.data.Model',
+
+	fields: [
+		{ name: 'id', type: 'int'},
+		{ name: 'omschrijving', type: 'string' }
+	],
+
+	proxy: DataMapper.createRestConfig({
+		module: 'KJSencha',
+		model: 'Klant'
+	})
+
+});
+
+Ext.onReady(function(){
+
+	KJSencha.data.AjaxListener.enable();
+
+});
+</script>

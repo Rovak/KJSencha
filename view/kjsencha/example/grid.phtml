@@ -1,0 +1,73 @@
+<script type="text/javascript">
+
+<?php echo $baseGrid->define(); ?>
+
+var DataMapper = Ext.create('KJSencha.data.Factory');
+
+Ext.onReady(function(){
+
+	KJSencha.data.AjaxListener.enable();
+
+	var win;
+
+	var grid = Ext.create('TestGrid', {
+		store: DataMapper.createStoreConfig({
+			module: 'KJSencha',
+			store: 'Overzicht',
+			autoLoad: true,
+			fields: [
+				{ name: 'omschrijving' }
+			]
+		})
+	});
+
+	var objectGrid = Ext.create('TestGrid', {
+		store: DataMapper.createStoreConfig({
+			module: 'KJSencha',
+			store: 'EntityOverzicht',
+			autoSync: true,
+			autoLoad: true,
+			fields: [
+				{ name: 'omschrijving' }
+			]
+		}),
+		plugins: [{
+			ptype: 'cellediting'
+		}]
+	});
+
+	var panel = Ext.create('Ext.Panel', {
+		itemId: 'testpanel',
+		renderTo: Ext.getBody(),
+		width: 500,
+		height: 600,
+		layout: 'border'
+	});
+
+	var button = Ext.create('Ext.Button', {
+		margin: 10,
+		text: 'Lazy Load window',
+		renderTo: Ext.getBody(),
+		handler: function() {
+			if ( ! win) {
+				win = Ext.create('Ext.Window', {
+					closeAction: 'hide',
+					height: 500,
+					width: 500,
+					title: 'test',
+					layout: 'fit',
+					loader: {
+						url: '<?php echo $this->url('kjsencha-example', array('action' => 'lazygrid')); ?>',
+						renderer: 'component',
+						loadMask: true,
+						autoLoad: true
+					}
+				});
+			}
+
+			win.show();
+		}
+	});
+
+});
+</script>

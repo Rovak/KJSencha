@@ -1,0 +1,31 @@
+<script>
+<?php $this->headScript()->captureStart(); ?>
+
+    <?php if($this->variables): ?>
+        <?php foreach ($this->variables as $key => $value): ?>
+        var <?php echo $key; ?> = <?php echo json_encode($value) . ';' . PHP_EOL; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+    <?php if ($namespaces = $this->paths): ?>
+    <?php
+    // Door paden lopen
+    foreach ($namespaces as $namespace => $path) {
+        if ($path[0] !== '/') {
+            $namespaces[$namespace] = $this->basePath($path);
+        }
+    }
+    ?>
+
+    Ext.Loader.setConfig(<?php echo json_encode(array(
+        'enabled'  => TRUE,
+        'paths'    => $namespaces,
+    )); ?>);
+    <?php endif; ?>
+
+    <?php if ($requires = $this->requires): ?>
+    Ext.require(<?php echo json_encode($requires); ?>);
+    <?php endif; ?>
+
+<?php $this->headScript()->captureEnd(); ?>
+</script>

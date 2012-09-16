@@ -1,0 +1,6 @@
+<?php $this->headTitle('Polling'); ?>
+<script type="text/javascript">
+var DataMapper = Ext.create('KJSencha.data.Factory');
+
+Ext.direct.Manager.addProvider(DataMapper.createPollingProvider());
+</script>

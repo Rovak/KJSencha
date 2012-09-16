@@ -1,0 +1,33 @@
+<?php
+$this->headScript()
+	->prependFile($this->kjsencha()->getLibraryPath() . '/ext-all-debug.js');
+$this->headLink()
+	->appendStylesheet($this->kjsencha()->getLibraryPath() . '/resources/css/ext-all.css');
+?>
+<?php echo $this->doctype() ?>
+
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+		<?php echo $this->headTitle('KJSencha Examples')->setSeparator(' - ') ?>		
+
+		<?php echo $this->headLink() ?>
+		<style>
+			body {
+				padding: 10px;
+			}
+		</style>
+
+		<script type="text/javascript">
+			var App = {
+				basePath: '<?php echo $this->basePath(); ?>'
+			};
+		</script>
+
+		<?php echo $this->headScript() ?>
+    </head>
+	<body>
+		<?php echo $content; ?>
+	</body>
+</html>

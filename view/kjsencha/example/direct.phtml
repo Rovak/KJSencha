@@ -1,0 +1,6 @@
+<?php $this->headTitle('Direct'); ?>
+<script type="text/javascript">
+<?php foreach ($this->api->getModules() as $module): ?>
+    <?php echo $module->buildRemotingProvider() . PHP_EOL; ?>
+<?php endforeach; ?>
+</script>
