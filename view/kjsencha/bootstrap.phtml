@@ -1,4 +1,4 @@
-<script>
+<script type="text/javascript">
 <?php $this->headScript()->captureStart(); ?>
 
     <?php if($this->variables): ?>
@@ -9,7 +9,7 @@
 
     <?php if ($namespaces = $this->paths): ?>
     <?php
-    // Door paden lopen
+    // Create relative paths for paths that have no trailing slash
     foreach ($namespaces as $namespace => $path) {
         if ($path[0] !== '/') {
             $namespaces[$namespace] = $this->basePath($path);
