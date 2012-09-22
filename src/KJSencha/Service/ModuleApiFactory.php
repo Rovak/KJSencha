@@ -14,9 +14,9 @@ class ModuleApiFactory implements FactoryInterface
 
     protected $cache;
     protected $services;
-    
+
     /**
-     * 
+     *
      * @param StorageInterface $cache
      */
     public function setCache(StorageInterface $cache)
@@ -47,14 +47,16 @@ class ModuleApiFactory implements FactoryInterface
     {
         $this->services = $serviceLocator;
 
-        $cache = $this->getCache();
         $config = $serviceLocator->get('Config');
 
-        if (($config['kjsencha']['direct']['cache'] == true) && $cache->hasItem('module_api')) {
-            $api = $this->buildFromArray($cache->getItem('module_api'));
-        } else {
+        if (false === $config['kjsencha']['direct']['cache']) {
             $api = $this->buildApi();
-            if (($config['kjsencha']['direct']['cache'] == true)) {
+        } else {
+            $cache = $this->getCache();
+            if ($cache->hasItem('module_api')) {
+                $api = $this->buildFromArray($cache->getItem('module_api'));
+            } else {
+                $api = $this->buildApi();
                 $this->saveToCache($api);
             }
         }
@@ -62,8 +64,9 @@ class ModuleApiFactory implements FactoryInterface
         // Setup the correct url from where to request data
         $router = $serviceLocator->get('Router');
         $api->setUrl($router->assemble(
-                        array('action' => 'rpc'), array('name' => 'kjsencha-direct'))
-        );
+            array('action'  => 'rpc'), 
+            array('name'    => 'kjsencha-direct')
+        ));
 
         return $api;
     }
@@ -102,7 +105,7 @@ class ModuleApiFactory implements FactoryInterface
 
     /**
      * Build module from scratch
-     * 
+     *
      * @return ModuleApi
      */
     public function buildApi()
@@ -113,4 +116,5 @@ class ModuleApiFactory implements FactoryInterface
 
         return $api;
     }
+
 }
