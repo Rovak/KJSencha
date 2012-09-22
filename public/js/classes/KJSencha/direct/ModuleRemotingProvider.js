@@ -78,6 +78,7 @@ Ext.define('KJSencha.direct.ModuleRemotingProvider', {
      * @param {Object} scope (optional) A scope to execute the callback in
      */
     configureFormRequest : function(action, method, form, callback, scope){
+        
         var me = this,
             transaction = new Ext.direct.Transaction({
                 provider: me,
@@ -89,7 +90,7 @@ Ext.define('KJSencha.direct.ModuleRemotingProvider', {
             }),
             isUpload,
             params;
-
+            
         if (me.fireEvent('beforecall', me, transaction, method) !== false) {
             Ext.direct.Manager.addTransaction(transaction);
             isUpload = String(form.getAttribute("enctype")).toLowerCase() == 'multipart/form-data';

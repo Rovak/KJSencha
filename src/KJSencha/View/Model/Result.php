@@ -31,7 +31,7 @@ class Result extends JsonModel
      * @var array
      */
     private $add = array();
-    
+
     private $result;
 
     public function __construct($variables = null, $options = null)
@@ -94,10 +94,10 @@ class Result extends JsonModel
     {
         return $this->success;
     }
-    
+
     /**
      * Retrieve the root param
-     * 
+     *
      * @return string
      */
     public function getRootParam()
@@ -107,7 +107,7 @@ class Result extends JsonModel
 
     /**
      * Set the root param
-     * 
+     *
      * @param string $rootParam
      */
     public function setRootParam($rootParam)
@@ -139,7 +139,7 @@ class Result extends JsonModel
         if ($exec = $this->add) {
             $this->setVariable('_add', $this->add);
         }
-        
+
         $this->setVariable($this->getRootParam(), $this->getResult());
 
         return parent::serialize();

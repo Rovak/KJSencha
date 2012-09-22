@@ -8,7 +8,7 @@ namespace KJSencha\Direct\Remoting\Api\Object;
 class Method extends AbstractObject
 {
     private $numberOfParameters = 0;
-    
+
     /**
      * @var array
      */
@@ -52,10 +52,10 @@ class Method extends AbstractObject
             'len'		=> $this->getNumberOfParameters(),
         ));
     }
-    
+
     /**
      * Set an option
-     * 
+     *
      * @param string $name
      * @param string $value
      */
@@ -63,7 +63,7 @@ class Method extends AbstractObject
     {
         $this->options[$name] = $value;
     }
- 
+
     /**
      * @return array
      */

@@ -9,7 +9,7 @@ interface ApiInterface
      * @return string
      */
     public function getUrl();
-    
+
     /**
      * @return string
      */
@@ -25,19 +25,19 @@ interface ApiInterface
      * @return \KJSencha\Direct\Remoting\Api\Object\Action
      */
     public function getAction($name);
-    
+
     /**
-     * 
+     *
      * @param string $action
      * @return boolean
      */
     public function hasAction($action);
-    
+
     /**
      * @return array
      */
     public function toApiArray();
-    
+
     /**
      * @return \KJSencha\Frontend\Direct\RemotingProvider
      */

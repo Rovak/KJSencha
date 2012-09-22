@@ -23,7 +23,7 @@ class DirectController extends AbstractController
 
     /**
      * Rpcs
-     * 
+     *
      * @var array
      */
     protected $rpcs;
@@ -58,7 +58,7 @@ class DirectController extends AbstractController
     }
 
     /**
-     * 
+     *
      * @return DirectManager
      */
     public function getManager()
@@ -97,7 +97,7 @@ class DirectController extends AbstractController
 
     /**
      * Dispatch controller
-     * 
+     *
      * @param MvcEvent $e
      * @return string
      * @throws Exception
@@ -181,7 +181,7 @@ class DirectController extends AbstractController
     /**
      * Run the RPC and return its output
      *
-     * @param  RPC $rpc 
+     * @param  RPC $rpc
      * @return array
      */
     public function dispatchRPC(RPC $rpc)
@@ -205,26 +205,26 @@ class DirectController extends AbstractController
             }
             $api = $api->getModule($moduleName);
         }
-        
+
         // Verify the action exists
         if (!$api->hasAction($rpc->getAction())) {
             throw new Exception('Action ' . $rpc->getAction() . ' does not exist');
         }
 
         $action = $api->getAction($rpc->getAction());
-        
+
         // Verify the method exists
         if (!$action->hasMethod($rpc->getMethod())) {
             throw new Exception('Method ' . $rpc->getMethod() . ' does not exist');
         }
-        
+
         // Verify that we recieved enough parameters to call the method
         if ($action->getMethod($rpc->getMethod())->getNumberOfParameters() > count($rpc->getData())) {
             throw new Exception('Invalid parameter count');
         }
 
         $object = $this->getManager()->get($action->getObjectName());
-
+        
         // Fetch result from the function call
         $response['result'] = call_user_func_array(array($object, $rpc->getMethod()), $rpc->getData());
 

@@ -40,7 +40,7 @@ class Action extends AbstractObject
     {
         return $this->methods;
     }
-    
+
     /**
      * @param string $name
      * @return Method

@@ -83,11 +83,11 @@ abstract class AbstractFactory
             if (false === $classMethod->isPublic()) {
                 continue;
             }
-            
+
             // Create method
             $method = new Object\Method($classMethod->getName());
             $method->setNumberOfParameters($classMethod->getNumberOfParameters());
-
+            
             // Loop through annotations
             if ($annotations = $classMethod->getAnnotations($this->getAnnotationManager())) {
                 foreach ($annotations as $annotation) {

@@ -10,11 +10,12 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class AbstractDirectController implements ServiceLocatorAwareInterface
 {
+
     /**
      * @var ServiceLocatorInterface
      */
     protected $serviceLocator;
-    
+
     /**
      * @return ServiceLocatorAwareInterface
      */
@@ -22,7 +23,7 @@ class AbstractDirectController implements ServiceLocatorAwareInterface
     {
         return $this->serviceLocator;
     }
-    
+
     /**
      * @param ServiceLocatorAwareInterface $serviceLocator
      */
@@ -30,4 +31,5 @@ class AbstractDirectController implements ServiceLocatorAwareInterface
     {
         $this->serviceLocator = $serviceLocator;
     }
+
 }

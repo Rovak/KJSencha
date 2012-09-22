@@ -257,7 +257,7 @@ class Api implements ApiInterface
     {
         $this->name = $name;
     }
-    
+
     /**
      * @return string
      */

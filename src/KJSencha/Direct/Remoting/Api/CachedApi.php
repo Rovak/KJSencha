@@ -27,7 +27,7 @@ class CachedApi implements ApiInterface
     {
         $api = $this->config;
         $actions = array();
-        
+
         foreach ($this->config['actions'] as $name => $action) {
             $methods = array();
             foreach ($action['methods'] as $method) {
@@ -39,9 +39,9 @@ class CachedApi implements ApiInterface
             }
             $actions[$name] = $methods;
         }
-        
+
         $api['actions'] = $actions;
-        
+
         return $api;
     }
 
@@ -78,7 +78,7 @@ class CachedApi implements ApiInterface
     {
         $this->config['name'] = $name;
     }
-    
+
     /**
      * @return string
      */
@@ -86,20 +86,20 @@ class CachedApi implements ApiInterface
     {
         return $this->config['name'];
     }
-    
+
     /**
      * Set the namespace that will be used
-     * 
+     *
      * @param string $namespace
      */
     public function setNamespace($namespace)
     {
         $this->config['namespace'] = $namespace;
     }
-    
+
     /**
      * Lazy load action from config
-     * 
+     *
      * @param string $name
      * @return Action
      */
@@ -108,7 +108,7 @@ class CachedApi implements ApiInterface
         $actionCfg = $this->config['actions'][$name];
         $action = new Action($actionCfg['objectName']);
         $action->setName($name);
-        
+
         foreach ($actionCfg['methods'] as $methodCfg) {
             $method = new Method($methodCfg['objectName']);
             $method->setNumberOfParameters($methodCfg['len']);

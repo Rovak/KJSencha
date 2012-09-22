@@ -29,7 +29,7 @@ return array(
             $moduleFactory->setAnnotationManager($sm->get('kjsencha.annotationmanager'));
             return $moduleFactory;
         },
-                
+
         'kjsencha.cache' => function($sm) {
             $config = $sm->get('Config');
             $storage = StorageFactory::factory($config['kjsencha']['cache']);

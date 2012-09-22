@@ -6,7 +6,7 @@ use KJSencha\Direct\Remoting\Api\Object\Method;
 
 /**
  * Enables a method to handle form requests
- * 
+ *
  * @Annotation
  */
 class Formhandler

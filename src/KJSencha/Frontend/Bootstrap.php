@@ -156,7 +156,7 @@ class Bootstrap
 
     /**
      * Get the modules that will be included in this bootstrap
-     * 
+     *
      * @return array
      */
     public function getModules()
@@ -166,7 +166,7 @@ class Bootstrap
 
     /**
      * Set the modules that will be included in this bootstrap
-     * 
+     *
      * @param array $modules
      */
     public function setModules(array $modules)
@@ -176,7 +176,7 @@ class Bootstrap
 
     /**
      * Retrieve the API
-     * 
+     *
      * @return ModuleApi
      */
     public function getDirectApi()
@@ -186,7 +186,7 @@ class Bootstrap
 
     /**
      * Set the Direct API
-     * 
+     *
      * @param ModuleApi $directApi
      */
     public function setDirectApi(ModuleApi $directApi)
