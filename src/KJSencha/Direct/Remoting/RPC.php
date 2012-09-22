@@ -2,6 +2,8 @@
 
 namespace KJSencha\Direct\Remoting;
 
+use Zend\Stdlib\ArrayUtils;
+
 /**
  * RPC Object
  *
@@ -69,6 +71,9 @@ class RPC
      */
     public function setData(array $data)
     {
+        if (ArrayUtils::isHashTable($data)) {
+            $data = array($data);
+        }
         $this->data = $data;
     }
 
