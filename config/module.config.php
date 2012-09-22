@@ -9,13 +9,27 @@ return array(
         'direct' => array(
             'cache' => false,
             'modules' => array(
-                'KJSencha' => array(
-                    'namespace' => 'KJSencha\Ajax\Direct',
-                    'directory' => __DIR__ . '/../src/KJSencha/Ajax/Direct',
-                ),
+//                'KJSencha' => array(
+//                    'namespace' => 'KJSencha\Ajax\Direct',
+//                    'directory' => __DIR__ . '/../src/KJSencha/Ajax/Direct',
+//                ),
             ),
         ),
         
+        'bootstrap' => array(
+            'default' => array(
+                'modules' => array(
+//                    'KJSencha'
+                ),
+                'paths' => array(
+                    'KJSencha' => '../module/KJSencha/public/js/classes/KJSencha'
+                ),
+                'requires' => array(
+                    'KJSencha.direct.ModuleRemotingProvider',
+                ),
+            ),
+        ),
+
         /**
          * Cache configuration
          */
@@ -24,7 +38,7 @@ return array(
                 'name' => 'filesystem',
                 'options' => array(
                     'cachedir'              => 'data/cache/',
-                    'ttl'                   => 60,
+                    'ttl'                   => 3600,
                     'namespace'             => 'kjsencha',
                 ),
             ),
@@ -41,12 +55,6 @@ return array(
         ),
         'strategies' => array(
             'ViewJsonStrategy',
-        ),
-    ),
-
-    'view_helpers' => array(
-        'invokables' => array(
-            'kjsencha' => 'KJSencha\View\Helper\ExtJS',
         ),
     ),
 

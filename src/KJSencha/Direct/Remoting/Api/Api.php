@@ -245,9 +245,9 @@ class Api implements ApiInterface
     /**
      * @return RemotingProvider
      */
-    public function buildRemotingProvider()
+    public function buildRemotingProvider(array $options = array())
     {
-        return new RemotingProvider($this->toApiArray());
+        return new RemotingProvider(array_merge($this->toApiArray(), $options));
     }
 
     /**

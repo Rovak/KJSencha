@@ -48,7 +48,7 @@ class RPC
         $rpc->setId($data['tid']);
         $rpc->setAction($data['action']);
         $rpc->setMethod($data['method']);
-        $rpc->setData($data['data']);
+        $rpc->setData($data['data'] ?: array());
         $rpc->setParameters($data);
 
         return $rpc;

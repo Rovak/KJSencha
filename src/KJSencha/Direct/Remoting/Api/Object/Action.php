@@ -7,6 +7,7 @@ namespace KJSencha\Direct\Remoting\Api\Object;
  */
 class Action extends AbstractObject
 {
+
     protected $methods = array();
 
     /**
@@ -39,6 +40,15 @@ class Action extends AbstractObject
     {
         return $this->methods;
     }
+    
+    /**
+     * @param string $name
+     * @return Method
+     */
+    public function getMethod($name)
+    {
+        return $this->methods[$name];
+    }
 
     /**
      * @inheritdoc
@@ -57,4 +67,5 @@ class Action extends AbstractObject
             $this->getName() => $methods,
         );
     }
+
 }

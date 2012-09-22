@@ -5,8 +5,6 @@ namespace KJSencha;
 class Module
 {
     /**
-     * Dit is een test functie
-     * @return @array Test commentaar!
      * @deprecated Test
      */
     public function getAutoloaderConfig()

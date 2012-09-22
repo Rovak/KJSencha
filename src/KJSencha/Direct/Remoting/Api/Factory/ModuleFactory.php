@@ -11,10 +11,8 @@ use KJSencha\Direct\Remoting\Api\ModuleApi;
 class ModuleFactory extends AbstractFactory
 {
     /**
-     * New API
-     *
-     * @param  array  $api [description]
-     * @return [type] [description]
+     * @param array $api
+     * @return ModuleApi
      */
     public function buildApi(array $api)
     {
@@ -44,16 +42,5 @@ class ModuleFactory extends AbstractFactory
         }
 
         return $moduleApi;
-    }
-
-    /**
-     * Filternaam
-     *
-     * @param  [type] $name [description]
-     * @return [type] [description]
-     */
-    public function filterName($name)
-    {
-        return preg_replace('/[^a-zA-Z0-9\s]/', '', $name);
     }
 }

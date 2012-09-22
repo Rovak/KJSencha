@@ -2,8 +2,9 @@
 
 namespace KJSencha\Frontend;
 
-use Zend\View\Model\ViewModel;
 use ArrayObject;
+use KJSencha\Direct\Remoting\Api\ModuleApi;
+use Zend\View\Model\ViewModel;
 
 /**
  * Ext JS Bootstrap
@@ -12,26 +13,21 @@ use ArrayObject;
  */
 class Bootstrap
 {
-    protected $parameters	= array();
-
-    /**
-     * @see http://docs.sencha.com/ext-js/4-1/#!/api/Ext.Loader-cfg-paths
-     * @var array
-     */
-    protected $paths		= array();
-    protected $variables	= array();
-    protected $requires		= array();
+    protected $parameters = array();
+    protected $paths = array();
+    protected $variables = array();
+    protected $requires = array();
+    protected $modules = array();
     protected $viewModel;
-
-    protected $template     = 'kjsencha/bootstrap';
+    protected $template = 'kjsencha/bootstrap';
+    protected $directApi;
 
     /**
      * @param array $options
      */
     public function __construct($options = array())
     {
-        $this->applications = new ArrayObject;
-        $this->variabeles   = new ArrayObject;
+        $this->variabeles = new ArrayObject;
 
         $this->viewModel = new ViewModel;
         $this->viewModel->setTemplate($this->template);
@@ -42,8 +38,6 @@ class Bootstrap
     }
 
     /**
-     * Zet de opties
-     *
      * @param array $options
      */
     public function setOptions(array $options)
@@ -61,29 +55,27 @@ class Bootstrap
      */
     public function setOption($key, $value)
     {
-        switch ($key) {
+        switch (strtolower($key)) {
 
-            case 'applications':
-                $this->applications = array();
-                foreach ($value as $app) {
-                    $this->addApplication($app);
-                }
+            case 'modules':
+                $this->setModules($value);
                 break;
 
-            // Zet paden
             case 'require':
             case 'requires':
                 $this->setRequires($value);
                 break;
 
-            // Zet paden
             case 'paths':
                 $this->setPaths($value);
                 break;
 
-            // Javascript variabelen
             case 'variables':
                 $this->setVariables($value);
+                break;
+
+            case 'directapi':
+                $this->setDirectApi($value);
                 break;
 
             default:
@@ -163,16 +155,55 @@ class Bootstrap
     }
 
     /**
+     * Get the modules that will be included in this bootstrap
+     * 
+     * @return array
+     */
+    public function getModules()
+    {
+        return $this->modules;
+    }
+
+    /**
+     * Set the modules that will be included in this bootstrap
+     * 
+     * @param array $modules
+     */
+    public function setModules(array $modules)
+    {
+        $this->modules = $modules;
+    }
+
+    /**
+     * Retrieve the API
+     * 
+     * @return ModuleApi
+     */
+    public function getDirectApi()
+    {
+        return $this->directApi;
+    }
+
+    /**
+     * Set the Direct API
+     * 
+     * @param ModuleApi $directApi
+     */
+    public function setDirectApi(ModuleApi $directApi)
+    {
+        $this->directApi = $directApi;
+    }
+
+    /**
      * @return ViewModel
      */
     public function getViewModel()
     {
         $this->viewModel->setVariables(array_merge($this->parameters, array(
-            'variables'		=> $this->getVariables(),
-            'paths'			=> $this->getPaths(),
-            'requires'		=> $this->getRequires(),
+            'bootstrap' => $this,
         )));
 
         return $this->viewModel;
     }
+
 }

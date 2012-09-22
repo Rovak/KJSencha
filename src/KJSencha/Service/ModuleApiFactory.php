@@ -5,19 +5,35 @@ namespace KJSencha\Service;
 use KJSencha\Direct\Remoting\Api\CachedApi;
 use KJSencha\Direct\Remoting\Api\ModuleApi;
 use Zend\Cache\Storage\AdapterPluginManager;
+use Zend\Cache\Storage\StorageInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ModuleApiFactory implements FactoryInterface
 {
+
+    protected $cache;
     protected $services;
+    
+    /**
+     * 
+     * @param StorageInterface $cache
+     */
+    public function setCache(StorageInterface $cache)
+    {
+        $this->cache = $cache;
+    }
 
     /**
      * @return AdapterPluginManager
      */
     public function getCache()
     {
-        return $this->services->get('kjsencha.cache');
+        if (null == $this->cache) {
+            $this->cache = $this->services->get('kjsencha.cache');
+        }
+
+        return $this->cache;
     }
 
     /**
@@ -33,19 +49,20 @@ class ModuleApiFactory implements FactoryInterface
 
         $cache = $this->getCache();
         $config = $serviceLocator->get('Config');
-        
-        if ($config['kjsencha']['direct']['cache'] && $cache->hasItem('module_api')) {
+
+        if (($config['kjsencha']['direct']['cache'] == true) && $cache->hasItem('module_api')) {
             $api = $this->buildFromArray($cache->getItem('module_api'));
         } else {
             $api = $this->buildApi();
-            $this->saveToCache($api);
+            if (($config['kjsencha']['direct']['cache'] == true)) {
+                $this->saveToCache($api);
+            }
         }
 
         // Setup the correct url from where to request data
         $router = $serviceLocator->get('Router');
         $api->setUrl($router->assemble(
-            array('action'  => 'rpc'),
-            array('name'    => 'kjsencha-direct'))
+                        array('action' => 'rpc'), array('name' => 'kjsencha-direct'))
         );
 
         return $api;

@@ -1,13 +1,13 @@
 <script type="text/javascript">
 <?php $this->headScript()->captureStart(); ?>
 
-    <?php if($this->variables): ?>
-        <?php foreach ($this->variables as $key => $value): ?>
+    <?php if($bootstrap->getVariables()): ?>
+        <?php foreach ($bootstrap->getVariables() as $key => $value): ?>
         var <?php echo $key; ?> = <?php echo json_encode($value) . ';' . PHP_EOL; ?>
         <?php endforeach; ?>
     <?php endif; ?>
 
-    <?php if ($namespaces = $this->paths): ?>
+    <?php if ($namespaces = $bootstrap->getPaths()): ?>
     <?php
     // Create relative paths for paths that have no trailing slash
     foreach ($namespaces as $namespace => $path) {
@@ -23,8 +23,14 @@
     )); ?>);
     <?php endif; ?>
 
-    <?php if ($requires = $this->requires): ?>
-    Ext.require(<?php echo json_encode($requires); ?>);
+    <?php if ($requires = $bootstrap->getRequires()): ?>
+    Ext.syncRequire(<?php echo json_encode($requires); ?>);
+    <?php endif; ?>
+        
+    <?php if ($directApi = $bootstrap->getDirectApi()): ?>
+        <?php foreach ($bootstrap->getModules() as $module => $options): ?>
+            <?php echo $directApi->getModule($module)->buildRemotingProvider($options); ?>
+        <?php endforeach; ?>
     <?php endif; ?>
 
 <?php $this->headScript()->captureEnd(); ?>

@@ -1,11 +1,6 @@
-Ext.override(Ext.form.action.DirectSubmit, {
-    doSubmit: function()
-    {
-        log('buildForm', this.form.api.submit);
-        this.callParent();
-    }
-});
-
+/**
+ * KJ Sencha Direct Provider
+ */
 Ext.define('KJSencha.direct.ModuleRemotingProvider', {
 
 	extend: 'Ext.direct.RemotingProvider',
