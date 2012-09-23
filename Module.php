@@ -4,9 +4,6 @@ namespace KJSencha;
 
 class Module
 {
-    /**
-     * @deprecated Test
-     */
     public function getAutoloaderConfig()
     {
         return array(
