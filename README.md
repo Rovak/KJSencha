@@ -4,7 +4,9 @@ KJSencha Module 0.0.1
 Ext-JS / Sencha Touch Intergration Module for [Zend Framework 2](http://framework.zend.com/) and  
 [Sencha Ext JS](http://www.sencha.com/products/extjs/)
 
-The project is still a work-in-progress and it is recommended to checkout the [Example application](https://github.com/Rovak/KJSenchaExample) if you are interested in using the module
+The project is still a work-in-progress and it is recommended 
+to checkout the [Example application](https://github.com/Rovak/KJSenchaExample) if you 
+are interested in using the module
 
 ## Requirements
 
