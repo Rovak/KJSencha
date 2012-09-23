@@ -13,6 +13,9 @@ use Zend\Stdlib\ArrayUtils;
 use Zend\View\Helper\Json;
 use Zend\View\Model\JsonModel;
 
+/**
+ * Direct Controller which executes RPC's
+ */
 class DirectController extends AbstractController
 {
 
@@ -70,6 +73,9 @@ class DirectController extends AbstractController
         return $this->manager;
     }
 
+    /**
+     * @param DirectManager $manager
+     */
     public function setManager(DirectManager $manager)
     {
         $this->manager = $manager;
