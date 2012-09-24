@@ -9,7 +9,19 @@ namespace KJSencha\Frontend;
  */
 class Component extends Base
 {
+    /**
+     * Classname of this component
+     *
+     * @var string
+     */
     protected $className;
+
+    /**
+     * Extend
+     *
+     * @var string
+     */
+    protected $extend;
 
     /**
      * Create a Component class
@@ -67,20 +79,29 @@ class Component extends Base
     }
 
     /**
+     * @return string
+     */
+    public function getExtend()
+    {
+        return $this->getProperty('extend');
+    }
+
+    /**
      * Create this class javascript side
      *
      * @param  string $name of class that is created
      * @return Expr
      */
-    public function create($name = null)
+    public static function create(Component $obj = null)
     {
-        $className = $name ?: $this['extend'];
-        $className = $className ?: $this->getClassName();
+        if (null == $obj) {
+            $obj = new static();
+        }
 
         $output = sprintf(
             "Ext.create('%s', %s);",
-            $className,
-            $this->toJson()
+            $obj->getClassName(),
+            $obj->toJson()
         );
 
         return new Expr($output);
@@ -91,12 +112,19 @@ class Component extends Base
      *
      * @return Expr
      */
-    public function define()
+    public static function define(Component $obj = null)
     {
+        if (null == $obj ) {
+            $obj = new static();
+        }
+
+        $obj = clone $obj;
+        unset($obj['xtype']);
+
         $output = sprintf(
             "Ext.define('%s', %s);",
-            $this->className,
-            $this->toJson()
+            $obj->getClassName(),
+            $obj->toJson()
         );
 
         return new Expr($output);

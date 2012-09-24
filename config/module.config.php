@@ -63,6 +63,7 @@ return array(
         ),
     ),
 
+            'kjsencha_data' => 'KJSencha\Controller\DataController',
     /**
      * Router
      */
@@ -74,6 +75,15 @@ return array(
                     'route' => '/kjsencha/rpc/',
                     'defaults' => array(
                         'controller' => 'kjsencha_direct',
+                    ),
+                ),
+            ),
+            'kjsencha-data' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/kjsencha/data/[:action]',
+                    'defaults' => array(
+                        'controller' => 'kjsencha_data',
                     ),
                 ),
             ),

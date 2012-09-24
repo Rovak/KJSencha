@@ -25,7 +25,6 @@ class DirectController extends AbstractController
      * @var \KJSencha\Direct\DirectManager
      */
     protected $manager;
-
     /**
      * @var Api
      */
@@ -129,7 +128,7 @@ class DirectController extends AbstractController
         return $result;
     }
 
-    /**
+ /**
      * Retrieve the RPCS from the request
      *
      * @return array

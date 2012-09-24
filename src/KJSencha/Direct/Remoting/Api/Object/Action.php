@@ -67,7 +67,6 @@ class Action extends AbstractObject
             $this->getName() => $methods,
         );
     }
-
     /**
      * {@inheritDoc}
      */

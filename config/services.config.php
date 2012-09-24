@@ -14,13 +14,13 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceManager;
 
 return array(
+        'extjsconfig' => 'kjsencha.config',
     'factories' => array(
         /**
          * Produces a \KJSencha\Direct\Remoting\Api instance consumed by
          * the RPC services
          */
         'kjsencha.api' => 'KJSencha\Service\ApiFactory',
-
         /**
          * Annotation manager used to discover features available for the RPC services
          */
@@ -47,7 +47,7 @@ return array(
 
             return new ApiBuilder($annotationManager, $directManager);
         },
-
+        /**
         /**
          * Cache where the API will be stored once it is filled with data
          */
@@ -57,7 +57,6 @@ return array(
 
             return $storage;
         },
-
         /**
          * Bootstrap service that allows rendering of the API into an output that the
          * ExtJs direct manager can understand
@@ -94,5 +93,15 @@ return array(
         'kjsencha.echo' => function() {
             return new TestEchoService('Hello ');
         },
+        /**
+         * Component Manager
+         */
+        'kjsencha.cmpmgr' => function($sm) {
+            $config = $sm->get('Config');
+            $serviceConfig = new \Zend\Mvc\Service\ServiceManagerConfig($config['kjsencha.components']);
+            $componentManager = new Service\ComponentManager($serviceConfig);
+            $componentManager->addPeeringServiceManager($sm);
+            return $componentManager;
+        }
     )
 );

@@ -28,11 +28,9 @@ class Base implements ArrayAccess
             $attributes = $name;
         }
 
-        if ( null !== $name && ! is_array($attributes)) {
-            throw new \DomainException('Invalid input');
+        if (is_array($attributes)) {
+            $this->attributes = ArrayUtils::merge($this->attributes, $attributes);
         }
-
-        $this->attributes = ArrayUtils::merge($this->attributes, $attributes);
     }
 
     /**

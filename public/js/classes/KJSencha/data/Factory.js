@@ -1,6 +1,6 @@
 /**
  * Data Factory
- * 
+ *
  * Builds configuration that connects with the KJSencha module
  */
 Ext.define('KJSencha.data.Factory', {
@@ -10,10 +10,11 @@ Ext.define('KJSencha.data.Factory', {
 	servicePath: App.basePath + '/kjsencha/data/service',
 	serviceParameters: {},
 	pollingPath: App.basePath + '/kjsencha/data/polling',
-	
+	cmpPath: App.basePath + '/kjsencha/data/component',
+
     /**
      * Create a REST configuration that can be used in models
-     * 
+     *
      * @param {Object} options
      * @param {String} options.module Name of the module to use
      * @param {String} options.model Model name, relative to your PHP namespace
@@ -62,7 +63,7 @@ Ext.define('KJSencha.data.Factory', {
 				'metachange': {
 					fn: function(proxy, metaData) {
 						// Optional metadata change later
-					}, 
+					},
 					scope: this
 				}
 			}
@@ -70,10 +71,10 @@ Ext.define('KJSencha.data.Factory', {
 
 		return Ext.merge(obj, options);
 	},
-    
+
     /**
      * Create a REST configuration that can be used in models
-     * 
+     *
      * @param {Object/String} config
      * @param {String} config.module Name of the module to use
      * @param {String} config.model Model name, relative to your PHP namespace
@@ -90,7 +91,7 @@ Ext.define('KJSencha.data.Factory', {
 
 	/**
      * Store config factory
-     * 
+     *
      * @param {Object/String} options
      * @param {String} options.module Name of the module to use
      * @param {String} options.action Action which will be executed
@@ -141,10 +142,10 @@ Ext.define('KJSencha.data.Factory', {
 
 		return Ext.merge(obj, options);
 	},
-    
+
 	/**
      * Store factory
-     * 
+     *
      * @param {Object/String} config
      * @param {String} config.module Name of the module to use
      * @param {String} config.action Action which will be executed
@@ -158,7 +159,7 @@ Ext.define('KJSencha.data.Factory', {
 
 		return Ext.create(className, config);
 	},
-	
+
     /**
      * Direct Proxy Factory
      */
@@ -169,12 +170,12 @@ Ext.define('KJSencha.data.Factory', {
 
 	/**
 	 * Create a polling provider
-	 * 
+	 *
 	 * @param  {Object} config
 	 * @return {Object}
 	 */
 	createPollingProvider: function(config)
-	{	
+	{
 		config = config || {};
 		var interval = config.interval || 3000;
 
@@ -206,5 +207,20 @@ Ext.define('KJSencha.data.Factory', {
 	    };
 
 	    return Ext.merge(data, config);
-	}
+	},
+
+    /**
+     * @param {String} naam van het component
+     * @return {Object}
+     */
+    createCmpLoader: function(componentName)
+    {
+        return {
+            url: this.cmpPath,
+            renderer: 'component',
+            params: {
+                className: componentName
+            }
+        }
+    }
 });
