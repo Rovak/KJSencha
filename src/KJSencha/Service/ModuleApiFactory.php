@@ -31,7 +31,6 @@ class ModuleApiFactory implements FactoryInterface
     {
         $this->services = $serviceLocator;
 
-        $cache = $this->getCache();
         $config = $serviceLocator->get('Config');
 
         if (false === $config['kjsencha']['direct']['cache']) {
