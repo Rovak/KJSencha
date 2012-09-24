@@ -34,11 +34,16 @@ class ModuleApiFactory implements FactoryInterface
         $cache = $this->getCache();
         $config = $serviceLocator->get('Config');
 
-        if ($config['kjsencha']['direct']['cache'] && $cache->hasItem('module_api')) {
-            $api = $this->buildFromArray($cache->getItem('module_api'));
-        } else {
+        if (false === $config['kjsencha']['direct']['cache']) {
             $api = $this->buildApi();
-            $this->saveToCache($api);
+        } else {
+            $cache = $this->getCache();
+            if ($cache->hasItem('module_api')) {
+                $api = $this->buildFromArray($cache->getItem('module_api'));
+            } else {
+                $api = $this->buildApi();
+                $this->saveToCache($api);
+            }
         }
 
         // Setup the correct url from where to request data
