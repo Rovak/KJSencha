@@ -10,6 +10,7 @@
 
 namespace KJSencha\Service;
 
+use KJSencha\Frontend\Base;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\Mvc\Exception;
 use Zend\ServiceManager\AbstractPluginManager;
@@ -17,15 +18,12 @@ use Zend\ServiceManager\ConfigInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * ExtJS
+ * Component Manager
  */
 class ComponentManager extends AbstractPluginManager
 {
     /**
      * Constructor
-     *
-     * After invoking parent constructor, add an initializer to inject the
-     * service manager, event manager, and plugin manager
      *
      * @param  null|ConfigInterface $configuration
      */
@@ -39,28 +37,32 @@ class ComponentManager extends AbstractPluginManager
     /**
      * Inject required dependencies into the controller.
      *
-     * @param  DispatchableInterface $controller
+     * @param  Base $component
      * @param  ServiceLocatorInterface $serviceLocator
      * @return void
      */
-    public function injectDependencies($controller, ServiceLocatorInterface $serviceLocator)
+    public function injectDependencies($component, ServiceLocatorInterface $serviceLocator)
     {
-        if ($controller instanceof EventManagerAwareInterface) {
-            $controller->setEventManager($serviceLocator->get('EventManager'));
+        if ($component instanceof EventManagerAwareInterface) {
+            $component->setEventManager($serviceLocator->get('EventManager'));
         }
     }
 
     /**
      * Validate the plugin
      *
-     * Ensure we have a dispatchable.
+     * Ensure we have a component.
      *
      * @param  mixed $plugin
      * @return true
-     * @throws Exception\InvalidControllerException
+     * @throws Exception
      */
     public function validatePlugin($plugin)
     {
-        return;
+        if ($plugin instanceof Base) {
+            return;
+        }
+
+        throw new Exception('Invalid component!');
     }
 }
