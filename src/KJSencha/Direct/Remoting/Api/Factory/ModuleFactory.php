@@ -35,7 +35,6 @@ class ModuleFactory extends AbstractFactory
             foreach ($module['actions'] as $action) {
                 // Make action name relative to that of the module namespace
                 $action->setName(substr($action->getName(), strlen($module['namespace']) + 1));
-
                 $api->addAction($action);
             }
             $moduleApi->addModule($name, $api);

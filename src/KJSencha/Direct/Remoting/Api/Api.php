@@ -201,7 +201,7 @@ class Api implements ApiInterface
             foreach ($action->getMethods() as $method) {
                 $methods[] = array_merge($method->toArray(), array(
                     'module' => $this->getNamespace(),
-                        ));
+                ));
             }
 
             $actionArray = array_merge($action->toArray(), array(
