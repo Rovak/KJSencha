@@ -38,4 +38,4 @@ See our [Wiki](https://github.com/KablauJoustra/KJSencha/wiki)
 
 Changelog
 ----------
-See [CHANGELOG.md](https://github.com/KablauJoustra/KJSencha)
+See [CHANGELOG.md](https://github.com/KablauJoustra/KJSencha/blob/master/CHANGELOG.md)
