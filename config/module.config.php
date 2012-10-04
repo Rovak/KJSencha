@@ -22,7 +22,8 @@ return array(
 //                    'KJSencha'
                 ),
                 'paths' => array(
-                    'KJSencha' => '../module/KJSencha/public/js/classes/KJSencha'
+                    // Path is relative since it has been mapped in the asset resolvers
+                    'KJSencha' => 'js/classes/KJSencha',
                 ),
                 'requires' => array(
                     'KJSencha.direct.ModuleRemotingProvider',
@@ -77,6 +78,17 @@ return array(
                         'controller' => 'kjsencha_direct',
                     ),
                 ),
+            ),
+        ),
+    ),
+
+    /**
+     * AssetManager config to allow serving files from the `public` dir in this module
+     */
+    'asset_manager' => array(
+        'resolver_configs' => array(
+            'paths' => array(
+                'KJSencha' => __DIR__ . '/../public',
             ),
         ),
     ),
