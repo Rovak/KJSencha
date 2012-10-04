@@ -1,0 +1,30 @@
+{
+    "name": "kablau-joustra/kj-sencha",
+    "description": "Ext-JS / Sencha Touch RPC Intergration Module for Zend Framework 2",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "zf2",
+        "sencha",
+        "extjs"
+    ],
+    "homepage": "https://github.com/KablauJoustra/KJSencha",
+    "authors": [
+        {
+            "name": "KJ Business Software",
+            "email": "opensource@kj.nu",
+            "homepage": "http://www.kj.nu/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "2.*",
+        "doctrine/common": ">=2.3-dev,<2.5-dev",
+        "rwoverdijk/assetmanager": "1.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "KJSencha\\": "src/"
+        }
+    }
+}
