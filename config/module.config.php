@@ -10,7 +10,6 @@ return array(
         'library_path' => 'http://cdn.sencha.io/ext-4.1.1-gpl',
 
         'direct' => array(
-            'cache' => false,
             'modules' => array(
 //                'KJSencha' => array(
 //                    'namespace' => 'KJSencha\Ajax\Direct',
@@ -39,15 +38,11 @@ return array(
          */
         'cache' => array(
             'adapter'	=> array(
-                'name' => 'filesystem',
-                'options' => array(
-                    'cachedir'              => 'data/cache/',
-                    'ttl'                   => 3600,
-                    'namespace'             => 'kjsencha',
-                ),
+                'name' => 'memory',
+                'options' => array(),
             ),
             'plugins' => array(
-                'exception_handler' => array('throw_exceptions' => false),
+                'exception_handler' => array('throw_exceptions' => true),
                 'serializer'
             )
         ),

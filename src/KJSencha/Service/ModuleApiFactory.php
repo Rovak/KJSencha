@@ -20,23 +20,19 @@ class ModuleApiFactory implements FactoryInterface
         $config = $serviceLocator->get('Config');
         /* @var $apiFactory \KJSencha\Direct\Remoting\Api\Factory\ModuleFactory */
         $apiFactory = $serviceLocator->get('kjsencha.modulefactory');
+        /* @var $cache StorageInterface */
+        $cache = $serviceLocator->get('kjsencha.cache');
+        /* @var $router \Zend\Mvc\Router\Http\RouteInterface */
+        $router = $serviceLocator->get('Router');
 
-        if (false !== $config['kjsencha']['direct']['cache']) {
-            /* @var $cache StorageInterface */
-            $cache = $serviceLocator->get('kjsencha.cache');
-
-            if ($cache->hasItem('module_api')) {
-                $api = $this->buildFromArray($cache->getItem('module_api'));
-            } else {
-                $api = $apiFactory->buildApi($config['kjsencha']['direct']);
-                $this->saveToCache($api, $cache);
-            }
+        if ($cache->hasItem('module_api')) {
+            $api = $this->buildFromArray($cache->getItem('module_api'));
         } else {
             $api = $apiFactory->buildApi($config['kjsencha']['direct']);
+            $this->saveToCache($api, $cache);
         }
 
         // Setup the correct url from where to request data
-        $router = $serviceLocator->get('Router');
         $api->setUrl($router->assemble(
             array('action'  => 'rpc'), 
             array('name'    => 'kjsencha-direct')
@@ -74,6 +70,6 @@ class ModuleApiFactory implements FactoryInterface
             );
         }
 
-        $cache->setItem('module_api', $cache);
+        $cache->setItem('module_api', $toStore);
     }
 }
