@@ -2,9 +2,15 @@
 
 namespace KJSencha;
 
+use KJSencha\Frontend\Bootstrap;
+use KJSencha\Direct\Remoting\Api\Factory\ModuleFactory;
+use KJSencha\Direct\DirectManager;
+
 use Zend\Cache\StorageFactory;
 use Zend\Code\Annotation\AnnotationManager;
 use Zend\Code\Annotation\Parser\DoctrineAnnotationParser;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceManager;
 
 return array(
     'aliases' => array(
@@ -12,44 +18,52 @@ return array(
     ),
     'factories' => array(
         'kjsencha.config' => 'KJSencha\Service\ModuleConfigurationFactory',
+
         'kjsencha.api.module' => 'KJSencha\Service\ModuleApiFactory',
 
-        'kjsencha.annotationmanager' => function($sm) {
-            $doctrineParser = new DoctrineAnnotationParser;
+        'kjsencha.annotationmanager' => function(ServiceLocatorInterface $sl) {
+            $doctrineParser = new DoctrineAnnotationParser();
             $doctrineParser->registerAnnotation('KJSencha\Annotation\Remotable');
             $doctrineParser->registerAnnotation('KJSencha\Annotation\Interval');
             $doctrineParser->registerAnnotation('KJSencha\Annotation\Formhandler');
             $doctrineParser->registerAnnotation('KJSencha\Annotation\Group');
-            $annotationManager = new AnnotationManager;
+            $annotationManager = new AnnotationManager();
             $annotationManager->attach($doctrineParser);
+
             return $annotationManager;
         },
-        'kjsencha.modulefactory' => function($sm) {
-            $moduleFactory = new Direct\Remoting\Api\Factory\ModuleFactory;
-            $moduleFactory->setAnnotationManager($sm->get('kjsencha.annotationmanager'));
+
+        'kjsencha.modulefactory' => function(ServiceLocatorInterface $sl) {
+            $moduleFactory = new ModuleFactory();
+            $moduleFactory->setAnnotationManager($sl->get('kjsencha.annotationmanager'));
+
             return $moduleFactory;
         },
 
-        'kjsencha.cache' => function($sm) {
-            $config = $sm->get('Config');
+        'kjsencha.cache' => function(ServiceLocatorInterface $sl) {
+            $config = $sl->get('Config');
             $storage = StorageFactory::factory($config['kjsencha']['cache']);
+
             return $storage;
         },
 
-        'kjsencha.bootstrap' => function($sm) {
-            $config = $sm->get('Config');
-            $bootstrap = new Frontend\Bootstrap($config['kjsencha']['bootstrap']['default']);
+        'kjsencha.bootstrap' => function(ServiceLocatorInterface $sl) {
+            $config = $sl->get('Config');
+            $bootstrap = new Bootstrap($config['kjsencha']['bootstrap']['default']);
             $bootstrap->addVariables(array(
                 'App' => array(
-                    'basePath' => $sm->get('Request')->getBasePath(),
+                    'basePath' => $sl->get('Request')->getBasePath(),
                 )
             ));
-            $bootstrap->setDirectApi($sm->get('kjsencha.api'));
+            $bootstrap->setDirectApi($sl->get('kjsencha.api'));
+
             return $bootstrap;
         },
-        'kjsencha.direct.manager' => function($sm) {
-            $directManager = new Direct\DirectManager();
+
+        'kjsencha.direct.manager' => function(ServiceManager $sm) {
+            $directManager = new DirectManager();
             $directManager->addPeeringServiceManager($sm);
+
             return $directManager;
         },
     )

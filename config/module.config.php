@@ -59,12 +59,6 @@ return array(
         ),
     ),
 
-    'controllers' => array(
-        'invokables' => array(
-            'kjsencha_direct' => 'KJSencha\Controller\DirectController',
-        ),
-    ),
-
     /**
      * Router
      */
