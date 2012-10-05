@@ -217,7 +217,7 @@ class DirectController extends AbstractController
             throw new Exception('Invalid parameter count');
         }
 
-        $object = $this->getManager()->get($action->getObjectName());
+        $object = $this->manager->get($action->getObjectName());
         
         // Fetch result from the function call
         $response['result'] = call_user_func_array(array($object, $rpc->getMethod()), $rpc->getData());
