@@ -5,8 +5,17 @@ namespace KJSencha;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
+use Zend\ModuleManager\Feature\ControllerProviderInterface;
+use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
+use Zend\Loader\AutoloaderFactory;
+use Zend\Loader\StandardAutoloader;
 
-class Module implements AutoloaderProviderInterface, ConfigProviderInterface, ServiceProviderInterface
+class Module implements
+    AutoloaderProviderInterface,
+    ConfigProviderInterface,
+    ServiceProviderInterface,
+    ControllerProviderInterface,
+    ViewHelperProviderInterface
 {
     /**
      * {@inheritDoc}
@@ -14,8 +23,8 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Se
     public function getAutoloaderConfig()
     {
         return array(
-            'Zend\Loader\StandardAutoloader' => array(
-                'namespaces' => array(
+            AutoloaderFactory::STANDARD_AUTOLOADER => array(
+                StandardAutoloader::LOAD_NS => array(
                     __NAMESPACE__ => __DIR__,
                 ),
             ),
@@ -27,7 +36,7 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Se
      */
     public function getConfig()
     {
-        return include __DIR__ . '/../../config/module.config.php';
+        return require __DIR__ . '/../../config/module.config.php';
     }
 
     /**
@@ -35,6 +44,22 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Se
      */
     public function getServiceConfig()
     {
-        return include __DIR__ . '/../../config/services.config.php';
+        return require __DIR__ . '/../../config/services.config.php';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getControllerConfig()
+    {
+        return require __DIR__ . '/../../config/controllers.config.php';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getViewHelperConfig()
+    {
+        return require __DIR__ . '/../../config/view_helpers.config.php';
     }
 }

@@ -7,6 +7,7 @@ use KJSencha\Direct\DirectManager;
 use KJSencha\Direct\Remoting\Api\ApiInterface;
 use KJSencha\Direct\Remoting\Api\ModuleApi;
 use KJSencha\Direct\Remoting\RPC;
+
 use Zend\Mvc\Controller\AbstractController;
 use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\ArrayUtils;
@@ -18,6 +19,14 @@ use Zend\View\Model\JsonModel;
  */
 class DirectController extends AbstractController
 {
+    /**
+     * @param ApiInterface $api
+     * @param $manager
+     */
+    public function __construct(DirectManager $manager)
+    {
+        $this->manager = $manager;
+    }
 
     /**
      * @var ApiInterface
@@ -58,27 +67,6 @@ class DirectController extends AbstractController
         }
 
         return $this->api;
-    }
-
-    /**
-     *
-     * @return DirectManager
-     */
-    public function getManager()
-    {
-        if (null == $this->manager) {
-            $this->manager = $this->getServiceLocator()->get('kjsencha.direct.manager');
-        }
-
-        return $this->manager;
-    }
-
-    /**
-     * @param DirectManager $manager
-     */
-    public function setManager(DirectManager $manager)
-    {
-        $this->manager = $manager;
     }
 
     /**
@@ -229,7 +217,7 @@ class DirectController extends AbstractController
             throw new Exception('Invalid parameter count');
         }
 
-        $object = $this->getManager()->get($action->getObjectName());
+        $object = $this->manager->get($action->getObjectName());
         
         // Fetch result from the function call
         $response['result'] = call_user_func_array(array($object, $rpc->getMethod()), $rpc->getData());

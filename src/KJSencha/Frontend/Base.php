@@ -128,8 +128,7 @@ class Base implements ArrayAccess
     }
 
     /**
-     * @param  string  $key
-     * @return boolean
+     * {@inheritDoc}
      */
     public function offsetExists($key)
     {
@@ -137,8 +136,7 @@ class Base implements ArrayAccess
     }
 
     /**
-     * @param  string $key
-     * @return mixed
+     * {@inheritDoc}
      */
     public function offsetGet($key)
     {
@@ -150,10 +148,7 @@ class Base implements ArrayAccess
     }
 
     /**
-     * @param  type       $key
-     * @param  type       $value
-     * @return type
-     * @throws \Exception
+     * {@inheritDoc}
      */
     public function offsetSet($key, $value)
     {
@@ -161,9 +156,7 @@ class Base implements ArrayAccess
     }
 
     /**
-     * Unset
-     * @param  [type] $key [description]
-     * @return [type] [description]
+     * {@inheritDoc}
      */
     public function offsetUnset($key)
     {

@@ -3,10 +3,14 @@
 namespace KJSencha\Direct\Remoting\Api\Factory;
 
 use InvalidArgumentException;
-use KJSencha\Annotation;
+
 use KJSencha\Direct\Remoting\Api\Api;
 use KJSencha\Direct\Remoting\Api\Object;
-use Zend\Code;
+use KJSencha\Direct\Remoting\Api\Object\Action;
+use KJSencha\Direct\Remoting\Api\Object\Method;
+
+use Zend\Code\Scanner\DirectoryScanner;
+use Zend\Code\Scanner\DerivedClassScanner;
 use Zend\Code\Annotation\AnnotationManager;
 
 /**
@@ -14,32 +18,12 @@ use Zend\Code\Annotation\AnnotationManager;
  */
 abstract class AbstractFactory
 {
-    protected $annotationManager;
-
     /**
-     * Annotation manager
+     * Retrieves the AnnotationManager used to discover features of built API
      *
-     * @return AnnotationManager [description]
+     * @return AnnotationManager
      */
-    public function getAnnotationManager()
-    {
-        if (null == $this->annotationManager) {
-            $this->annotationManager = new AnnotationManager(array(
-                new Annotation\Remotable,
-                new Annotation\Formhandler,
-            ));
-        }
-
-        return $this->annotationManager;
-    }
-
-    /**
-     * @param AnnotationManager $annotationManager
-     */
-    public function setAnnotationManager($annotationManager)
-    {
-        $this->annotationManager = $annotationManager;
-    }
+    abstract protected function getAnnotationManager();
 
     /**
      * Build API from the classes which are contained in the given directory
@@ -49,18 +33,14 @@ abstract class AbstractFactory
      */
     public function buildFromDirectory($path)
     {
-        if ( ! is_dir($path)) {
-            throw new InvalidArgumentException(
-                'Invalid directory given: ' . $path
-            );
+        if (!is_dir($path)) {
+            throw new InvalidArgumentException('Invalid directory given: "' . $path . '"');
         }
 
         $objects = array();
+        $directoryScanner = new DirectoryScanner($path);
 
-        $directoryScanner = new Code\Scanner\DirectoryScanner($path);
-
-        /* @var $class DerivedClassScanner */
-        foreach ($directoryScanner->getClasses(TRUE) as $class) {
+        foreach ($directoryScanner->getClasses(true) as $class) {
             $objects[] = $this->buildObjectFromClass($class);
         }
 
@@ -68,16 +48,14 @@ abstract class AbstractFactory
     }
 
     /**
-     * Convert class reflection to object
-     *
-     * @param  [type] $class [description]
-     * @return [type] [description]
+     * @param DerivedClassScanner $class
+     * @return Action
      */
-    public function buildObjectFromClass($class)
+    public function buildObjectFromClass(DerivedClassScanner $class)
     {
-        $object = new Object\Action($class->getName());
+        $action = new Action($class->getName());
 
-        foreach ($class->getMethods(TRUE) as $classMethod) {
+        foreach ($class->getMethods(true) as $classMethod) {
 
             // Only public callable methods are allowed
             if (false === $classMethod->isPublic()) {
@@ -85,7 +63,7 @@ abstract class AbstractFactory
             }
 
             // Create method
-            $method = new Object\Method($classMethod->getName());
+            $method = new Method($classMethod->getName());
             $method->setNumberOfParameters($classMethod->getNumberOfParameters());
             
             // Loop through annotations
@@ -97,9 +75,9 @@ abstract class AbstractFactory
                 }
             }
 
-            $object->addMethod($method);
+            $action->addMethod($method);
         }
 
-        return $object;
+        return $action;
     }
 }

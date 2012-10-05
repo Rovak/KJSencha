@@ -4,65 +4,35 @@ namespace KJSencha\Service;
 
 use KJSencha\Direct\Remoting\Api\CachedApi;
 use KJSencha\Direct\Remoting\Api\ModuleApi;
-use Zend\Cache\Storage\AdapterPluginManager;
 use Zend\Cache\Storage\StorageInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ModuleApiFactory implements FactoryInterface
 {
-
-    protected $cache;
-    protected $services;
-
     /**
+     * {@inheritDoc}
      *
-     * @param StorageInterface $cache
-     */
-    public function setCache(StorageInterface $cache)
-    {
-        $this->cache = $cache;
-    }
-
-    /**
-     * @return AdapterPluginManager
-     */
-    public function getCache()
-    {
-        if (null == $this->cache) {
-            $this->cache = $this->services->get('kjsencha.cache');
-        }
-
-        return $this->cache;
-    }
-
-    /**
-     * Create a module api service, automaticly takes the cached version
-     * if its available
-     *
-     * @param  ServiceLocatorInterface $serviceLocator
      * @return ModuleApi
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $this->services = $serviceLocator;
-
         $config = $serviceLocator->get('Config');
+        /* @var $apiFactory \KJSencha\Direct\Remoting\Api\Factory\ModuleFactory */
+        $apiFactory = $serviceLocator->get('kjsencha.modulefactory');
+        /* @var $cache StorageInterface */
+        $cache = $serviceLocator->get('kjsencha.cache');
+        /* @var $router \Zend\Mvc\Router\Http\RouteInterface */
+        $router = $serviceLocator->get('Router');
 
-        if (false === $config['kjsencha']['direct']['cache']) {
-            $api = $this->buildApi();
+        if ($cache->hasItem('module_api')) {
+            $api = $this->buildFromArray($cache->getItem('module_api'));
         } else {
-            $cache = $this->getCache();
-            if ($cache->hasItem('module_api')) {
-                $api = $this->buildFromArray($cache->getItem('module_api'));
-            } else {
-                $api = $this->buildApi();
-                $this->saveToCache($api);
-            }
+            $api = $apiFactory->buildApi($config['kjsencha']['direct']);
+            $this->saveToCache($api, $cache);
         }
 
         // Setup the correct url from where to request data
-        $router = $serviceLocator->get('Router');
         $api->setUrl($router->assemble(
             array('action'  => 'rpc'), 
             array('name'    => 'kjsencha-direct')
@@ -72,13 +42,14 @@ class ModuleApiFactory implements FactoryInterface
     }
 
     /**
-     * @param  array     $options
+     * @param array $fetched
      * @return ModuleApi
      */
-    public function buildFromArray(array $options)
+    protected function buildFromArray(array $fetched)
     {
-        $api = new ModuleApi;
-        foreach ($options as $name => $cachedModule) {
+        $api = new ModuleApi();
+
+        foreach ($fetched as $name => $cachedModule) {
             $api->addModule($name, new CachedApi($cachedModule['config']));
         }
 
@@ -86,35 +57,19 @@ class ModuleApiFactory implements FactoryInterface
     }
 
     /**
-     * Save a ModuleApi to the cache
-     *
      * @param ModuleApi $moduleApi
+     * @param StorageInterface $cache
      */
-    public function saveToCache(ModuleApi $moduleApi)
+    protected function saveToCache(ModuleApi $moduleApi, StorageInterface $cache)
     {
-        $cache = array();
+        $toStore = array();
 
         foreach ($moduleApi->getModules() as $name => $api) {
-            $cache[$name] = array(
+            $toStore[$name] = array(
                 'config' => $api->toArray(),
             );
         }
 
-        $this->getCache()->setItem('module_api', $cache);
+        $cache->setItem('module_api', $toStore);
     }
-
-    /**
-     * Build module from scratch
-     *
-     * @return ModuleApi
-     */
-    public function buildApi()
-    {
-        $config = $this->services->get('Config');
-        $apiFactory = $this->services->get('kjsencha.modulefactory');
-        $api = $apiFactory->buildApi($config['kjsencha']['direct']);
-
-        return $api;
-    }
-
 }

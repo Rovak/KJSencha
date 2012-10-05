@@ -2,8 +2,6 @@
 
 namespace KJSencha\Direct\Remoting\Api\Object;
 
-use KJSencha\Direct\Remoting\Api\Object\AbstractObject;
-
 abstract class AbstractObject
 {
     private $name;
