@@ -1,37 +1,38 @@
-<script type="text/javascript">
-<?php $this->headScript()->captureStart(); ?>
+<script type="text/javascript"><?php
+$this->headScript()->captureStart();
+echo PHP_EOL;
 
-    <?php if($bootstrap->getVariables()): ?>
-        <?php foreach ($bootstrap->getVariables() as $key => $value): ?>
-        var <?php echo $key; ?> = <?php echo json_encode($value) . ';' . PHP_EOL; ?>
-        <?php endforeach; ?>
-    <?php endif; ?>
+/* @var $bootstrap \KJSencha\Frontend\Bootstrap */
+if($bootstrap->getVariables()) {
+    foreach ($bootstrap->getVariables() as $key => $value) {
+        echo $key . '=' . json_encode($value) . ';' . PHP_EOL;
+    }
+}
 
-    <?php if ($namespaces = $bootstrap->getPaths()): ?>
-    <?php
+if ($namespaces = $bootstrap->getPaths()) {
     // Create relative paths for paths that have no trailing slash
     foreach ($namespaces as $namespace => $path) {
         if ($path[0] !== '/') {
             $namespaces[$namespace] = $this->basePath($path);
         }
     }
-    ?>
 
-    Ext.Loader.setConfig(<?php echo json_encode(array(
-        'enabled'  => TRUE,
+    echo 'Ext.Loader.setConfig(' . json_encode(array(
+        'enabled'  => true,
         'paths'    => $namespaces,
-    )); ?>);
-    <?php endif; ?>
+    )) . ');' . PHP_EOL;
+}
 
-    <?php if ($requires = $bootstrap->getRequires()): ?>
-    Ext.syncRequire(<?php echo json_encode($requires); ?>);
-    <?php endif; ?>
-        
-    <?php if ($directApi = $bootstrap->getDirectApi()): ?>
-        <?php foreach ($bootstrap->getModules() as $module => $options): ?>
-            <?php echo $directApi->getModule($module)->buildRemotingProvider($options); ?>
-        <?php endforeach; ?>
-    <?php endif; ?>
+if ($requires = $bootstrap->getRequires()) {
+    echo 'Ext.syncRequire(' . json_encode($requires) . ');' . PHP_EOL;
+}
 
-<?php $this->headScript()->captureEnd(); ?>
-</script>
+if ($directApi = $bootstrap->getDirectApi()) {
+    foreach ($bootstrap->getModules() as $module => $options) {
+        echo $directApi->getModule($module)->buildRemotingProvider($options);
+    }
+}
+
+echo PHP_EOL;
+$this->headScript()->captureEnd();
+?></script>
