@@ -34,7 +34,7 @@ class Component extends Base
      * Set the classname
      *
      * @param  string                   $className
-     * @return \ExtJs\Web\AbstractClass
+     * @return self
      */
     public function setClassName($className)
     {

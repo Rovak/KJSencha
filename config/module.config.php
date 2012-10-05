@@ -6,6 +6,9 @@ return array(
      * Ext JS Configuration
      */
     'kjsencha' => array(
+        // Path from which ExtJs should be loaded
+        'library_path' => 'http://cdn.sencha.io/ext-4.1.1-gpl',
+
         'direct' => array(
             'cache' => false,
             'modules' => array(

@@ -6,6 +6,7 @@ use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use Zend\ModuleManager\Feature\ControllerProviderInterface;
+use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
 use Zend\Loader\AutoloaderFactory;
 use Zend\Loader\StandardAutoloader;
 
@@ -13,7 +14,8 @@ class Module implements
     AutoloaderProviderInterface,
     ConfigProviderInterface,
     ServiceProviderInterface,
-    ControllerProviderInterface
+    ControllerProviderInterface,
+    ViewHelperProviderInterface
 {
     /**
      * {@inheritDoc}
@@ -51,5 +53,13 @@ class Module implements
     public function getControllerConfig()
     {
         return require __DIR__ . '/../../config/controllers.config.php';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getViewHelperConfig()
+    {
+        return require __DIR__ . '/../../config/view_helpers.config.php';
     }
 }

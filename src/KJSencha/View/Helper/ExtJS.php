@@ -4,6 +4,8 @@ namespace KJSencha\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 use Zend\Stdlib\ArrayUtils;
+use Zend\View\Helper\HeadLink;
+use Zend\View\Helper\HeadScript;
 
 /**
  * Ext JS view helper
@@ -17,56 +19,52 @@ class ExtJS extends AbstractHelper
      */
     protected $libraryPath;
 
-    protected $defaultOptions = array(
-        'development'	=> TRUE,
-        'theme'			=> 'default',
-        'extCfg'		=> array(),
+    /**
+     * @var HeadLink
+     */
+    protected $headLink;
+
+    /**
+     * @var HeadScript
+     */
+    protected $headScript;
+
+    protected $options = array(
+        'development'   => true,
+        'theme'         => 'default',
+        'extCfg'        => array(),
+        'libraryPath'   => '',
     );
+
+    /**
+     * @param string $headLink
+     * @param HeadLink $headLink
+     * @param HeadScript $headScript
+     */
+    public function __construct($libraryPath, HeadLink $headLink, HeadScript $headScript)
+    {
+        $this->options['libraryPath'] = rtrim((string) $libraryPath, '/');
+        $this->headLink = $headLink;
+        $this->headScript = $headScript;
+    }
 
     /**
      * Loading the library in a view
      *
      * @param array $options
      */
-    public function loadLibrary(array $options = array())
+    public function loadLibrary()
     {
-        $view = $this->getView();
-
-        $options = ArrayUtils::merge($this->defaultOptions, $options);
-
-        $libVersion = $options['development'] ? 'ext-all-dev.js' : 'ext-all.js';
-
-        $view->headLink()
-            ->appendStylesheet($this->getLibraryPath() . '/resources/css/ext-all.css');
-
-        $view->headScript()
-            ->prependFile($this->getLibraryPath() . '/' . $libVersion);
+        $libVersion = $this->options['development'] ? 'ext-all-dev.js' : 'ext-all.js';
+        $this->headLink->appendStylesheet($this->options['libraryPath'] . '/resources/css/ext-all.css');
+        $this->headScript->prependFile($this->options['libraryPath'] . '/' . $libVersion);
     }
 
     /**
-     * Set the library path
-     *
-     * @param string $libraryPath
+     * @param array $options
      */
-    public function setLibraryPath($libraryPath)
+    public function setOptions(array $options)
     {
-        $this->libraryPath = rtrim($libraryPath, '/');
-    }
-
-    /**
-     * Retrieve the path to the library
-     *
-     * Will fallback to cdn.sencha.io
-     *
-     * @return string
-     */
-    public function getLibraryPath()
-    {
-        if (null == $this->libraryPath) {
-            // Fallback to ExtJS CDN
-            $this->libraryPath = 'http://cdn.sencha.io/ext-4.1.1-gpl';
-        }
-
-        return $this->libraryPath;
+        $this->options = ArrayUtils::merge($this->options, $options);
     }
 }

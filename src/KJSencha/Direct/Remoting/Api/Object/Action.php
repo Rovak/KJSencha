@@ -57,7 +57,7 @@ class Action extends AbstractObject
     {
         $methods = array();
 
-        foreach ($this->methods as $method) {
+        foreach ($this->getMethods() as $method) {
             $methods[$method->getName()] = array(
                 'len' => $method->getNumberOfParameters(),
             );
