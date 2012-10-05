@@ -51,7 +51,7 @@ abstract class AbstractFactory
     {
         if ( ! is_dir($path)) {
             throw new InvalidArgumentException(
-                'Invalid directory given: ' . $path
+                'Could not find given directory: ' . $path
             );
         }
 
@@ -87,7 +87,7 @@ abstract class AbstractFactory
             // Create method
             $method = new Object\Method($classMethod->getName());
             $method->setNumberOfParameters($classMethod->getNumberOfParameters());
-            
+
             // Loop through annotations
             if ($annotations = $classMethod->getAnnotations($this->getAnnotationManager())) {
                 foreach ($annotations as $annotation) {

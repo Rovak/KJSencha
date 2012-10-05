@@ -18,7 +18,6 @@ use Zend\View\Model\JsonModel;
  */
 class DirectController extends AbstractController
 {
-
     /**
      * @var ApiInterface
      */
@@ -138,7 +137,7 @@ class DirectController extends AbstractController
         return $e;
     }
 
-    /**
+ /**
      * Retrieve the RPCS from the request
      *
      * @return array
@@ -230,7 +229,7 @@ class DirectController extends AbstractController
         }
 
         $object = $this->getManager()->get($action->getObjectName());
-        
+
         // Fetch result from the function call
         $response['result'] = call_user_func_array(array($object, $rpc->getMethod()), $rpc->getData());
 

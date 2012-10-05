@@ -5,35 +5,19 @@ namespace KJSencha\Service;
 use KJSencha\Direct\Remoting\Api\CachedApi;
 use KJSencha\Direct\Remoting\Api\ModuleApi;
 use Zend\Cache\Storage\AdapterPluginManager;
-use Zend\Cache\Storage\StorageInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ModuleApiFactory implements FactoryInterface
 {
-
-    protected $cache;
     protected $services;
-
-    /**
-     *
-     * @param StorageInterface $cache
-     */
-    public function setCache(StorageInterface $cache)
-    {
-        $this->cache = $cache;
-    }
 
     /**
      * @return AdapterPluginManager
      */
     public function getCache()
     {
-        if (null == $this->cache) {
-            $this->cache = $this->services->get('kjsencha.cache');
-        }
-
-        return $this->cache;
+        return $this->services->get('kjsencha.cache');
     }
 
     /**
@@ -64,9 +48,9 @@ class ModuleApiFactory implements FactoryInterface
         // Setup the correct url from where to request data
         $router = $serviceLocator->get('Router');
         $api->setUrl($router->assemble(
-            array('action'  => 'rpc'), 
-            array('name'    => 'kjsencha-direct')
-        ));
+            array('action'  => 'rpc'),
+            array('name'    => 'kjsencha-direct'))
+        );
 
         return $api;
     }
@@ -116,5 +100,4 @@ class ModuleApiFactory implements FactoryInterface
 
         return $api;
     }
-
 }

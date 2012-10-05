@@ -13,13 +13,19 @@ use Zend\View\Model\ViewModel;
  */
 class Bootstrap
 {
-    protected $parameters = array();
-    protected $paths = array();
-    protected $variables = array();
-    protected $requires = array();
-    protected $modules = array();
+
+    /**
+     * @see http://docs.sencha.com/ext-js/4-1/#!/api/Ext.Loader-cfg-paths
+     * @var array
+     */
+    protected $paths		= array();
+    protected $parameters	= array();
+    protected $variables	= array();
+    protected $requires		= array();
+    protected $views        = array();
     protected $viewModel;
-    protected $template = 'kjsencha/bootstrap';
+
+    protected $template     = 'kjsencha/bootstrap';
     protected $directApi;
 
     /**
@@ -27,8 +33,6 @@ class Bootstrap
      */
     public function __construct($options = array())
     {
-        $this->variabeles = new ArrayObject;
-
         $this->viewModel = new ViewModel;
         $this->viewModel->setTemplate($this->template);
 
@@ -72,10 +76,6 @@ class Bootstrap
 
             case 'variables':
                 $this->setVariables($value);
-                break;
-
-            case 'directapi':
-                $this->setDirectApi($value);
                 break;
 
             default:
@@ -175,6 +175,22 @@ class Bootstrap
     }
 
     /**
+     * @return array
+     */
+    public function getComponents()
+    {
+        return $this->views;
+    }
+
+    /**
+     * @param Component $view
+     */
+    public function addComponents(Component $view)
+    {
+        $this->views[] = $view;
+    }
+
+    /**
      * Retrieve the API
      *
      * @return ModuleApi
@@ -205,5 +221,4 @@ class Bootstrap
 
         return $this->viewModel;
     }
-
 }
