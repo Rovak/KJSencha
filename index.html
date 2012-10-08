@@ -1,49 +1,68 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
     <title>Kjsencha by KablauJoustra</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
-
   <body>
-    <header>
-      <div class="inner">
+
+      <header>
         <h1>Kjsencha</h1>
-        <h2>Ext-JS / Sencha Touch Intergration Module for Zend Framework 2</h2>
-        <a href="https://github.com/KablauJoustra/KJSencha" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
+        <p>Ext-JS / Sencha Touch Intergration Module for Zend Framework 2</p>
+      </header>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h1>KJSencha Module 0.0.1</h1>
+      <div id="banner">
+        <span id="logo"></span>
 
-<p>Ext-JS / Sencha Touch Intergration Module for <a href="http://framework.zend.com/">Zend Framework 2</a> and <a href="http://www.sencha.com/products/extjs/">Sencha Ext JS</a></p>
+        <a href="https://github.com/KablauJoustra/KJSencha" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/KablauJoustra/KJSencha/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/KablauJoustra/KJSencha/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>KJSencha Module 0.1.1 <a href="http://travis-ci.org/KablauJoustra/KJSencha"><img src="https://secure.travis-ci.org/KablauJoustra/KJSencha.png?branch=master" alt="Master Branch Build Status"></a>
+</h1>
+
+<p><a href="http://www.sencha.com/products/extjs/">Sencha Ext-JS</a> / Sencha Touch Integration Module
+for <a href="http://framework.zend.com/">Zend Framework 2</a>.</p>
 
 <p>The project is still a work-in-progress and it is recommended 
-to checkout the <a href="https://github.com/Rovak/KJSenchaExample">Example application</a> if you 
+to checkout the <a href="https://github.com/KablauJoustra/KJSenchaExample">Example application</a> if you 
 are interested in using the module</p>
 
-<h2>Requirements</h2>
+<h2>Installation</h2>
 
-<ul>
-<li>Doctrine Common</li>
-<li>Zend Framework 2</li>
-</ul><h2>Documentation</h2>
+<p>You can install this module via <a href="https://getcomposer.org/">composer</a> by running the following
+command in your application's root directory:</p>
 
-<p>See <a href="https://github.com/Rovak/KJSencha/wiki">Wiki</a></p>
+<div class="highlight"><pre><span class="nv">$ </span>./composer.phar require kablau-joustra/kj-sencha
+</pre></div>
+
+<p>You can also install this module without composer, assuming you meet all the dependencies
+specified in <a href="https://github.com/Ocramius/KJSencha/blob/master/composer.json"><code>composer.json</code></a>.</p>
+
+<h2>Documentation</h2>
+
+<p>See our <a href="https://github.com/KablauJoustra/KJSencha/wiki">Wiki</a></p>
 
 <h2>Features</h2>
 
@@ -52,33 +71,21 @@ are interested in using the module</p>
 </ul><h2>Roadmap</h2>
 
 <ul>
-<li>Unittests</li>
+<li>Unit tests</li>
 <li>Ext JS code generator</li>
-<li>Better intergration with stores</li>
-<li>Rest controllers which serialize and desrialize your models</li>
+<li>Better integration with stores</li>
+<li>Rest controllers which serialize and de-serialize your models</li>
 <li>Direct Polling with CRON syntax</li>
 </ul><h2>Changelog</h2>
 
-<p>See <a href="CHANGELOG.md">CHANGELOG.md</a></p>
-        </section>
-
-        <aside id="sidebar">
-          <a href="https://github.com/KablauJoustra/KJSencha/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/KablauJoustra/KJSencha/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/KablauJoustra/KJSencha"></a> is maintained by <a href="https://github.com/KablauJoustra">KablauJoustra</a>.</p>
-
-          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
+<p>See <a href="https://github.com/KablauJoustra/KJSencha/blob/master/CHANGELOG.md">CHANGELOG.md</a></p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/KablauJoustra">KablauJoustra</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+      </footer>
     </div>
-
-  
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
   </body>
 </html>
