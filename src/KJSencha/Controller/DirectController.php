@@ -20,18 +20,24 @@ use Zend\View\Model\JsonModel;
 class DirectController extends AbstractController
 {
     /**
+     * @var DirectManager
+     */
+    protected $manager;
+
+    /**
+     * @var ModuleApi
+     */
+    protected $moduleApi;
+
+    /**
      * @param ApiInterface $api
      * @param $manager
      */
-    public function __construct(DirectManager $manager)
+    public function __construct(DirectManager $manager, ModuleApi $moduleApi)
     {
         $this->manager = $manager;
+        $this->moduleApi = $moduleApi;
     }
-
-    /**
-     * @var ApiInterface
-     */
-    protected $api;
 
     /**
      * Rpcs
@@ -39,35 +45,6 @@ class DirectController extends AbstractController
      * @var array
      */
     protected $rpcs;
-
-    /**
-     *
-     * @var DirectManager
-     */
-    protected $manager;
-
-    /**
-     * Set the API
-     *
-     * @param Api\Api $api Api object
-     */
-    public function setApi($api)
-    {
-        $this->api = $api;
-    }
-
-    /**
-     * Api
-     * @return Api\Api [description]
-     */
-    public function getApi()
-    {
-        if (null == $this->api) {
-            $this->api = $this->getServiceLocator()->get('kjsencha.api.module');
-        }
-
-        return $this->api;
-    }
 
     /**
      * Is it a upload request
@@ -131,7 +108,7 @@ class DirectController extends AbstractController
      *
      * @return array
      */
-    public function getRPC()
+    protected function getRPC()
     {
         if (null == $this->rpcs) {
 
@@ -178,7 +155,7 @@ class DirectController extends AbstractController
      * @param  RPC $rpc
      * @return array
      */
-    public function dispatchRPC(RPC $rpc)
+    protected function dispatchRPC(RPC $rpc)
     {
         $response = array(
             'type'      => 'rpc',
@@ -188,17 +165,13 @@ class DirectController extends AbstractController
             'result'    => NULL,
         );
 
-        $api = $this->getApi();
+        $moduleName = $rpc->getParameter('module');
 
-        if ($api instanceof ModuleApi) {
-
-            $moduleName = $rpc->getParameter('module');
-
-            if (!$api->hasModule($moduleName)) {
-                throw new Exception('Module ' . $rpc->getParameter('module') . ' does not exist');
-            }
-            $api = $api->getModule($moduleName);
+        if (!$this->moduleApi->hasModule($moduleName)) {
+            throw new Exception('Module ' . $rpc->getParameter('module') . ' does not exist');
         }
+
+        $api = $this->moduleApi->getModule($moduleName);
 
         // Verify the action exists
         if (!$api->hasAction($rpc->getAction())) {

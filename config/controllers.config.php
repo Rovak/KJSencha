@@ -11,7 +11,13 @@ return array(
         'kjsencha_direct' => function(AbstractPluginManager $pluginManager)
         {
             $sl = $pluginManager->getServiceLocator();
-            return new DirectController($sl->get('kjsencha.direct.manager'));
+
+            /* @var $manager \KJSencha\Direct\DirectManager */
+            $manager = $sl->get('kjsencha.direct.manager');
+            /* @var $apiFactory \KJSencha\Direct\Remoting\Api\Factory\AbstractFactory */
+            $apiFactory = $sl->get('kjsencha.api.module');
+
+            return new DirectController($manager, $apiFactory);
         },
     )
 );
