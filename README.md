@@ -28,7 +28,7 @@ specified in [`composer.json`](https://github.com/KablauJoustra/KJSencha/blob/ma
 ## Features
 
 - Direct API provider
-- Easy library loading
+- Component Generator
 - Unit tests
 
 Changelog
