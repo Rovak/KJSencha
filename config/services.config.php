@@ -13,14 +13,16 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceManager;
 
 return array(
-    'aliases' => array(
-        'kjsencha.api' => 'kjsencha.api.module',
-    ),
     'factories' => array(
-        'kjsencha.config' => 'KJSencha\Service\ModuleConfigurationFactory',
+        /**
+         * Produces a \KJSencha\Direct\Remoting\Api instance consumed by
+         * the RPC services
+         */
+        'kjsencha.api' => 'KJSencha\Service\ModuleApiFactory',
 
-        'kjsencha.api.module' => 'KJSencha\Service\ModuleApiFactory',
-
+        /**
+         * Annotation manager used to discover features available for the RPC services
+         */
         'kjsencha.annotationmanager' => function(ServiceLocatorInterface $sl) {
             $doctrineParser = new DoctrineAnnotationParser();
             $doctrineParser->registerAnnotation('KJSencha\Annotation\Remotable');
@@ -33,10 +35,19 @@ return array(
             return $annotationManager;
         },
 
+        /**
+         * Factory responsible for crawling module dirs and building APIs
+         */
         'kjsencha.modulefactory' => function(ServiceLocatorInterface $sl) {
-            return new ModuleFactory($sl->get('kjsencha.annotationmanager'));
+            return new ModuleFactory(
+                $sl->get('kjsencha.annotationmanager'),
+                $sl->get('kjsencha.direct.manager')
+            );
         },
 
+        /**
+         * Cache where the API will be stored once it is filled with data
+         */
         'kjsencha.cache' => function(ServiceLocatorInterface $sl) {
             $config = $sl->get('Config');
             $storage = StorageFactory::factory($config['kjsencha']['cache']);
@@ -44,6 +55,10 @@ return array(
             return $storage;
         },
 
+        /**
+         * Bootstrap service that allows rendering of the API into an output that the
+         * ExtJs direct manager can understand
+         */
         'kjsencha.bootstrap' => function(ServiceLocatorInterface $sl) {
             $config = $sl->get('Config');
             $bootstrap = new Bootstrap($config['kjsencha']['bootstrap']['default']);
@@ -57,6 +72,9 @@ return array(
             return $bootstrap;
         },
 
+        /**
+         * Direct manager, handles instantiation of requested services
+         */
         'kjsencha.direct.manager' => function(ServiceManager $sm) {
             $directManager = new DirectManager();
             $directManager->addPeeringServiceManager($sm);

@@ -17,17 +17,18 @@ class ModuleApiFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        /* @var $config array */
         $config = $serviceLocator->get('Config');
-        /* @var $apiFactory \KJSencha\Direct\Remoting\Api\Factory\ModuleFactory */
-        $apiFactory = $serviceLocator->get('kjsencha.modulefactory');
         /* @var $cache StorageInterface */
         $cache = $serviceLocator->get('kjsencha.cache');
         /* @var $router \Zend\Mvc\Router\Http\RouteInterface */
-        $router = $serviceLocator->get('Router');
+        $router = $serviceLocator->get('HttpRouter');
 
         if ($cache->hasItem('module_api')) {
             $api = $this->buildFromArray($cache->getItem('module_api'));
         } else {
+            /* @var $apiFactory \KJSencha\Direct\Remoting\Api\Factory\ModuleFactory */
+            $apiFactory = $serviceLocator->get('kjsencha.modulefactory');
             $api = $apiFactory->buildApi($config['kjsencha']['direct']);
             $this->saveToCache($api, $cache);
         }
