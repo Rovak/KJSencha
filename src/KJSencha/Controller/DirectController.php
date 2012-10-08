@@ -128,7 +128,7 @@ class DirectController extends AbstractController
         return $result;
     }
 
- /**
+    /**
      * Retrieve the RPCS from the request
      *
      * @return array
