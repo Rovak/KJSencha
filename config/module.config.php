@@ -63,7 +63,6 @@ return array(
         ),
     ),
 
-            'kjsencha_data' => 'KJSencha\Controller\DataController',
     /**
      * Router
      */

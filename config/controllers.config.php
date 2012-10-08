@@ -6,6 +6,9 @@ use KJSencha\Controller\DirectController;
 use Zend\ServiceManager\AbstractPluginManager;
 
 return array(
+    'invokables' => array(
+        'kjsencha_data' => 'KJSencha\Controller\DataController',
+    ),
     'factories' => array(
         'kjsencha_direct' => function(AbstractPluginManager $pluginManager) {
             $sl = $pluginManager->getServiceLocator();
