@@ -15,7 +15,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceManager;
 
 return array(
-        'extjsconfig' => 'kjsencha.config',
     'factories' => array(
 
          * Produces a \KJSencha\Direct\Remoting\Api instance consumed by
