@@ -21,7 +21,7 @@ class CachedApi implements ApiInterface
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
     public function toApiArray()
     {
@@ -54,8 +54,7 @@ class CachedApi implements ApiInterface
     }
 
     /**
-     * Get the URL
-     * @return string
+     * {@inheritDoc}
      */
     public function getUrl()
     {
@@ -63,8 +62,7 @@ class CachedApi implements ApiInterface
     }
 
     /**
-     * Set the URL
-     * @param string $url
+     * {@inheritDoc}
      */
     public function setUrl($url)
     {
@@ -72,7 +70,7 @@ class CachedApi implements ApiInterface
     }
 
     /**
-     * @param type $name
+     * @param string $name
      */
     public function setName($name)
     {
@@ -80,7 +78,7 @@ class CachedApi implements ApiInterface
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getName()
     {
@@ -98,10 +96,7 @@ class CachedApi implements ApiInterface
     }
 
     /**
-     * Lazy load action from config
-     *
-     * @param string $name
-     * @return Action
+     * {@inheritDoc}
      */
     public function getAction($name)
     {
@@ -119,8 +114,7 @@ class CachedApi implements ApiInterface
     }
 
     /**
-     * @param  string  $action
-     * @return boolean
+     * {@inheritDoc}
      */
     public function hasAction($action)
     {
@@ -128,7 +122,7 @@ class CachedApi implements ApiInterface
     }
 
     /**
-     * @return RemotingProvider
+     * {@inheritDoc}
      */
     public function buildRemotingProvider()
     {

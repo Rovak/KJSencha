@@ -29,7 +29,7 @@ class RemotingProvider extends Ext\Base
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function render()
     {

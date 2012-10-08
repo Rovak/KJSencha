@@ -9,15 +9,11 @@ use Zend\ServiceManager\AbstractPluginManager;
  */
 class DirectManager extends AbstractPluginManager
 {
-
     /**
-     * Validate that we may create the called Direct class
-     *
-     * @param string $plugin
+     * {@inheritDoc}
      */
     public function validatePlugin($plugin)
     {
-        return;
     }
 
 }

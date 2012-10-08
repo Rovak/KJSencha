@@ -99,10 +99,7 @@ class Api implements ApiInterface
     }
 
     /**
-     * Check if this API holds the give action
-     *
-     * @param  string  $name
-     * @return boolean
+     * {@inheritDoc}
      */
     public function hasAction($name)
     {
@@ -110,10 +107,7 @@ class Api implements ApiInterface
     }
 
     /**
-     * Retrieve action
-     *
-     * @param  string  $name
-     * @return boolean
+     * {@inheritDoc}
      */
     public function getAction($name)
     {
@@ -164,7 +158,7 @@ class Api implements ApiInterface
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getUrl()
     {
@@ -172,9 +166,7 @@ class Api implements ApiInterface
     }
 
     /**
-     * Set the URL to where the requests will be send
-     *
-     * @param string $url
+     * {@inheritDoc}
      */
     public function setUrl($url)
     {
@@ -215,7 +207,7 @@ class Api implements ApiInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function toApiArray()
     {
@@ -243,7 +235,7 @@ class Api implements ApiInterface
     }
 
     /**
-     * @return RemotingProvider
+     * {@inheritDoc}
      */
     public function buildRemotingProvider(array $options = array())
     {
@@ -259,7 +251,7 @@ class Api implements ApiInterface
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getName()
     {

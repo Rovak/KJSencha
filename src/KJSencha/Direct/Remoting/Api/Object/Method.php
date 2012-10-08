@@ -35,7 +35,7 @@ class Method extends AbstractObject
     }
 
     /**
-     * @return type
+     * @return array
      */
     public function toArray()
     {
@@ -48,8 +48,8 @@ class Method extends AbstractObject
     public function toApiArray()
     {
         return array_merge($this->getOptions(), array(
-            'name'		=> $this->getName(),
-            'len'		=> $this->getNumberOfParameters(),
+            'name'  => $this->getName(),
+            'len'   => $this->getNumberOfParameters(),
         ));
     }
 
