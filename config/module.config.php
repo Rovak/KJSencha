@@ -1,5 +1,7 @@
 <?php
 
+use KJSencha\Frontend as Ext;
+
 return array(
 
     /**
@@ -22,12 +24,19 @@ return array(
             ),
         ),
         
-        'components' => array(),
+        'components' => array(
+            'factories' => array(
+                'TestComponent' => function($sm) {
+                    return new Ext\Panel(array(
+                        'title' => 'Test Component'
+                    ));
+                }
+            )
+        ),
 
         'bootstrap' => array(
             'default' => array(
                 'modules' => array(
-                    //'KJSencha'
                 ),
                 'paths' => array(
                     // Path is relative since it has been mapped in the asset resolvers
