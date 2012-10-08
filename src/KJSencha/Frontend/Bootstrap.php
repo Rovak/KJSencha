@@ -181,7 +181,7 @@ class Bootstrap
     /**
      * @param Component $view
      */
-    public function addComponents(Component $view)
+    public function addComponent(Component $view)
     {
         $this->views[] = $view;
     }
