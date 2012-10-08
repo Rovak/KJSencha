@@ -34,7 +34,7 @@ return array(
         },
 
         'kjsencha.modulefactory' => function(ServiceLocatorInterface $sl) {
-            return new ModuleFactory($sl->get('kjsencha.annotationmanager'));
+            return new ModuleFactory($sl->get('kjsencha.annotationmanager'), $sl);
         },
 
         'kjsencha.cache' => function(ServiceLocatorInterface $sl) {

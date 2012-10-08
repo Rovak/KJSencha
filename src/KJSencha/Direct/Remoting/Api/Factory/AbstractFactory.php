@@ -10,7 +10,7 @@ use KJSencha\Direct\Remoting\Api\Object\Action;
 use KJSencha\Direct\Remoting\Api\Object\Method;
 
 use Zend\Code\Scanner\DirectoryScanner;
-use Zend\Code\Scanner\DerivedClassScanner;
+use Zend\Code\Scanner\ClassScanner;
 use Zend\Code\Annotation\AnnotationManager;
 
 /**
@@ -31,7 +31,7 @@ abstract class AbstractFactory
      * @param  string $path Path to a valid directory
      * @return Api    The API object
      */
-    public function buildFromDirectory($path)
+    protected function buildFromDirectory($path)
     {
         if (!is_dir($path)) {
             throw new InvalidArgumentException('Invalid directory given: "' . $path . '"');
@@ -48,10 +48,10 @@ abstract class AbstractFactory
     }
 
     /**
-     * @param DerivedClassScanner $class
+     * @param ClassScanner $class
      * @return Action
      */
-    public function buildObjectFromClass(DerivedClassScanner $class)
+    protected function buildObjectFromClass(ClassScanner $class)
     {
         $action = new Action($class->getName());
 
