@@ -7,8 +7,7 @@ use Zend\ServiceManager\AbstractPluginManager;
 
 return array(
     'factories' => array(
-        'kjsencha_direct' => function(AbstractPluginManager $pluginManager)
-        {
+        'kjsencha_direct' => function(AbstractPluginManager $pluginManager) {
             $sl = $pluginManager->getServiceLocator();
 
             /* @var $manager \KJSencha\Direct\DirectManager */

@@ -2,21 +2,22 @@
 
 namespace KJSencha;
 
-use KJSencha\Frontend\Bootstrap;
 use KJSencha\Direct\Remoting\Api\Factory\ApiBuilder;
 use KJSencha\Direct\DirectManager;
 use KJSencha\Service\TestEchoService;
-
+use KJSencha\Frontend\Bootstrap;
+use KJSencha\Service\ComponentManager;
 use Zend\Cache\StorageFactory;
 use Zend\Code\Annotation\AnnotationManager;
 use Zend\Code\Annotation\Parser\DoctrineAnnotationParser;
+use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceManager;
 
 return array(
         'extjsconfig' => 'kjsencha.config',
     'factories' => array(
-        /**
+
          * Produces a \KJSencha\Direct\Remoting\Api instance consumed by
          * the RPC services
          */
@@ -47,7 +48,7 @@ return array(
 
             return new ApiBuilder($annotationManager, $directManager);
         },
-        /**
+
         /**
          * Cache where the API will be stored once it is filled with data
          */
@@ -93,13 +94,11 @@ return array(
         'kjsencha.echo' => function() {
             return new TestEchoService('Hello ');
         },
-        /**
-         * Component Manager
-         */
+
         'kjsencha.cmpmgr' => function($sm) {
             $config = $sm->get('Config');
-            $serviceConfig = new \Zend\Mvc\Service\ServiceManagerConfig($config['kjsencha.components']);
-            $componentManager = new Service\ComponentManager($serviceConfig);
+            $serviceConfig = new ServiceManagerConfig($config['kjsencha.components']);
+            $componentManager = new ComponentManager($serviceConfig);
             $componentManager->addPeeringServiceManager($sm);
             return $componentManager;
         }

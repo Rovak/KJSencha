@@ -1,12 +1,4 @@
 <?php
-/**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_Mvc
- */
 
 namespace KJSencha\Service;
 
@@ -30,12 +22,11 @@ class ComponentManager extends AbstractPluginManager
     public function __construct(ConfigInterface $configuration = null)
     {
         parent::__construct($configuration);
-        // Pushing to bottom of stack to ensure this is done last
         $this->addInitializer(array($this, 'injectDependencies'), false);
     }
 
     /**
-     * Inject required dependencies into the controller.
+     * Inject required dependencies into the component.
      *
      * @param  Base $component
      * @param  ServiceLocatorInterface $serviceLocator
