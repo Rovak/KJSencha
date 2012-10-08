@@ -33,7 +33,6 @@ return array(
             $doctrineParser->registerAnnotation('KJSencha\Annotation\Group');
             $annotationManager = new AnnotationManager();
             $annotationManager->attach($doctrineParser);
-
             return $annotationManager;
         },
 
@@ -55,7 +54,6 @@ return array(
         'kjsencha.cache' => function(ServiceLocatorInterface $sl) {
             $config = $sl->get('Config');
             $storage = StorageFactory::factory($config['kjsencha']['cache']);
-
             return $storage;
         },
         /**
@@ -97,7 +95,7 @@ return array(
 
         'kjsencha.cmpmgr' => function($sm) {
             $config = $sm->get('Config');
-            $serviceConfig = new ServiceManagerConfig($config['kjsencha.components']);
+            $serviceConfig = new ServiceManagerConfig($config['kjsencha']['components']);
             $componentManager = new ComponentManager($serviceConfig);
             $componentManager->addPeeringServiceManager($sm);
             return $componentManager;

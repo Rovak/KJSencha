@@ -11,7 +11,7 @@ class DataController extends AbstractActionController
         $sm = $this->getServiceLocator();
         $componentManager = $sm->get('kjsencha.cmpmgr');
 
-        $component = $componentManager->get($this->params()->fromQuery('className'));
+        $component = $componentManager->get($this->params()->fromPost('className'));
 
         $response = $this->getResponse();
         $response->setContent($component->toJson());

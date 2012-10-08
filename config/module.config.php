@@ -21,6 +21,8 @@ return array(
                 'KJSencha.echo' => 'kjsencha.echo',
             ),
         ),
+        
+        'components' => array(),
 
         'bootstrap' => array(
             'default' => array(

@@ -2,9 +2,9 @@
 
 namespace KJSencha\Service;
 
+use Exception;
 use KJSencha\Frontend\Base;
 use Zend\EventManager\EventManagerAwareInterface;
-use Zend\Mvc\Exception;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ConfigInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -53,7 +53,5 @@ class ComponentManager extends AbstractPluginManager
         if ($plugin instanceof Base) {
             return;
         }
-
-        throw new Exception('Invalid component!');
     }
 }
