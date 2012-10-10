@@ -22,7 +22,7 @@ abstract class AbstractObject implements Serializable
     private $children = array();
 
     /**
-     * @param AbstractObject $objectName
+     * @param string $objectName
      */
     public function __construct($objectName)
     {
@@ -33,7 +33,7 @@ abstract class AbstractObject implements Serializable
     /**
      * Set the name of this object
      *
-     * @param string $name Objectname
+     * @param string $name name of the object as exposed to the js api
      */
     public function setName($name)
     {
@@ -51,7 +51,7 @@ abstract class AbstractObject implements Serializable
     /**
      * Set the name of this object
      *
-     * @param string $name Objectname
+     * @param string $objectName name of the object as known in backend
      */
     public function setObjectName($objectName)
     {

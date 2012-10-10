@@ -57,6 +57,7 @@ class Component extends Base
      * Set the class which this class should extend
      *
      * @param string $extends
+     * @return self
      */
     public function setExtend($extends)
     {
@@ -68,9 +69,10 @@ class Component extends Base
     /**
      * Create this class javascript side
      *
-     * @return string Optional name of class that is created
+     * @param string $name of class that is created
+     * @return Expr
      */
-    public function create($name = NULL)
+    public function create($name = null)
     {
         $className = $name ?: $this['extend'];
         $className = $className ?: $this->getClassName();
@@ -87,7 +89,7 @@ class Component extends Base
     /**
      * Retrieve the code to define this PHP class
      *
-     * @return
+     * @return Expr
      */
     public function define()
     {

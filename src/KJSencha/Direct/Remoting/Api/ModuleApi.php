@@ -137,30 +137,11 @@ class ModuleApi implements Serializable
             'actions' => array(),
         );
 
-        foreach ($this->getActions() as $actionName => $action) {
+        foreach ($this->getActions() as $action) {
             $array['actions'][$action->getName()] = $action->toArray();
         }
 
         return $array;
-    }
-
-    public function fromArray(array $apiArray)
-    {
-        if (isset($apiArray['type'])) {
-            $this->setType($apiArray['type']);
-        }
-
-        if (isset($apiArray['url'])) {
-            $this->setType($apiArray['url']);
-        }
-
-        if (isset($apiArray['actions']) && is_array($apiArray['actions'])) {
-            foreach ($apiArray['actions'] as $name => $actionArray) {
-                $action = new Action($name);
-                $action->fromArray($actionArray);
-                $this->addAction($name, $action);
-            }
-        }
     }
 
     /**

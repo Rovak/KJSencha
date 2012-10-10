@@ -81,7 +81,7 @@ class Api implements ApiInterface
     /**
      * Add a action to the API
      *
-     * @param Action $object Direct object
+     * @param Action $action Direct object
      */
     public function addAction(Action $action)
     {

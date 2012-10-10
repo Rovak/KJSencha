@@ -37,7 +37,7 @@ class ModuleFactory
     }
 
     /**
-     * @param array $api
+     * @param array $apiConfig
      * @return ModuleApi
      */
     public function buildApi(array $apiConfig)
@@ -72,7 +72,7 @@ class ModuleFactory
      */
     protected function buildDirectoryApi(array $modules)
     {
-        $apis = array();
+        $api = array();
 
         foreach ($modules as $moduleName => $module) {
             if (!isset($module['directory']) || !is_dir($module['directory'])) {
@@ -110,21 +110,21 @@ class ModuleFactory
                 $action = $this->buildAction(get_class($service));
                 $action->setName($serviceName);
                 $action->setObjectName($className);
-                $apis[$serviceName] = $action;
+                $api[$serviceName] = $action;
             }
         }
 
-        return $apis;
+        return $api;
     }
 
     /**
-     * @param array $modules
-     * @return array
+     * @param array $services
+     * @return Action[]
      * @throws InvalidArgumentException
      */
     protected function buildServiceApi(array $services)
     {
-        $apis = array();
+        $api = array();
 
         foreach ($services as $name => $serviceName) {
             // @todo validate service name?
@@ -132,10 +132,10 @@ class ModuleFactory
             $action = $this->buildAction(get_class($service));
             $action->setName($name);
             $action->setObjectName($serviceName);
-            $apis[$name] = $action;
+            $api[$name] = $action;
         }
 
-        return $apis;
+        return $api;
     }
 
     protected function buildAction($className)
@@ -162,6 +162,7 @@ class ModuleFactory
         // Loop through annotations
         if ($annotations = $classMethod->getAnnotations($this->annotationManager)) {
             foreach ($annotations as $annotation) {
+                // @todo annotations should implement some kind of interface?
                 if (method_exists($annotation, 'decorateObject')) {
                     $annotation->decorateObject($method);
                 }

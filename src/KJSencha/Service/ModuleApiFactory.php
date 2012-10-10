@@ -11,7 +11,7 @@ class ModuleApiFactory implements FactoryInterface
     /**
      * {@inheritDoc}
      *
-     * @return ArrayObject
+     * @return \KJSencha\Direct\Remoting\Api\ModuleApi
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
@@ -24,9 +24,6 @@ class ModuleApiFactory implements FactoryInterface
         /* @var $moduleApi \KJSencha\Direct\Remoting\Api\ModuleApi */
         $moduleApi = $cache->getItem($config['kjsencha']['cache_key'], $success);
 
-        //var_dump('cached:');
-        //var_dump($moduleApi);
-
         if (!$success) {
             /* @var $apiFactory \KJSencha\Direct\Remoting\Api\Factory\ModuleFactory */
             $apiFactory = $serviceLocator->get('kjsencha.modulefactory');
@@ -36,10 +33,7 @@ class ModuleApiFactory implements FactoryInterface
                 array('name'    => 'kjsencha-direct')
             ));
             $cache->setItem($config['kjsencha']['cache_key'], $moduleApi);
-            //var_dump('writing cache:');
-            //var_dump($moduleApi);
         }
-        //die();
 
         return $moduleApi;
     }
