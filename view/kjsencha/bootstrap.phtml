@@ -1,35 +1,4 @@
-<script type="text/javascript">
-<?php $this->headScript()->captureStart(); ?>
-
-    <?php if($bootstrap->getVariables()): ?>
-        <?php foreach ($bootstrap->getVariables() as $key => $value): ?>
-        var <?php echo $key; ?> = <?php echo json_encode($value) . ';' . PHP_EOL; ?>
-        <?php endforeach; ?>
-    <?php endif; ?>
-
-    <?php if ($namespaces = $bootstrap->getPaths()): ?>
-    <?php
-    // Create relative paths for paths that have no trailing slash
-    foreach ($namespaces as $namespace => $path) {
-        if ($path[0] !== '/') {
-            $namespaces[$namespace] = $this->basePath($path);
-        }
-    }
-    ?>
-
-    Ext.Loader.setConfig(<?php echo json_encode(array(
-        'enabled'  => TRUE,
-        'paths'    => $namespaces,
-    )); ?>);
-    <?php endif; ?>
-
-    <?php if ($requires = $bootstrap->getRequires()): ?>
-    Ext.syncRequire(<?php echo json_encode($requires); ?>);
-    <?php endif; ?>
-        
-    <?php if ($directApi = $bootstrap->getDirectApi()): ?>
-        <?php echo $directApi->buildRemotingProvider(); ?>
-    <?php endif; ?>
-
-<?php $this->headScript()->captureEnd(); ?>
-</script>
+<?php $this->extJs()->loadLibrary(); ?>
+<?php $this->kjSenchaVariables(); ?>
+<?php $this->kjSenchaLoaderConfig(); ?>
+<?php $this->kjSenchaDirectApi(); ?>
