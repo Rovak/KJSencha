@@ -14,8 +14,7 @@ Ext.define('KJSencha.direct.ModuleRemotingProvider', {
             methods,
             i,
             len,
-            method,
-            className;
+            method;
 
         for (action in actions) {
             cls = Ext.ns(action);

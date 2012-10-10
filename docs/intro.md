@@ -67,7 +67,7 @@ Ext.application({
 
 ## Verifying it
 
-You can now browse to your webpage. You should be asked for your name and receive a
+You can now browse to your web page. You should be asked for your name and receive a
 response computed by the server.
 
 ## Configuration
