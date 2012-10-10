@@ -53,7 +53,7 @@ abstract class AbstractObject implements Serializable
      *
      * @param string $name Objectname
      */
-    protected function setObjectName($objectName)
+    public function setObjectName($objectName)
     {
         $this->objectName = (string) $objectName;
     }

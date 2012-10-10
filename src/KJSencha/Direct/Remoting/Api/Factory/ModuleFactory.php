@@ -109,6 +109,7 @@ class ModuleFactory
                 $service = $this->serviceManager->get($serviceName);
                 $action = $this->buildAction(get_class($service));
                 $action->setName($serviceName);
+                $action->setObjectName($className);
                 $apis[$serviceName] = $action;
             }
         }
@@ -128,7 +129,10 @@ class ModuleFactory
         foreach ($services as $name => $serviceName) {
             // @todo validate service name?
             $service = $this->serviceManager->get($serviceName);
-            $apis[$name] = $this->buildAction(get_class($service));
+            $action = $this->buildAction(get_class($service));
+            $action->setName($name);
+            $action->setObjectName($serviceName);
+            $apis[$name] = $action;
         }
 
         return $apis;
