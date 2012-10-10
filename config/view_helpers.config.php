@@ -12,31 +12,38 @@ return array(
     'factories' => array(
         'extJs' => function(AbstractPluginManager $pluginManager) {
             $config = $pluginManager->getServiceLocator()->get('config');
+            /* @var $headLink \Zend\View\Helper\HeadLink */
+            $headLink = $pluginManager->get('headLink');
+            /* @var $headScript \Zend\View\Helper\HeadScript */
+            $headScript = $pluginManager->get('headScript');
 
-            return new ExtJS(
-                $config['kjsencha']['library_path'],
-                $pluginManager->get('headLink'),
-                $pluginManager->get('headScript')
-            );
+            return new ExtJS($config['kjsencha']['library_path'], $headLink, $headScript);
         },
         'kjSenchaVariables' => function(AbstractPluginManager $pluginManager) {
-            return new Variables(
-                $pluginManager->get('headScript'),
-                $pluginManager->getServiceLocator()->get('kjsencha.bootstrap')
-            );
+            /* @var $headScript \Zend\View\Helper\HeadScript */
+            $headScript = $pluginManager->get('headScript');
+            /* @var $bootstrap \KJSencha\Frontend\Bootstrap */
+            $bootstrap = $pluginManager->getServiceLocator()->get('kjsencha.bootstrap');
+
+            return new Variables($headScript, $bootstrap);
         },
         'kjSenchaLoaderConfig' => function(AbstractPluginManager $pluginManager) {
-            return new LoaderConfig(
-                $pluginManager->get('basePath'),
-                $pluginManager->get('headScript'),
-                $pluginManager->getServiceLocator()->get('kjsencha.bootstrap')
-            );
+            /* @var $basePath \Zend\View\Helper\BasePath */
+            $basePath = $pluginManager->get('basePath');
+            /* @var $headScript \Zend\View\Helper\HeadScript */
+            $headScript = $pluginManager->get('headScript');
+            /* @var $bootstrap \KJSencha\Frontend\Bootstrap */
+            $bootstrap = $pluginManager->getServiceLocator()->get('kjsencha.bootstrap');
+
+            return new LoaderConfig($basePath, $headScript, $bootstrap);
         },
         'kjSenchaDirectApi' => function(AbstractPluginManager $pluginManager) {
-            return new DirectApi(
-                $pluginManager->get('headScript'),
-                $pluginManager->getServiceLocator()->get('kjsencha.bootstrap')
-            );
+            /* @var $headScript \Zend\View\Helper\HeadScript */
+            $headScript = $pluginManager->get('headScript');
+            /* @var $bootstrap \KJSencha\Frontend\Bootstrap */
+            $bootstrap = $pluginManager->getServiceLocator()->get('kjsencha.bootstrap');
+
+            return new DirectApi($headScript, $bootstrap);
         },
     )
 );

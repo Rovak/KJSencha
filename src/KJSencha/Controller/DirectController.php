@@ -30,8 +30,8 @@ class DirectController extends AbstractController
     protected $moduleApi;
 
     /**
-     * @param ApiInterface $api
-     * @param $manager
+     * @param DirectManager $manager
+     * @param ModuleApi $moduleApi
      */
     public function __construct(DirectManager $manager, ModuleApi $moduleApi)
     {

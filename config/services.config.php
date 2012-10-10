@@ -40,10 +40,12 @@ return array(
          * Factory responsible for crawling module dirs and building APIs
          */
         'kjsencha.modulefactory' => function(ServiceLocatorInterface $sl) {
-            return new ModuleFactory(
-                $sl->get('kjsencha.annotationmanager'),
-                $sl->get('kjsencha.direct.manager')
-            );
+            /* @var $annotationManager AnnotationManager */
+            $annotationManager = $sl->get('kjsencha.annotationmanager');
+            /* @var $directManager DirectManager */
+            $directManager = $sl->get('kjsencha.annotationmanager');
+
+            return new ModuleFactory($annotationManager, $directManager);
         },
 
         /**
@@ -68,7 +70,9 @@ return array(
                     'basePath' => $sl->get('Request')->getBasePath(),
                 )
             ));
-            $bootstrap->setDirectApi($sl->get('kjsencha.api'));
+            /* @var $directApi \KJSencha\Direct\Remoting\Api\ModuleApi */
+            $directApi = $sl->get('kjsencha.api');
+            $bootstrap->setDirectApi($directApi);
 
             return $bootstrap;
         },
