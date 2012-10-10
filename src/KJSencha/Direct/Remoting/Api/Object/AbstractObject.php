@@ -2,14 +2,27 @@
 
 namespace KJSencha\Direct\Remoting\Api\Object;
 
-abstract class AbstractObject
+use Serializable;
+
+abstract class AbstractObject implements Serializable
 {
+    /**
+     * @var string
+     */
     private $name;
+
+    /**
+     * @var string
+     */
     private $objectName;
+
+    /**
+     * @var mixed[]
+     */
     private $children = array();
 
     /**
-     * @param type $objectName
+     * @param AbstractObject $objectName
      */
     public function __construct($objectName)
     {
@@ -24,7 +37,7 @@ abstract class AbstractObject
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = (string) $name;
     }
 
     /**
@@ -42,7 +55,7 @@ abstract class AbstractObject
      */
     protected function setObjectName($objectName)
     {
-        $this->objectName = $objectName;
+        $this->objectName = (string) $objectName;
     }
 
     /**
@@ -75,9 +88,45 @@ abstract class AbstractObject
     public function toArray()
     {
         return array(
-            'name'          => $this->getObjectName(),
-            'objectName'    => $this->getObjectName(),
+            'name'       => $this->getName(),
+            'objectName' => $this->getObjectName(),
         );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            'name'       => $this->getName(),
+            'objectName' => $this->getObjectName(),
+            'children'   => $this->getChildren(),
+        ));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function unserialize($serialized)
+    {
+        $data = unserialize($serialized);
+
+        if (!is_array($data)) {
+            throw new \InvalidArgumentException('Incorrect unserialized data');
+        }
+
+        if (isset($data['name'])) {
+            $this->setName($data['name']);
+        }
+
+        if (isset($data['objectName'])) {
+            $this->setObjectName($data['objectName']);
+        }
+
+        if (isset($data['children'])) {
+            $this->children = $data['children'];
+        }
     }
 
     /**

@@ -2,12 +2,16 @@
 
 namespace KJSencha\Direct\Remoting\Api\Object;
 
+use Zend\Stdlib\ArrayUtils;
+
 /**
  * Action / Class which hold methods that can be run from Ext.Direct
  */
 class Action extends AbstractObject
 {
-
+    /**
+     * @var Method[]
+     */
     protected $methods = array();
 
     /**
@@ -58,9 +62,7 @@ class Action extends AbstractObject
         $methods = array();
 
         foreach ($this->getMethods() as $method) {
-            $methods[$method->getName()] = array(
-                'len' => $method->getNumberOfParameters(),
-            );
+            $methods[$method->getName()] = $method->toApiArray();
         }
 
         return array(
@@ -68,4 +70,46 @@ class Action extends AbstractObject
         );
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function fromArray(array $apiArray)
+    {
+        if (isset($apiArray['methods']) && is_array($apiArray['methods'])) {
+            foreach ($apiArray['methods'] as $name => $actionArray) {
+                $method = new Method($name);
+                $method->fromArray($actionArray);
+                $this->addMethod($method);
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            'methods'    => $this->getMethods(),
+            'parentData' => parent::serialize(),
+        ));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function unserialize($serialized)
+    {
+        $data = unserialize($serialized);
+
+        if (!is_array($data) || !isset($data['parentData'])) {
+            throw new \InvalidArgumentException('Incorrect unserialized data');
+        }
+
+        if (isset($data['methods'])) {
+            $this->methods = $data['methods'];
+        }
+
+        parent::unserialize($data['parentData']);
+    }
 }

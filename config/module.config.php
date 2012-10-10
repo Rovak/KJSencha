@@ -46,6 +46,8 @@ return array(
                 'serializer'
             )
         ),
+
+        'cache_key' => 'module_api',
     ),
 
     'view_manager' => array(

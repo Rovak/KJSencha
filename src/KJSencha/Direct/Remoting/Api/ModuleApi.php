@@ -5,16 +5,17 @@ namespace KJSencha\Direct\Remoting\Api;
 use InvalidArgumentException;
 use KJSencha\Direct\Remoting\Api\Object\Action;
 use KJSencha\Frontend\Direct\RemotingProvider;
+use Serializable;
 
 /**
  * A simple container which holds API's from multiple modules
  */
-class ModuleApi
+class ModuleApi implements Serializable
 {
     /**
      * @var string
      */
-    protected $url;
+    protected $url = '';
 
     /**
      * @var Action[]
@@ -27,14 +28,6 @@ class ModuleApi
      * @var string
      */
     protected $type = 'kjsenchamoduleremoting';
-
-    /**
-     * @param string $url
-     */
-    public function __construct($url)
-    {
-        $this->setUrl($url);
-    }
 
     /**
      * @param $url
@@ -136,11 +129,81 @@ class ModuleApi
         return $defaults;
     }
 
+    public function toArray()
+    {
+        $array = array(
+            'type' => $this->getType(),
+            'url' => $this->getUrl(),
+            'actions' => array(),
+        );
+
+        foreach ($this->getActions() as $actionName => $action) {
+            $array['actions'][$action->getName()] = $action->toArray();
+        }
+
+        return $array;
+    }
+
+    public function fromArray(array $apiArray)
+    {
+        if (isset($apiArray['type'])) {
+            $this->setType($apiArray['type']);
+        }
+
+        if (isset($apiArray['url'])) {
+            $this->setType($apiArray['url']);
+        }
+
+        if (isset($apiArray['actions']) && is_array($apiArray['actions'])) {
+            foreach ($apiArray['actions'] as $name => $actionArray) {
+                $action = new Action($name);
+                $action->fromArray($actionArray);
+                $this->addAction($name, $action);
+            }
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
     public function buildRemotingProvider()
     {
         return new RemotingProvider($this->toApiArray());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            'type'    => $this->getType(),
+            'url'     => $this->getUrl(),
+            'actions' => $this->getActions(),
+        ));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function unserialize($serialized)
+    {
+        $data = unserialize($serialized);
+
+        if (!is_array($data)) {
+            throw new \InvalidArgumentException('Incorrect unserialized data');
+        }
+
+        if (isset($data['type'])) {
+            $this->setType($data['type']);
+        }
+
+        if (isset($data['url'])) {
+            $this->setUrl($data['url']);
+        }
+
+        foreach ($data['actions'] as $actionName => $action) {
+            $this->addAction($actionName, $action);
+        }
     }
 }

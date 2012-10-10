@@ -42,18 +42,25 @@ class ModuleFactory
      */
     public function buildApi(array $apiConfig)
     {
-        $apis = array();
+        $actions = array();
 
         // legacy code, probably to be removed
         if (isset($apiConfig['modules']) && is_array($apiConfig['modules'])) {
-            $apis = ArrayUtils::merge($apis, $this->buildDirectoryApi($apiConfig['modules']));
+            $actions = ArrayUtils::merge($actions, $this->buildDirectoryApi($apiConfig['modules']));
         }
 
         if (isset($apiConfig['services']) && is_array($apiConfig['services'])) {
-            $apis = ArrayUtils::merge($apis, $this->buildServiceApi($apiConfig['services']));
+            $actions = ArrayUtils::merge($actions, $this->buildServiceApi($apiConfig['services']));
         }
 
-        return $apis;
+        $moduleApi = new ModuleApi();
+
+        /* @var $actions \KJSencha\Direct\Remoting\Api\Object\Action[] */
+        foreach ($actions as $name => $action) {
+            $moduleApi->addAction($name, $action);
+        }
+
+        return $moduleApi;
     }
 
     /**

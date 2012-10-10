@@ -2,10 +2,6 @@
 
 namespace KJSencha\Service;
 
-use KJSencha\Direct\Remoting\Api\CachedApi;
-use KJSencha\Direct\Remoting\Api\ModuleApi;
-use ArrayObject;
-
 use Zend\Cache\Storage\StorageInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -25,62 +21,26 @@ class ModuleApiFactory implements FactoryInterface
         $cache = $serviceLocator->get('kjsencha.cache');
         /* @var $router \Zend\Mvc\Router\Http\RouteInterface */
         $router = $serviceLocator->get('HttpRouter');
+        /* @var $moduleApi \KJSencha\Direct\Remoting\Api\ModuleApi */
+        $moduleApi = $cache->getItem($config['kjsencha']['cache_key'], $success);
 
-        if ($cache->hasItem('module_api')) {
-            $actions = $this->buildFromArray($cache->getItem('module_api'));
-        } else {
+        //var_dump('cached:');
+        //var_dump($moduleApi);
+
+        if (!$success) {
             /* @var $apiFactory \KJSencha\Direct\Remoting\Api\Factory\ModuleFactory */
             $apiFactory = $serviceLocator->get('kjsencha.modulefactory');
-            $actions = $apiFactory->buildApi($config['kjsencha']['direct']);
-            $this->saveToCache($actions, $cache);
+            $moduleApi = $apiFactory->buildApi($config['kjsencha']['direct']);
+            $moduleApi->setUrl($router->assemble(
+                array('action'  => 'rpc'),
+                array('name'    => 'kjsencha-direct')
+            ));
+            $cache->setItem($config['kjsencha']['cache_key'], $moduleApi);
+            //var_dump('writing cache:');
+            //var_dump($moduleApi);
         }
-
-        $moduleApi = new ModuleApi($router->assemble(
-            array('action'  => 'rpc'),
-            array('name'    => 'kjsencha-direct')
-        ));
-
-        /* @var $actions \KJSencha\Direct\Remoting\Api\Object\Action[] */
-        foreach ($actions as $name => $action) {
-            $moduleApi->addAction($name, $action);
-        }
+        //die();
 
         return $moduleApi;
-    }
-
-    /**
-     * @param array $fetched
-     * @return ArrayObject
-     */
-    protected function buildFromArray(array $fetched)
-    {
-        throw new \BadMethodCallException('Not yet supported - caching to be refactored!');
-        $api = new ModuleApi();
-
-        foreach ($fetched as $name => $cachedModule) {
-            $api->addModule($name, new CachedApi($cachedModule['config']));
-        }
-
-        return $api;
-    }
-
-    /**
-     * @param \Traversable[] $actions
-     * @param StorageInterface $cache
-     */
-    protected function saveToCache($actions, StorageInterface $cache)
-    {
-        return;
-        // @todo adapt to new changes
-        $toStore = array();
-
-        /* @var $action */
-        foreach ($actions as $name => $api) {
-            $toStore[$name] = array(
-                'config' => $api->toArray(),
-            );
-        }
-
-        $cache->setItem('module_api', $toStore);
     }
 }
