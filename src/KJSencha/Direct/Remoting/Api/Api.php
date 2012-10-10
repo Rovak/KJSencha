@@ -2,27 +2,25 @@
 
 namespace KJSencha\Direct\Remoting\Api;
 
-use Exception;
+use InvalidArgumentException;
 use KJSencha\Direct\Remoting\Api\Object\Action;
 use KJSencha\Frontend\Direct\RemotingProvider;
+use Serializable;
 
 /**
- * Ext.Direct API
+ * A simple container which holds API's from multiple modules
  */
-class Api implements ApiInterface
+class Api implements Serializable, ApiInterface
 {
-
     /**
-     * @var array
-     */
-    protected $actions = array();
-
-    /**
-     * Javascript variable name which will hold the Ext.Direct functions
-     *
      * @var string
      */
-    protected $namespace = 'Direct';
+    protected $url = '';
+
+    /**
+     * @var Action[]
+     */
+    protected $actions = array();
 
     /**
      * ExtJS Widget which will be used
@@ -32,70 +30,28 @@ class Api implements ApiInterface
     protected $type = 'kjsenchamoduleremoting';
 
     /**
-     * URL where the requests will be send
-     *
-     * @var string
+     * {@inheritDoc}
      */
-    protected $url;
-
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @param array $options
-     */
-    public function __construct(array $options = null)
+    public function setUrl($url)
     {
-        if ($options) {
-            $this->setOptions($options);
-        }
+        $this->url = (string) $url;
     }
 
     /**
-     * Set options
-     *
-     * @param array $options
+     * {@inheritDoc}
      */
-    public function setOptions(array $options)
+    public function getUrl()
     {
-        foreach ($options as $key => $value) {
-            switch ($key) {
-                case 'actions':
-                    $this->actions = $value;
-                    break;
-                case 'namespace':
-                    $this->setNamespace($value);
-                    break;
-                case 'type':
-                    $this->setType($value);
-                    break;
-                case 'url':
-                    $this->setUrl($value);
-                    break;
-            }
-        }
+        return $this->url;
     }
 
     /**
-     * Add a action to the API
-     *
-     * @param Action $object Direct object
+     * @param string $name
+     * @param Action $action
      */
-    public function addAction(Action $action)
+    public function addAction($name, Action $action)
     {
-        $this->actions[$action->getName()] = $action;
-    }
-
-    /**
-     * Return API actions
-     *
-     * @return Action[] Actions
-     */
-    public function getActions()
-    {
-        return $this->actions;
+        $this->actions[(string) $name] = $action;
     }
 
     /**
@@ -108,33 +64,24 @@ class Api implements ApiInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @throws InvalidArgumentException
      */
     public function getAction($name)
     {
-        if (!$this->hasAction($name)) {
-            throw new Exception('Action does not exist');
+        if (!array_key_exists($name, $this->actions)) {
+            throw new InvalidArgumentException('Requested action "' . $name . '" does not exist');
         }
 
         return $this->actions[$name];
     }
 
     /**
-     * @return string
+     * @return Action[]
      */
-    public function getNamespace()
+    public function getActions()
     {
-        return $this->namespace;
-    }
-
-    /**
-     * Set the The name which will be used javascript side to hold the
-     * Ext.Direct methods
-     *
-     * @param string $namespace
-     */
-    public function setNamespace($namespace)
-    {
-        $this->namespace = $namespace;
+        return $this->actions;
     }
 
     /**
@@ -154,78 +101,25 @@ class Api implements ApiInterface
      */
     public function setType($type)
     {
-        $this->type = $type;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
+        $this->type = (string) $type;
     }
 
     /**
      * @return array
-     */
-    public function toArray()
-    {
-        $defaults = array(
-            'type'      => $this->getType(),
-            'url'       => $this->getUrl(),
-            'name'      => $this->getNamespace(),
-            'namespace' => $this->getNamespace(),
-            'actions'   => array(),
-        );
-
-        foreach ($this->getActions() as $action) {
-
-            $methods = array();
-
-            foreach ($action->getMethods() as $method) {
-                $methods[] = array_merge($method->toArray(), array(
-                    'module' => $this->getNamespace(),
-                        ));
-            }
-
-            $actionArray = array_merge($action->toArray(), array(
-                'methods' => $methods,
-            ));
-
-            $defaults['actions'][$action->getName()] = $actionArray;
-        }
-
-        return $defaults;
-    }
-
-    /**
-     * {@inheritDoc}
      */
     public function toApiArray()
     {
         $defaults = array(
             'type' => $this->getType(),
             'url' => $this->getUrl(),
-            'namespace' => $this->getNamespace(),
             'actions' => array(),
         );
 
         foreach ($this->getActions() as $action) {
-
             $methods = array();
 
             foreach ($action->getMethods() as $method) {
-                $methods[] = array_merge($method->toApiArray(), array(
-                    'module' => $this->getName(),
-                ));
+                $methods[] = $method->toApiArray();
             }
 
             $defaults['actions'][$action->getName()] = $methods;
@@ -237,24 +131,44 @@ class Api implements ApiInterface
     /**
      * {@inheritDoc}
      */
-    public function buildRemotingProvider(array $options = array())
+    public function buildRemotingProvider()
     {
-        return new RemotingProvider(array_merge($this->toApiArray(), $options));
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
+        return new RemotingProvider($this->toApiArray());
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getName()
+    public function serialize()
     {
-        return $this->name;
+        return serialize(array(
+            'type'    => $this->getType(),
+            'url'     => $this->getUrl(),
+            'actions' => $this->getActions(),
+        ));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function unserialize($serialized)
+    {
+        $data = unserialize($serialized);
+
+        if (!is_array($data)) {
+            throw new \InvalidArgumentException('Incorrect unserialized data');
+        }
+
+        if (isset($data['type'])) {
+            $this->setType($data['type']);
+        }
+
+        if (isset($data['url'])) {
+            $this->setUrl($data['url']);
+        }
+
+        foreach ($data['actions'] as $actionName => $action) {
+            $this->addAction($actionName, $action);
+        }
     }
 }

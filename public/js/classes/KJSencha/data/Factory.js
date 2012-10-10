@@ -74,9 +74,10 @@ Ext.define('KJSencha.data.Factory', {
     /**
      * Create a REST configuration that can be used in models
      * 
-     * @param {Object/String} options
-     * @param {String} options.module Name of the module to use
-     * @param {String} options.model Model name, relative to your PHP namespace
+     * @param {Object/String} config
+     * @param {String} config.module Name of the module to use
+     * @param {String} config.model Model name, relative to your PHP namespace
+     * @param {String} className Name of the proxy class
      * @return {Ext.data.proxy.Rest} Proxy which can be used in a model
      */
 	createRestProxy: function(config, className)
@@ -84,7 +85,7 @@ Ext.define('KJSencha.data.Factory', {
 		config = this.createRestConfig(config);
 		className = className || 'Ext.data.proxy.Rest';
 
-		return Ext.create('Ext.data.proxy.Rest', config);
+		return Ext.create(className, config);
 	},
 
 	/**
@@ -144,9 +145,10 @@ Ext.define('KJSencha.data.Factory', {
 	/**
      * Store factory
      * 
-     * @param {Object/String} options
-     * @param {String} options.module Name of the module to use
-     * @param {String} options.action Action which will be executed
+     * @param {Object/String} config
+     * @param {String} config.module Name of the module to use
+     * @param {String} config.action Action which will be executed
+     * @param {String} className Name of the proxy class
      * @return {Ext.data.Store}
      */
 	createServiceStore: function(config, className)

@@ -10,11 +10,9 @@ return array(
         'library_path' => 'http://cdn.sencha.io/ext-4.1.1-gpl',
 
         'direct' => array(
-            'modules' => array(
-//                'KJSencha' => array(
-//                    'namespace' => 'KJSencha\Ajax\Direct',
-//                    'directory' => __DIR__ . '/../src/KJSencha/Ajax/Direct',
-//                ),
+            'modules' => array(),
+            'services' => array(
+                'KJSencha.echo' => 'kjsencha.echo',
             ),
         ),
 
@@ -46,6 +44,8 @@ return array(
                 'serializer'
             )
         ),
+
+        'cache_key' => 'module_api',
     ),
 
     'view_manager' => array(

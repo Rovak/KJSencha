@@ -7,6 +7,9 @@ namespace KJSencha\Direct\Remoting\Api\Object;
  */
 class Method extends AbstractObject
 {
+    /**
+     * @var int
+     */
     private $numberOfParameters = 0;
 
     /**
@@ -32,14 +35,6 @@ class Method extends AbstractObject
     public function setNumberOfParameters($numberOfParameters)
     {
         $this->numberOfParameters = (int) $numberOfParameters;
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray()
-    {
-        return array_merge(parent::toArray(), $this->toApiArray());
     }
 
     /**
@@ -70,5 +65,39 @@ class Method extends AbstractObject
     public function getOptions()
     {
         return $this->options;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            'numberOfParameters'    => $this->getNumberOfParameters(),
+            'options'               => $this->getOptions(),
+            'parentData'            => parent::serialize(),
+        ));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function unserialize($serialized)
+    {
+        $data = unserialize($serialized);
+
+        if (!is_array($data) || !isset($data['parentData'])) {
+            throw new \InvalidArgumentException('Incorrect unserialized data');
+        }
+
+        if (isset($data['numberOfParameters'])) {
+            $this->setNumberOfParameters($data['numberOfParameters']);
+        }
+
+        if (isset($data['options'])) {
+            $this->options = $data['options'];
+        }
+
+        parent::unserialize($data['parentData']);
     }
 }
