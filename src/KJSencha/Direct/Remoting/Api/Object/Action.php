@@ -2,8 +2,6 @@
 
 namespace KJSencha\Direct\Remoting\Api\Object;
 
-use Zend\Stdlib\ArrayUtils;
-
 /**
  * Action / Class which hold methods that can be run from Ext.Direct
  */

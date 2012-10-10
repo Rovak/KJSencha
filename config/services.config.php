@@ -88,7 +88,8 @@ return array(
         },
 
         /**
-         * Direct manager, handles instantiation of requested services
+         * Echo service - registered by default with ExtJs's remoting provider to allow
+         * simple verification that the module's features are active and working.
          */
         'kjsencha.echo' => function() {
             return new TestEchoService('Hello ');

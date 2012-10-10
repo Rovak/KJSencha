@@ -9,7 +9,7 @@ $ ./composer.phar require kablau-joustra/kj-sencha
 ```
 
 ## Enabling
-To enable KJSencha, open your `config/application.config.php` file and add following items
+To enable KJSencha, open your `config/application.config.php` file and add the following items
 to the `modules` key:
 
 ```php
@@ -19,7 +19,7 @@ to the `modules` key:
 
 ## View
 
-In your view (presumably `module/Application/view/application/index/index.phtml`), add
+In your view (presumably `module/Application/view/application/index/index.phtml`), add the
 following code (may also be your layout if you prefer so). Those add scripts and css to your
 page's head tag:
 

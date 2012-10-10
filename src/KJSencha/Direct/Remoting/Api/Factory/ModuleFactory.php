@@ -64,6 +64,9 @@ class ModuleFactory
     }
 
     /**
+     * Generates a list of Action objects based on the given directory structure, handling
+     * each found class as an invokable service
+     *
      * @deprecated this logic is deprecated and uses per-directory scanning. Instead, please
      *             map your defined service names in the 'services' config
      * @param array $modules
@@ -118,7 +121,10 @@ class ModuleFactory
     }
 
     /**
-     * @param array $services
+     * Generates a list of Action objects based on the given service mappings
+     *
+     * @param array $services map of services having keys being the exposed service name, and value being
+     *              the service within the service manager.
      * @return Action[]
      * @throws InvalidArgumentException
      */
@@ -138,6 +144,12 @@ class ModuleFactory
         return $api;
     }
 
+    /**
+     * Builds and populates Action object based on the provided class name
+     *
+     * @param string $className
+     * @return Action
+     */
     protected function buildAction($className)
     {
         $classReflection = new ClassReflection($className);
@@ -154,6 +166,12 @@ class ModuleFactory
         return $action;
     }
 
+    /**
+     * Builds a method object based on the provided method scanner
+     *
+     * @param  MethodScanner $classMethod
+     * @return Method
+     */
     protected function buildMethod(MethodScanner $classMethod)
     {
         $method = new Method($classMethod->getName());
