@@ -37,7 +37,7 @@ class ExtJS extends AbstractHelper
     );
 
     /**
-     * @param string $headLink
+     * @param string $libraryPath
      * @param HeadLink $headLink
      * @param HeadScript $headScript
      */
@@ -49,9 +49,7 @@ class ExtJS extends AbstractHelper
     }
 
     /**
-     * Loading the library in a view
-     *
-     * @param array $options
+     * Loading the ExtJs library and CSS in a view
      */
     public function loadLibrary()
     {

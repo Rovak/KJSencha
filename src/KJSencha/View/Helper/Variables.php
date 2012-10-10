@@ -18,6 +18,7 @@ class Variables extends AbstractHelper
 
     /**
      * @param HeadScript $headScript
+     * @param Bootstrap $bootstrap
      */
     public function __construct(HeadScript $headScript, Bootstrap $bootstrap)
     {
@@ -26,9 +27,7 @@ class Variables extends AbstractHelper
     }
 
     /**
-     * Loads required variables in the head script
-     *
-     * @param array $options
+     * Loads custom variables (available via config) in the head scripts
      */
     public function __invoke()
     {

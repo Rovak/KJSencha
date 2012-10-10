@@ -11,7 +11,7 @@ class Result extends JsonModel
 {
     /**
      * Make sure we merge everything, used by RenderingStrategy
-     * @var type
+     * @var bool
      */
     protected $mergeUnnamedChildren = true;
 

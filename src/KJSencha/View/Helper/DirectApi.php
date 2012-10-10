@@ -18,6 +18,7 @@ class DirectApi extends AbstractHelper
 
     /**
      * @param HeadScript $headScript
+     * @param Bootstrap $bootstrap
      */
     public function __construct(HeadScript $headScript, Bootstrap $bootstrap)
     {
@@ -26,9 +27,7 @@ class DirectApi extends AbstractHelper
     }
 
     /**
-     * Loads required variables in the head script
-     *
-     * @param array $options
+     * Loads Ext.direct.Manager API configuration in head scripts
      */
     public function __invoke()
     {
