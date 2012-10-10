@@ -6,34 +6,20 @@ Ext.define('KJSencha.direct.ModuleRemotingProvider', {
 	extend: 'Ext.direct.RemotingProvider',
 
 	alias: 'direct.kjsenchamoduleremotingprovider',
-    
-
-	// Overwrite constructor so we can take the namespace
-	constructor : function(config) {
-		this.namespaceName = config.namespace;
-		this.callParent(arguments);
-	},
 
     initAPI : function(){
         var actions = this.actions,
-            namespace = this.namespace,
             action,
             cls,
             methods,
             i,
             len,
-            method;
+            method,
+            className;
 
         for (action in actions) {
+            cls = Ext.ns(action);
             methods = actions[action];
-            var className	= action.replace(/\\/g, '.'),
-                objectPath	= this.namespaceName,
-                pos			= className.lastIndexOf('.');
-				
-            if ( -1 != pos) {
-                className = className.substr(0, pos).toLowerCase() + '.' + className.substr(pos+1);
-            }
-            cls = Ext.ns(objectPath + '.' + className);
  
             for (i = 0, len = methods.length; i < len; ++i) {
                 method = new Ext.direct.RemotingMethod(methods[i]);

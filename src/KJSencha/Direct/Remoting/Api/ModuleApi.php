@@ -2,8 +2,9 @@
 
 namespace KJSencha\Direct\Remoting\Api;
 
-use DomainException;
-use KJSencha\Direct\Remoting\Api\Api;
+use InvalidArgumentException;
+use KJSencha\Direct\Remoting\Api\Object\Action;
+use KJSencha\Frontend\Direct\RemotingProvider;
 
 /**
  * A simple container which holds API's from multiple modules
@@ -11,63 +12,135 @@ use KJSencha\Direct\Remoting\Api\Api;
 class ModuleApi
 {
     /**
-     * Set the URL
+     * @var string
+     */
+    protected $url;
+
+    /**
+     * @var Action[]
+     */
+    protected $actions = array();
+
+    /**
+     * ExtJS Widget which will be used
      *
+     * @var string
+     */
+    protected $type = 'kjsenchamoduleremoting';
+
+    /**
      * @param string $url
+     */
+    public function __construct($url)
+    {
+        $this->setUrl($url);
+    }
+
+    /**
+     * @param $url
      */
     public function setUrl($url)
     {
-        foreach ($this->getModules() as $module) {
-            $module->setUrl($url);
-        }
+        $this->url = (string) $url;
     }
 
     /**
-     * @var array
+     * @return string
      */
-    protected $modules = array();
+    public function getUrl()
+    {
+        return $this->url;
+    }
 
     /**
-     * Add a module API
-     *
      * @param string $name
-     * @param Api    $api
+     * @param Action $action
      */
-    public function addModule($name, ApiInterface $api)
+    public function addAction($name, Action $action)
     {
-        $this->modules[$name] = $api;
+        $this->actions[(string) $name] = $action;
     }
 
     /**
-     * @param  string  $name
-     * @return boolean
+     * @param string $name
+     * @return bool
      */
-    public function hasModule($name)
+    public function hasAction($name)
     {
-        return isset($this->modules[$name]);
+        return isset($this->actions[$name]);
     }
 
     /**
-     * @return Api[]
+     * @param string $name
+     * @return Action
+     * @throws InvalidArgumentException
      */
-    public function getModules()
+    public function getAction($name)
     {
-        return $this->modules;
-    }
-
-    /**
-     * Retrieve a module
-     *
-     * @param  string          $name
-     * @return Api
-     * @throws DomainException
-     */
-    public function getModule($name)
-    {
-        if ( ! $this->hasModule($name)) {
-            throw new \Exception('Module not found');
+        if (!array_key_exists($name, $this->actions)) {
+            throw new InvalidArgumentException('Requested action "' . $name . '" does not exist');
         }
 
-        return $this->modules[$name];
+        return $this->actions[$name];
+    }
+
+    /**
+     * @return Action[]
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
+
+    /**
+     * Ext.Widget name
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set the Ext.Widget name
+     *
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = (string) $type;
+    }
+
+    /**
+     * @return array
+     */
+    public function toApiArray()
+    {
+        $defaults = array(
+            'type' => $this->getType(),
+            'url' => $this->getUrl(),
+            'actions' => array(),
+        );
+
+        foreach ($this->getActions() as $action) {
+            $methods = array();
+
+            foreach ($action->getMethods() as $method) {
+                $methods[] = $method->toApiArray();
+            }
+
+            $defaults['actions'][$action->getName()] = $methods;
+        }
+
+        return $defaults;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function buildRemotingProvider()
+    {
+        return new RemotingProvider($this->toApiArray());
     }
 }

@@ -63,7 +63,7 @@ class DirectController extends AbstractController
      */
     public function isForm()
     {
-        return (boolean) $this->params()->fromPost('extAction', FALSE);
+        return (boolean) $this->params()->fromPost('extAction', false);
     }
 
     /**
@@ -165,20 +165,11 @@ class DirectController extends AbstractController
             'result'    => NULL,
         );
 
-        $moduleName = $rpc->getParameter('module');
-
-        if (!$this->moduleApi->hasModule($moduleName)) {
-            throw new Exception('Module ' . $rpc->getParameter('module') . ' does not exist');
-        }
-
-        $api = $this->moduleApi->getModule($moduleName);
-
-        // Verify the action exists
-        if (!$api->hasAction($rpc->getAction())) {
+        if (!$this->moduleApi->hasAction($rpc->getAction())) {
             throw new Exception('Action ' . $rpc->getAction() . ' does not exist');
         }
 
-        $action = $api->getAction($rpc->getAction());
+        $action = $this->moduleApi->getAction($rpc->getAction());
 
         // Verify the method exists
         if (!$action->hasMethod($rpc->getMethod())) {

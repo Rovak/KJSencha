@@ -2,11 +2,9 @@
 
 namespace KJSencha\Direct\Remoting\Api\Factory;
 
-use KJSencha\Direct\Remoting\Api\Api;
 use KJSencha\Direct\Remoting\Api\ModuleApi;
 use KJSencha\Direct\Remoting\Api\Object\Action;
 use KJSencha\Direct\Remoting\Api\Object\Method;
-use ArrayObject;
 use InvalidArgumentException;
 
 use Zend\Code\Annotation\AnnotationManager;
@@ -44,8 +42,6 @@ class ModuleFactory
      */
     public function buildApi(array $apiConfig)
     {
-        $modules = array();
-
         $apis = array();
 
         // legacy code, probably to be removed
@@ -55,24 +51,6 @@ class ModuleFactory
 
         if (isset($apiConfig['services']) && is_array($apiConfig['services'])) {
             $apis = ArrayUtils::merge($apis, $this->buildServiceApi($apiConfig['services']));
-        }
-
-        var_dump($apis);
-        exit(1);
-
-        foreach ($modules as $name => $module) {
-            $api = new Api();
-            $api->setName($name);
-            $api->setNamespace($name);
-
-            /* @var $action \KJSencha\Direct\Remoting\Api\Object\Action */
-            foreach ($module['actions'] as $action) {
-                // Make action name relative to that of the module namespace
-                $action->setName(substr($action->getName(), strlen($module['namespace']) + 1));
-                $api->addAction($action);
-            }
-
-            $apis[$name] = $api;
         }
 
         return $apis;
@@ -89,24 +67,42 @@ class ModuleFactory
     {
         $apis = array();
 
-        foreach ($modules as $module) {
+        foreach ($modules as $moduleName => $module) {
             if (!isset($module['directory']) || !is_dir($module['directory'])) {
                 throw new InvalidArgumentException('Invalid directory given: "' . $module['directory'] . '"');
             }
 
+            if (!isset($module['namespace']) || !is_string($module['namespace'])) {
+                throw new InvalidArgumentException('Invalid namespace provided for module "' . $moduleName. '"');
+            }
+
+            $jsNamespace = rtrim(str_replace('\\', '.', $module['namespace']), '.') . '.';
             $directoryScanner = new DirectoryScanner($module['directory']);
 
             /* @var $class \Zend\Code\Scanner\DerivedClassScanner */
             foreach ($directoryScanner->getClasses(true) as $class) {
-                $serviceName = $class->getName();
+                // now building the service name as exposed client-side
+                $className = $class->getName();
+                $jsClassName = str_replace('\\', '.', substr($className, strlen($module['namespace']) + 1));
+                $jsClassNames = explode('.', $jsClassName);
+                $chunks = count($jsClassNames);
+
+                // lcfirst all chunks except the last one
+                for ($i = 1; $i < $chunks; $i += 1) {
+                    $jsClassNames[$i - 1] = lcfirst($jsClassNames[$i - 1]);
+                }
+
+                $serviceName = $jsNamespace . implode('.', $jsClassNames);
 
                 if (!$this->serviceManager->has($serviceName)) {
-                    $this->serviceManager->setInvokableClass($serviceName, $serviceName);
+                    $this->serviceManager->setInvokableClass($serviceName, $className);
                 }
 
                 // invoking to check if nothing went wrong - this avoids setting invalid services
                 $service = $this->serviceManager->get($serviceName);
-                $apis[$serviceName] = $this->buildAction(get_class($service));
+                $action = $this->buildAction(get_class($service));
+                $action->setName($serviceName);
+                $apis[$serviceName] = $action;
             }
         }
 
@@ -123,6 +119,7 @@ class ModuleFactory
         $apis = array();
 
         foreach ($services as $name => $serviceName) {
+            // @todo validate service name?
             $service = $this->serviceManager->get($serviceName);
             $apis[$name] = $this->buildAction(get_class($service));
         }

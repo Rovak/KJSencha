@@ -14,7 +14,6 @@ class RemotingProvider extends Ext\Base
     protected $attributes = array(
         'type'		=> '',
         'url'		=> '',
-        'namespace' => '',
         'actions'	=> array(),
     );
 
@@ -33,8 +32,6 @@ class RemotingProvider extends Ext\Base
      */
     public function render()
     {
-        $str = sprintf('Ext.direct.Manager.addProvider(%s);', $this->toJson());
-
-        return $str;
+        return sprintf('Ext.direct.Manager.addProvider(%s);', $this->toJson());
     }
 }

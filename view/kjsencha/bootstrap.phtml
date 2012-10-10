@@ -28,9 +28,7 @@
     <?php endif; ?>
         
     <?php if ($directApi = $bootstrap->getDirectApi()): ?>
-        <?php foreach ($bootstrap->getModules() as $module => $options): ?>
-            <?php echo $directApi->getModule($module)->buildRemotingProvider($options); ?>
-        <?php endforeach; ?>
+        <?php echo $directApi->buildRemotingProvider(); ?>
     <?php endif; ?>
 
 <?php $this->headScript()->captureEnd(); ?>
