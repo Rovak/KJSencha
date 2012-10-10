@@ -5,6 +5,7 @@ namespace KJSencha;
 use KJSencha\Frontend\Bootstrap;
 use KJSencha\Direct\Remoting\Api\Factory\ModuleFactory;
 use KJSencha\Direct\DirectManager;
+use KJSencha\Service\TestEchoService;
 
 use Zend\Cache\StorageFactory;
 use Zend\Code\Annotation\AnnotationManager;
@@ -23,7 +24,7 @@ return array(
         /**
          * Annotation manager used to discover features available for the RPC services
          */
-        'kjsencha.annotationmanager' => function(ServiceLocatorInterface $sl) {
+        'kjsencha.annotationmanager' => function() {
             $doctrineParser = new DoctrineAnnotationParser();
             $doctrineParser->registerAnnotation('KJSencha\Annotation\Remotable');
             $doctrineParser->registerAnnotation('KJSencha\Annotation\Interval');
@@ -80,6 +81,13 @@ return array(
             $directManager->addPeeringServiceManager($sm);
 
             return $directManager;
+        },
+
+        /**
+         * Direct manager, handles instantiation of requested services
+         */
+        'kjsencha.echo' => function() {
+            return new TestEchoService('Hello ');
         },
     )
 );
