@@ -7,7 +7,7 @@ use Zend\View\Helper\HeadScript;
 use KJSencha\Frontend\Bootstrap;
 
 /**
- * DirectApi helper - allows rendering Api definitions passed to Ext.direct.Manager
+ * DirectApi helper - allows rendering API definitions passed to Ext.direct.Manager
  */
 class DirectApi extends AbstractHelper
 {

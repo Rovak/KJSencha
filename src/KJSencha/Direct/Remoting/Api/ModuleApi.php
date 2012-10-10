@@ -10,7 +10,7 @@ use Serializable;
 /**
  * A simple container which holds API's from multiple modules
  */
-class ModuleApi implements Serializable
+class ModuleApi implements Serializable, ApiInterface
 {
     /**
      * @var string
@@ -30,7 +30,7 @@ class ModuleApi implements Serializable
     protected $type = 'kjsenchamoduleremoting';
 
     /**
-     * @param $url
+     * {@inheritDoc}
      */
     public function setUrl($url)
     {
@@ -38,7 +38,7 @@ class ModuleApi implements Serializable
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
     public function getUrl()
     {
@@ -55,8 +55,7 @@ class ModuleApi implements Serializable
     }
 
     /**
-     * @param string $name
-     * @return bool
+     * {@inheritDoc}
      */
     public function hasAction($name)
     {
@@ -64,8 +63,8 @@ class ModuleApi implements Serializable
     }
 
     /**
-     * @param string $name
-     * @return Action
+     * {@inheritDoc}
+     *
      * @throws InvalidArgumentException
      */
     public function getAction($name)
@@ -127,21 +126,6 @@ class ModuleApi implements Serializable
         }
 
         return $defaults;
-    }
-
-    public function toArray()
-    {
-        $array = array(
-            'type' => $this->getType(),
-            'url' => $this->getUrl(),
-            'actions' => array(),
-        );
-
-        foreach ($this->getActions() as $action) {
-            $array['actions'][$action->getName()] = $action->toArray();
-        }
-
-        return $array;
     }
 
     /**

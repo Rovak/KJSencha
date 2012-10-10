@@ -38,14 +38,6 @@ class Method extends AbstractObject
     }
 
     /**
-     * @return array
-     */
-    public function toArray()
-    {
-        return array_merge(parent::toArray(), $this->toApiArray());
-    }
-
-    /**
      * @inheritdoc
      */
     public function toApiArray()

@@ -83,17 +83,6 @@ abstract class AbstractObject implements Serializable
     }
 
     /**
-     * @return array
-     */
-    public function toArray()
-    {
-        return array(
-            'name'       => $this->getName(),
-            'objectName' => $this->getObjectName(),
-        );
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function serialize()

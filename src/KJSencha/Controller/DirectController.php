@@ -151,6 +151,7 @@ class DirectController extends AbstractController
      *
      * @param  RPC $rpc
      * @return array
+     * @throws Exception when parameters are not valid
      */
     protected function dispatchRPC(RPC $rpc)
     {
