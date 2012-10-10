@@ -43,7 +43,7 @@ return array(
             /* @var $annotationManager AnnotationManager */
             $annotationManager = $sl->get('kjsencha.annotationmanager');
             /* @var $directManager DirectManager */
-            $directManager = $sl->get('kjsencha.annotationmanager');
+            $directManager = $sl->get('kjsencha.direct.manager');
 
             return new ApiBuilder($annotationManager, $directManager);
         },
