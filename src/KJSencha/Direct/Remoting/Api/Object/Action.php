@@ -44,7 +44,7 @@ class Action extends AbstractObject
     }
 
     /**
-     * @param string $name
+     * @param  string $name
      * @return Method
      */
     public function getMethod($name)

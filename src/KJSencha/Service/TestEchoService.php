@@ -22,7 +22,7 @@ class TestEchoService
     }
 
     /**
-     * @param string $name
+     * @param  string $name
      * @return string
      */
     public function greet($name)

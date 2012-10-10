@@ -37,7 +37,7 @@ class ApiBuilder
     }
 
     /**
-     * @param array $apiConfig
+     * @param  array $apiConfig
      * @return Api
      */
     public function buildApi(array $apiConfig)
@@ -69,7 +69,7 @@ class ApiBuilder
      *
      * @deprecated this logic is deprecated and uses per-directory scanning. Instead, please
      *             map your defined service names in the 'services' config
-     * @param array $modules
+     * @param  array                    $modules
      * @return array
      * @throws InvalidArgumentException
      */
@@ -147,7 +147,7 @@ class ApiBuilder
     /**
      * Builds and populates Action object based on the provided class name
      *
-     * @param string $className
+     * @param  string $className
      * @return Action
      */
     protected function buildAction($className)

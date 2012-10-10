@@ -18,7 +18,7 @@ class DirectApi extends AbstractHelper
 
     /**
      * @param HeadScript $headScript
-     * @param Bootstrap $bootstrap
+     * @param Bootstrap  $bootstrap
      */
     public function __construct(HeadScript $headScript, Bootstrap $bootstrap)
     {

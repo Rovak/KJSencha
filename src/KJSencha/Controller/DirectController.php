@@ -30,7 +30,7 @@ class DirectController extends AbstractController
 
     /**
      * @param DirectManager $manager
-     * @param Api $api
+     * @param Api           $api
      */
     public function __construct(DirectManager $manager, Api $api)
     {
@@ -68,7 +68,7 @@ class DirectController extends AbstractController
     /**
      * Dispatch controller
      *
-     * @param MvcEvent $e
+     * @param  MvcEvent  $e
      * @return string
      * @throws Exception
      */
@@ -149,7 +149,7 @@ class DirectController extends AbstractController
     /**
      * Run the RPC and return its output
      *
-     * @param  RPC $rpc
+     * @param  RPC       $rpc
      * @return array
      * @throws Exception when parameters are not valid
      */
@@ -180,7 +180,7 @@ class DirectController extends AbstractController
         }
 
         $object = $this->manager->get($action->getObjectName());
-        
+
         // Fetch result from the function call
         $response['result'] = call_user_func_array(array($object, $rpc->getMethod()), $rpc->getData());
 

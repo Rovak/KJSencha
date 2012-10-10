@@ -24,9 +24,9 @@ class LoaderConfig extends AbstractHelper
     protected $basePath;
 
     /**
-     * @param BasePath $basePath
+     * @param BasePath   $basePath
      * @param HeadScript $headScript
-     * @param Bootstrap $bootstrap
+     * @param Bootstrap  $bootstrap
      */
     public function __construct(BasePath $basePath, HeadScript $headScript, Bootstrap $bootstrap)
     {

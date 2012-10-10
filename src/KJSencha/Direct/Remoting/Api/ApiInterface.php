@@ -18,7 +18,7 @@ interface ApiInterface
     /**
      * Retrieves a single Action by its name
      *
-     * @param string $name
+     * @param  string                                      $name
      * @return \KJSencha\Direct\Remoting\Api\Object\Action
      */
     public function getAction($name);
@@ -33,7 +33,7 @@ interface ApiInterface
     /**
      * Checks if the API contains a given action
      *
-     * @param string $name
+     * @param  string $name
      * @return bool
      */
     public function hasAction($name);

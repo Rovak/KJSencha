@@ -3,7 +3,6 @@
 namespace KJSencha\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
-use Zend\Stdlib\ArrayUtils;
 use Zend\View\Helper\HeadLink;
 use Zend\View\Helper\HeadScript;
 
@@ -37,8 +36,8 @@ class ExtJS extends AbstractHelper
     );
 
     /**
-     * @param string $libraryPath
-     * @param HeadLink $headLink
+     * @param string     $libraryPath
+     * @param HeadLink   $headLink
      * @param HeadScript $headScript
      */
     public function __construct($libraryPath, HeadLink $headLink, HeadScript $headScript)
