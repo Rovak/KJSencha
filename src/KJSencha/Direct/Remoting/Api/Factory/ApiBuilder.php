@@ -2,7 +2,7 @@
 
 namespace KJSencha\Direct\Remoting\Api\Factory;
 
-use KJSencha\Direct\Remoting\Api\ModuleApi;
+use KJSencha\Direct\Remoting\Api\Api;
 use KJSencha\Direct\Remoting\Api\Object\Action;
 use KJSencha\Direct\Remoting\Api\Object\Method;
 use InvalidArgumentException;
@@ -18,7 +18,7 @@ use Zend\Stdlib\ArrayUtils;
 /**
  * Module Factory
  */
-class ModuleFactory
+class ApiBuilder
 {
     /**
      * @var AnnotationManager
@@ -38,7 +38,7 @@ class ModuleFactory
 
     /**
      * @param array $apiConfig
-     * @return ModuleApi
+     * @return Api
      */
     public function buildApi(array $apiConfig)
     {
@@ -53,14 +53,14 @@ class ModuleFactory
             $actions = ArrayUtils::merge($actions, $this->buildServiceApi($apiConfig['services']));
         }
 
-        $moduleApi = new ModuleApi();
+        $api = new Api();
 
         /* @var $actions \KJSencha\Direct\Remoting\Api\Object\Action[] */
         foreach ($actions as $name => $action) {
-            $moduleApi->addAction($name, $action);
+            $api->addAction($name, $action);
         }
 
-        return $moduleApi;
+        return $api;
     }
 
     /**

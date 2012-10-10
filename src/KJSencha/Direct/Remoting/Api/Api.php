@@ -10,7 +10,7 @@ use Serializable;
 /**
  * A simple container which holds API's from multiple modules
  */
-class ModuleApi implements Serializable, ApiInterface
+class Api implements Serializable, ApiInterface
 {
     /**
      * @var string

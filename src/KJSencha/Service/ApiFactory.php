@@ -6,12 +6,12 @@ use Zend\Cache\Storage\StorageInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class ModuleApiFactory implements FactoryInterface
+class ApiFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
      *
-     * @return \KJSencha\Direct\Remoting\Api\ModuleApi
+     * @return \KJSencha\Direct\Remoting\Api\Api
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
@@ -21,20 +21,20 @@ class ModuleApiFactory implements FactoryInterface
         $cache = $serviceLocator->get('kjsencha.cache');
         /* @var $router \Zend\Mvc\Router\Http\RouteInterface */
         $router = $serviceLocator->get('HttpRouter');
-        /* @var $moduleApi \KJSencha\Direct\Remoting\Api\ModuleApi */
-        $moduleApi = $cache->getItem($config['kjsencha']['cache_key'], $success);
+        /* @var $api \KJSencha\Direct\Remoting\Api\Api */
+        $api = $cache->getItem($config['kjsencha']['cache_key'], $success);
 
         if (!$success) {
-            /* @var $apiFactory \KJSencha\Direct\Remoting\Api\Factory\ModuleFactory */
-            $apiFactory = $serviceLocator->get('kjsencha.modulefactory');
-            $moduleApi = $apiFactory->buildApi($config['kjsencha']['direct']);
-            $moduleApi->setUrl($router->assemble(
+            /* @var $apiFactory \KJSencha\Direct\Remoting\Api\Factory\ApiBuilder */
+            $apiFactory = $serviceLocator->get('kjsencha.apibuilder');
+            $api = $apiFactory->buildApi($config['kjsencha']['direct']);
+            $api->setUrl($router->assemble(
                 array('action'  => 'rpc'),
                 array('name'    => 'kjsencha-direct')
             ));
-            $cache->setItem($config['kjsencha']['cache_key'], $moduleApi);
+            $cache->setItem($config['kjsencha']['cache_key'], $api);
         }
 
-        return $moduleApi;
+        return $api;
     }
 }

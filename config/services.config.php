@@ -3,7 +3,7 @@
 namespace KJSencha;
 
 use KJSencha\Frontend\Bootstrap;
-use KJSencha\Direct\Remoting\Api\Factory\ModuleFactory;
+use KJSencha\Direct\Remoting\Api\Factory\ApiBuilder;
 use KJSencha\Direct\DirectManager;
 use KJSencha\Service\TestEchoService;
 
@@ -19,7 +19,7 @@ return array(
          * Produces a \KJSencha\Direct\Remoting\Api instance consumed by
          * the RPC services
          */
-        'kjsencha.api' => 'KJSencha\Service\ModuleApiFactory',
+        'kjsencha.api' => 'KJSencha\Service\ApiFactory',
 
         /**
          * Annotation manager used to discover features available for the RPC services
@@ -39,13 +39,13 @@ return array(
         /**
          * Factory responsible for crawling module dirs and building APIs
          */
-        'kjsencha.modulefactory' => function(ServiceLocatorInterface $sl) {
+        'kjsencha.apibuilder' => function(ServiceLocatorInterface $sl) {
             /* @var $annotationManager AnnotationManager */
             $annotationManager = $sl->get('kjsencha.annotationmanager');
             /* @var $directManager DirectManager */
             $directManager = $sl->get('kjsencha.annotationmanager');
 
-            return new ModuleFactory($annotationManager, $directManager);
+            return new ApiBuilder($annotationManager, $directManager);
         },
 
         /**
@@ -70,7 +70,7 @@ return array(
                     'basePath' => $sl->get('Request')->getBasePath(),
                 )
             ));
-            /* @var $directApi \KJSencha\Direct\Remoting\Api\ModuleApi */
+            /* @var $directApi \KJSencha\Direct\Remoting\Api\Api */
             $directApi = $sl->get('kjsencha.api');
             $bootstrap->setDirectApi($directApi);
 

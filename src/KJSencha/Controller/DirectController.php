@@ -4,7 +4,7 @@ namespace KJSencha\Controller;
 
 use Exception;
 use KJSencha\Direct\DirectManager;
-use KJSencha\Direct\Remoting\Api\ModuleApi;
+use KJSencha\Direct\Remoting\Api\Api;
 use KJSencha\Direct\Remoting\RPC;
 
 use Zend\Mvc\Controller\AbstractController;
@@ -24,18 +24,18 @@ class DirectController extends AbstractController
     protected $manager;
 
     /**
-     * @var ModuleApi
+     * @var Api
      */
-    protected $moduleApi;
+    protected $api;
 
     /**
      * @param DirectManager $manager
-     * @param ModuleApi $moduleApi
+     * @param Api $api
      */
-    public function __construct(DirectManager $manager, ModuleApi $moduleApi)
+    public function __construct(DirectManager $manager, Api $api)
     {
         $this->manager = $manager;
-        $this->moduleApi = $moduleApi;
+        $this->api = $api;
     }
 
     /**
@@ -163,11 +163,11 @@ class DirectController extends AbstractController
             'result'    => NULL,
         );
 
-        if (!$this->moduleApi->hasAction($rpc->getAction())) {
+        if (!$this->api->hasAction($rpc->getAction())) {
             throw new Exception('Action ' . $rpc->getAction() . ' does not exist');
         }
 
-        $action = $this->moduleApi->getAction($rpc->getAction());
+        $action = $this->api->getAction($rpc->getAction());
 
         // Verify the method exists
         if (!$action->hasMethod($rpc->getMethod())) {

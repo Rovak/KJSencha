@@ -13,7 +13,7 @@ return array(
 
             /* @var $manager \KJSencha\Direct\DirectManager */
             $manager = $sl->get('kjsencha.direct.manager');
-            /* @var $apiFactory \KJSencha\Direct\Remoting\Api\ModuleApi */
+            /* @var $apiFactory \KJSencha\Direct\Remoting\Api\Api */
             $apiFactory = $sl->get('kjsencha.api');
 
             return new DirectController($manager, $apiFactory);
