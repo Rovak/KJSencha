@@ -4,14 +4,13 @@ namespace KJSencha\Controller;
 
 use Exception;
 use KJSencha\Direct\DirectManager;
-use KJSencha\Direct\Remoting\Api\ApiInterface;
-use KJSencha\Direct\Remoting\Api\ModuleApi;
+use KJSencha\Direct\Remoting\Api\Api;
 use KJSencha\Direct\Remoting\RPC;
 
 use Zend\Mvc\Controller\AbstractController;
 use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\ArrayUtils;
-use Zend\View\Helper\Json;
+use Zend\Json\Json as JsonFormatter;
 use Zend\View\Model\JsonModel;
 
 /**
@@ -20,18 +19,24 @@ use Zend\View\Model\JsonModel;
 class DirectController extends AbstractController
 {
     /**
-     * @param ApiInterface $api
-     * @param $manager
+     * @var DirectManager
      */
-    public function __construct(DirectManager $manager)
-    {
-        $this->manager = $manager;
-    }
+    protected $manager;
 
     /**
-     * @var ApiInterface
+     * @var Api
      */
     protected $api;
+
+    /**
+     * @param DirectManager $manager
+     * @param Api           $api
+     */
+    public function __construct(DirectManager $manager, Api $api)
+    {
+        $this->manager = $manager;
+        $this->api = $api;
+    }
 
     /**
      * Rpcs
@@ -39,35 +44,6 @@ class DirectController extends AbstractController
      * @var array
      */
     protected $rpcs;
-
-    /**
-     *
-     * @var DirectManager
-     */
-    protected $manager;
-
-    /**
-     * Set the API
-     *
-     * @param Api\Api $api Api object
-     */
-    public function setApi($api)
-    {
-        $this->api = $api;
-    }
-
-    /**
-     * Api
-     * @return Api\Api [description]
-     */
-    public function getApi()
-    {
-        if (null == $this->api) {
-            $this->api = $this->getServiceLocator()->get('kjsencha.api.module');
-        }
-
-        return $this->api;
-    }
 
     /**
      * Is it a upload request
@@ -86,13 +62,13 @@ class DirectController extends AbstractController
      */
     public function isForm()
     {
-        return (boolean) $this->params()->fromPost('extAction', FALSE);
+        return (boolean) $this->params()->fromPost('extAction', false);
     }
 
     /**
      * Dispatch controller
      *
-     * @param MvcEvent $e
+     * @param  MvcEvent  $e
      * @return string
      * @throws Exception
      */
@@ -116,9 +92,7 @@ class DirectController extends AbstractController
 
         // Wrap the result when its a form request
         if ($this->isForm() && $this->isUpload()) {
-            $result = '<html><body><textarea>'
-                    . Json::encode($result)
-                    . '</textarea></body></html>';
+            $result = '<html><body><textarea>' . JsonFormatter::encode($result) . '</textarea></body></html>';
         }
 
         $e->setResult($result);
@@ -131,7 +105,7 @@ class DirectController extends AbstractController
      *
      * @return array
      */
-    public function getRPC()
+    protected function getRPC()
     {
         if (null == $this->rpcs) {
 
@@ -175,10 +149,11 @@ class DirectController extends AbstractController
     /**
      * Run the RPC and return its output
      *
-     * @param  RPC $rpc
+     * @param  RPC       $rpc
      * @return array
+     * @throws Exception when parameters are not valid
      */
-    public function dispatchRPC(RPC $rpc)
+    protected function dispatchRPC(RPC $rpc)
     {
         $response = array(
             'type'      => 'rpc',
@@ -188,37 +163,24 @@ class DirectController extends AbstractController
             'result'    => NULL,
         );
 
-        $api = $this->getApi();
-
-        if ($api instanceof ModuleApi) {
-
-            $moduleName = $rpc->getParameter('module');
-
-            if (!$api->hasModule($moduleName)) {
-                throw new Exception('Module ' . $rpc->getParameter('module') . ' does not exist');
-            }
-            $api = $api->getModule($moduleName);
-        }
-
-        // Verify the action exists
-        if (!$api->hasAction($rpc->getAction())) {
+        if (!$this->api->hasAction($rpc->getAction())) {
             throw new Exception('Action ' . $rpc->getAction() . ' does not exist');
         }
 
-        $action = $api->getAction($rpc->getAction());
+        $action = $this->api->getAction($rpc->getAction());
 
         // Verify the method exists
         if (!$action->hasMethod($rpc->getMethod())) {
             throw new Exception('Method ' . $rpc->getMethod() . ' does not exist');
         }
 
-        // Verify that we recieved enough parameters to call the method
+        // Verify that we received enough parameters to call the method
         if ($action->getMethod($rpc->getMethod())->getNumberOfParameters() > count($rpc->getData())) {
             throw new Exception('Invalid parameter count');
         }
 
         $object = $this->manager->get($action->getObjectName());
-        
+
         // Fetch result from the function call
         $response['result'] = call_user_func_array(array($object, $rpc->getMethod()), $rpc->getData());
 

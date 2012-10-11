@@ -3,7 +3,7 @@
 namespace KJSencha\Frontend;
 
 use ArrayObject;
-use KJSencha\Direct\Remoting\Api\ModuleApi;
+use KJSencha\Direct\Remoting\Api\Api;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -177,7 +177,7 @@ class Bootstrap
     /**
      * Retrieve the API
      *
-     * @return ModuleApi
+     * @return Api
      */
     public function getDirectApi()
     {
@@ -187,9 +187,9 @@ class Bootstrap
     /**
      * Set the Direct API
      *
-     * @param ModuleApi $directApi
+     * @param Api $directApi
      */
-    public function setDirectApi(ModuleApi $directApi)
+    public function setDirectApi(Api $directApi)
     {
         $this->directApi = $directApi;
     }

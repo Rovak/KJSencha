@@ -18,8 +18,9 @@ class Base implements ArrayAccess
     /**
      * Create a base class
      *
-     * @param string $name
-     * @param array  $attributes
+     * @param  string           $name
+     * @param  array            $attributes
+     * @throws \DomainException if provided attributes is not an array
      */
     public function __construct($name = NULL, array $attributes = NULL)
     {
@@ -38,6 +39,7 @@ class Base implements ArrayAccess
      * Factory system
      *
      * @param mixed
+     * @return self
      */
     public static function factory($attributes)
     {
@@ -45,8 +47,9 @@ class Base implements ArrayAccess
     }
 
     /**
-     * @param string $key
-     * @param string $value
+     * @param  string $key
+     * @param  string $value
+     * @return self
      */
     public function setProperty($key, $value)
     {
@@ -58,8 +61,9 @@ class Base implements ArrayAccess
     /**
      * Set a raw expression
      *
-     * @param string $key
-     * @param string $value
+     * @param  string $key
+     * @param  string $value
+     * @return self
      */
     public function setExpr($key, $value)
     {
@@ -120,7 +124,7 @@ class Base implements ArrayAccess
 
     /**
      * Render as ExtJS class
-     * @return [type] [description]
+     * @return string
      */
     public function render()
     {

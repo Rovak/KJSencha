@@ -3,12 +3,11 @@
 namespace KJSencha\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
-use Zend\Stdlib\ArrayUtils;
 use Zend\View\Helper\HeadLink;
 use Zend\View\Helper\HeadScript;
 
 /**
- * Ext JS view helper
+ * Ext JS view helper - aids in including ExtJs CSS/JS files
  */
 class ExtJS extends AbstractHelper
 {
@@ -37,8 +36,8 @@ class ExtJS extends AbstractHelper
     );
 
     /**
-     * @param string $headLink
-     * @param HeadLink $headLink
+     * @param string     $libraryPath
+     * @param HeadLink   $headLink
      * @param HeadScript $headScript
      */
     public function __construct($libraryPath, HeadLink $headLink, HeadScript $headScript)
@@ -49,22 +48,12 @@ class ExtJS extends AbstractHelper
     }
 
     /**
-     * Loading the library in a view
-     *
-     * @param array $options
+     * Loading the ExtJs library and CSS in a view
      */
     public function loadLibrary()
     {
         $libVersion = $this->options['development'] ? 'ext-all-dev.js' : 'ext-all.js';
         $this->headLink->appendStylesheet($this->options['libraryPath'] . '/resources/css/ext-all.css');
         $this->headScript->prependFile($this->options['libraryPath'] . '/' . $libVersion);
-    }
-
-    /**
-     * @param array $options
-     */
-    public function setOptions(array $options)
-    {
-        $this->options = ArrayUtils::merge($this->options, $options);
     }
 }
