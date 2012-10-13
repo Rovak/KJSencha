@@ -1,4 +1,4 @@
-KJSencha Module 0.1.1 [![Master Branch Build Status](https://secure.travis-ci.org/KablauJoustra/KJSencha.png?branch=master)](http://travis-ci.org/KablauJoustra/KJSencha)
+KJSencha Module 0.1.2 [![Master Branch Build Status](https://secure.travis-ci.org/KablauJoustra/KJSencha.png?branch=master)](http://travis-ci.org/KablauJoustra/KJSencha)
 ======================
 
 [Sencha Ext-JS](http://www.sencha.com/products/extjs/) / Sencha Touch Integration Module
