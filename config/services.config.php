@@ -16,7 +16,8 @@ use Zend\ServiceManager\ServiceManager;
 
 return array(
     'factories' => array(
-
+        
+        /**
          * Produces a \KJSencha\Direct\Remoting\Api instance consumed by
          * the RPC services
          */
