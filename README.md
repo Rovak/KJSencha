@@ -18,7 +18,7 @@ $ ./composer.phar require kablau-joustra/kj-sencha
 ```
 
 You can also install this module without composer, assuming you meet all the dependencies
-specified in [`composer.json`](https://github.com/Ocramius/KJSencha/blob/master/composer.json).
+specified in [`composer.json`](https://github.com/KablauJoustra/KJSencha/blob/master/composer.json).
 
 ## Documentation
 
