@@ -39,17 +39,20 @@
         <ul></ul>
       </nav>
       <section>
-        <h1>KJSencha Module 0.1.1 <a href="http://travis-ci.org/KablauJoustra/KJSencha"><img src="https://secure.travis-ci.org/KablauJoustra/KJSencha.png?branch=master" alt="Master Branch Build Status"></a>
-</h1>
+        <h2>Introduction</h2>
 
-<p><a href="http://www.sencha.com/products/extjs/">Sencha Ext-JS</a> / Sencha Touch Integration Module
-for <a href="http://framework.zend.com/">Zend Framework 2</a>.</p>
+<p>KJSencha is a Zend Framework 2 module which is meant to ease the PHP development when working with the Ext-JS or Sencha Touch framework.</p>
 
-<p>The project is still a work-in-progress and it is recommended 
-to checkout the <a href="https://github.com/KablauJoustra/KJSenchaExample">Example application</a> if you 
-are interested in using the module</p>
+<p>This module is based on <a href="https://github.com/KablauJoustra/KJExtJS">KJExtJS</a> and is meant as a shared functionality module for future KJSenchaTouch, KJExtJS and KJExtScheduler modules.</p>
 
-<h2>Installation</h2>
+<h2>Dependencies</h2>
+
+<ul>
+<li>Doctrine Common, for annotation support</li>
+<li>Zend Framework 2</li>
+</ul><h1>Installation of KJSencha</h1>
+
+<h2>Download</h2>
 
 <p>You can install this module via <a href="https://getcomposer.org/">composer</a> by running the following
 command in your application's root directory:</p>
@@ -57,28 +60,116 @@ command in your application's root directory:</p>
 <div class="highlight"><pre><span class="nv">$ </span>./composer.phar require kablau-joustra/kj-sencha
 </pre></div>
 
-<p>You can also install this module without composer, assuming you meet all the dependencies
-specified in <a href="https://github.com/Ocramius/KJSencha/blob/master/composer.json"><code>composer.json</code></a>.</p>
+<h2>Enabling</h2>
 
-<h2>Documentation</h2>
+<p>To enable KJSencha, open your <code>config/application.config.php</code> file and add following items
+to the <code>modules</code> key:</p>
 
-<p>See our <a href="https://github.com/KablauJoustra/KJSencha/wiki">Wiki</a></p>
+<div class="highlight"><pre><span class="s2">"AssetManager"</span><span class="p">,</span>
+<span class="s2">"KJSencha"</span><span class="p">,</span>
+</pre></div>
 
-<h2>Features</h2>
+<h2>View</h2>
 
-<ul>
-<li>Direct API generator</li>
-</ul><h2>Roadmap</h2>
+<p>In your view (presumably <code>module/Application/view/application/index/index.phtml</code>), add
+following code (may also be your layout if you prefer so). Those add scripts and css to your
+page's head tag:</p>
 
-<ul>
-<li>Unit tests</li>
-<li>Ext JS code generator</li>
-<li>Better integration with stores</li>
-<li>Rest controllers which serialize and de-serialize your models</li>
-<li>Direct Polling with CRON syntax</li>
-</ul><h2>Changelog</h2>
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="c1">// first, add extJs to head scripts</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">extJs</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">loadLibrary</span><span class="p">();</span>
 
-<p>See <a href="https://github.com/KablauJoustra/KJSencha/blob/master/CHANGELOG.md">CHANGELOG.md</a></p>
+<span class="c1">// load custom variables set in configuration</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">kjSenchaVariables</span><span class="p">();</span>
+
+<span class="c1">// add loader configuration, which tells where ExtJs classes have to be loaded from</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">kjSenchaLoaderConfig</span><span class="p">();</span>
+
+<span class="c1">// preloads modules required to get the app running</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">kjSenchaDirectApi</span><span class="p">();</span>
+
+<span class="c1">// loads your actual application script (usually at the end of your body tag)</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">inlineScript</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">appendFile</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">basepath</span><span class="p">()</span> <span class="o">.</span> <span class="s1">'/js/app/app.js'</span><span class="p">);</span>
+</pre></div>
+
+<h2>app.js</h2>
+
+<p>Now create a new file in <code>public/js/app/app.js</code>:</p>
+
+<div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * KJSencha Example Application</span>
+<span class="cm"> *</span>
+<span class="cm"> * @see http://docs.sencha.com/ext-js/4-1/#!/guide/application_architecture</span>
+<span class="cm"> */</span>
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">application</span><span class="p">({</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s1">'YourAppName'</span><span class="p">,</span>
+    <span class="c1">// this variable is inherited from the output of view helper `kjSenchaVariables`</span>
+    <span class="nx">appFolder</span><span class="o">:</span> <span class="nx">App</span><span class="p">.</span><span class="nx">basePath</span> <span class="o">+</span> <span class="s1">'/js/app'</span><span class="p">,</span>
+
+    <span class="nx">launch</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="nx">prompt</span><span class="p">(</span><span class="s2">"Please enter your name"</span><span class="p">,</span> <span class="s2">"user"</span><span class="p">);</span>
+        <span class="nx">KJSencha</span><span class="p">.</span><span class="nx">echo</span><span class="p">.</span><span class="nx">greet</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">alert</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+<h2>Verifying it</h2>
+
+<p>You can now browse to your web page. You should be asked for your name and receive a
+response computed by the server.</p>
+
+<h2>Configuration</h2>
+
+<p>The module itself is just a map of services to be exposed as JS API through
+<a href="http://www.sencha.com/products/extjs/extdirect">Ext Direct</a> via
+<a href="http://docs.sencha.com/ext-js/4-1/#!/api/Ext.direct.Manager"><code>Ext.direct.Manager</code></a>.</p>
+
+<p>Mapping services happens via config key <code>kjsencha.direct.services</code>:</p>
+
+<div class="highlight"><pre><span class="c1">// MyModule/Module.php</span>
+<span class="k">namespace</span> <span class="nx">MyModule</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Module</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getConfig</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">'kjsencha'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+                <span class="s1">'direct'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+                    <span class="s1">'services'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+                        <span class="s1">'My.cool.service.name'</span> <span class="o">=&gt;</span> <span class="s1">'my_servicemanager_service_name'</span><span class="p">,</span>
+                        <span class="s1">'My.other.ServiceName'</span> <span class="o">=&gt;</span> <span class="s1">'my_object_repository'</span><span class="p">,</span>
+                    <span class="p">),</span>
+                <span class="p">),</span>
+            <span class="p">),</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>This example exposes two services, <code>My.cool.service.name</code> and <code>My.other.ServiceName</code>.
+Public methods of those services can be used in your JS.</p>
+
+<p>Parameters and return types must be one of <code>string</code>, <code>bool</code>, <code>int</code>, <code>float</code>, <code>double</code> and
+<code>array</code>s, with arrays being able to contain any of those (type hinting is not yet supported).</p>
+
+<p>Please be careful about exposed functionality, since any public method in the exposed
+objects will be available to the user.</p>
+
+<h2>Caching</h2>
+
+<p>Crawling mapped services and building API definitions to be exposed to the <code>
+Ext.direct.Manager</code> is a very expensive operation that causes all of the mapped services
+to be initialized and crawled via reflection/tokenizers. You may want to enable caching by
+defining (in your config) <code>kjsencha.cache</code>. <code>kjsencha.cache</code> may be any array or traversable
+that could be passed to
+<a href="http://framework.zend.com/manual/2.0/en/modules/zend.cache.storage.adapter.html"><code>Zend\Cache\StorageFactory::factory()</code></a></p>
+
+<h2>Configuration</h2>
+
+<p>See [[Configuration]]</p>
       </section>
       <footer>
         <p>Project maintained by <a href="https://github.com/KablauJoustra">KablauJoustra</a></p>
