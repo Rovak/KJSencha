@@ -12,13 +12,6 @@ use Zend\View\Helper\HeadScript;
 class ExtJS extends AbstractHelper
 {
     /**
-     * Path which points to the library
-     *
-     * @var string
-     */
-    protected $libraryPath;
-
-    /**
      * @var HeadLink
      */
     protected $headLink;
@@ -28,22 +21,20 @@ class ExtJS extends AbstractHelper
      */
     protected $headScript;
 
-    protected $options = array(
-        'development'   => true,
-        'theme'         => 'default',
-        'extCfg'        => array(),
-        'libraryPath'   => '',
-    );
+    /**
+     * @var array
+     */
+    protected $config;
 
     /**
-     * @param string     $libraryPath
+     * @param array      $config
      * @param HeadLink   $headLink
      * @param HeadScript $headScript
      */
-    public function __construct($libraryPath, HeadLink $headLink, HeadScript $headScript)
+    public function __construct(array $config, HeadLink $headLink, HeadScript $headScript)
     {
-        $this->options['libraryPath'] = rtrim((string) $libraryPath, '/');
-        $this->headLink = $headLink;
+        $this->config     = $config;
+        $this->headLink   = $headLink;
         $this->headScript = $headScript;
     }
 
@@ -52,8 +43,12 @@ class ExtJS extends AbstractHelper
      */
     public function loadLibrary()
     {
-        $libVersion = $this->options['development'] ? 'ext-all-dev.js' : 'ext-all.js';
-        $this->headLink->appendStylesheet($this->options['libraryPath'] . '/resources/css/ext-all.css');
-        $this->headScript->prependFile($this->options['libraryPath'] . '/' . $libVersion);
+        $dev = $this->config['debug'];
+        $css = $dev ? $this->config['css_debug'] : $this->config['css'];
+        $js  = $dev ? $this->config['js_debug'] : $this->config['js'];
+        $lib = rtrim($this->config['library_path'], '/') . '/';
+
+        $this->headLink->appendStylesheet($lib . $css);
+        $this->headScript->prependFile($lib . $js);
     }
 }

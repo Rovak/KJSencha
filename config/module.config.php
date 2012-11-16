@@ -7,7 +7,12 @@ return array(
      */
     'kjsencha' => array(
         // Path from which ExtJs should be loaded
-        'library_path' => 'http://cdn.sencha.io/ext-4.1.1-gpl',
+        'library_path'  => 'http://cdn.sencha.io/ext-4.1.1-gpl/',
+        'js'            => 'ext-all.js',
+        'js_debug'      => 'ext-all-debug.js',
+        'css'           => 'resources/css/ext-all.css',
+        'css_debug'     => 'resources/css/ext-all-debug.css',
+        'debug'         => true,
 
         'direct' => array(
             'modules' => array(),
