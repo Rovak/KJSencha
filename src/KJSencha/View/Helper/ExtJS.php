@@ -43,12 +43,14 @@ class ExtJS extends AbstractHelper
      */
     public function loadLibrary()
     {
-        $dev = $this->config['debug'];
-        $css = $dev ? $this->config['css_debug'] : $this->config['css'];
-        $js  = $dev ? $this->config['js_debug'] : $this->config['js'];
         $lib = rtrim($this->config['library_path'], '/') . '/';
 
-        $this->headLink->appendStylesheet($lib . $css);
-        $this->headScript->prependFile($lib . $js);
+        foreach (array_reverse($this->config['css']) as $css) {
+            $this->headLink->prependStylesheet($lib . $css);
+        }
+
+        foreach (array_reverse($this->config['js']) as $js) {
+            $this->headScript->prependFile($lib . $js);
+        }
     }
 }
