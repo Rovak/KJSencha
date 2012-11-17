@@ -11,13 +11,13 @@ use Zend\ServiceManager\AbstractPluginManager;
 return array(
     'factories' => array(
         'extJs' => function(AbstractPluginManager $pluginManager) {
-            $config = $pluginManager->getServiceLocator()->get('config');
+            $config = $pluginManager->getServiceLocator()->get('Config');
             /* @var $headLink \Zend\View\Helper\HeadLink */
             $headLink = $pluginManager->get('headLink');
             /* @var $headScript \Zend\View\Helper\HeadScript */
             $headScript = $pluginManager->get('headScript');
 
-            return new ExtJS($config['kjsencha']['library_path'], $headLink, $headScript);
+            return new ExtJS($config['kjsencha'], $headLink, $headScript);
         },
         'kjSenchaVariables' => function(AbstractPluginManager $pluginManager) {
             /* @var $headScript \Zend\View\Helper\HeadScript */
