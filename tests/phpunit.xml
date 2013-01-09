@@ -1,7 +1,0 @@
-<phpunit bootstrap="./Bootstrap.php" colors="true">
-    <testsuites>
-        <testsuite name="KJSencha Test Suite">
-            <directory>./KJSencha</directory>
-        </testsuite>
-    </testsuites>
-</phpunit>
