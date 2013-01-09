@@ -4,6 +4,7 @@ namespace KJSencha\Frontend;
 
 use ArrayObject;
 use KJSencha\Direct\Remoting\Api\Api;
+use Zend\Stdlib\ArrayUtils;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -27,8 +28,6 @@ class Bootstrap
      */
     public function __construct($options = array())
     {
-        $this->variabeles = new ArrayObject;
-
         $this->viewModel = new ViewModel;
         $this->viewModel->setTemplate($this->template);
 
