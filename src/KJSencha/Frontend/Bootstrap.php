@@ -100,7 +100,7 @@ class Bootstrap
      */
     public function addVariables(array $variables)
     {
-        $this->variables = array_merge($this->variables, $variables);
+        $this->variables = ArrayUtils::merge($this->variables, $variables);
     }
 
     /**
