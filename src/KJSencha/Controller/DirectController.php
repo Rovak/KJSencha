@@ -186,5 +186,4 @@ class DirectController extends AbstractController
 
         return $response;
     }
-
 }
