@@ -55,28 +55,22 @@ class Bootstrap
     public function setOption($key, $value)
     {
         switch (strtolower($key)) {
-
             case 'modules':
                 $this->setModules($value);
                 break;
-
             case 'require':
             case 'requires':
                 $this->setRequires($value);
                 break;
-
             case 'paths':
                 $this->setPaths($value);
                 break;
-
             case 'variables':
                 $this->setVariables($value);
                 break;
-
             case 'directapi':
                 $this->setDirectApi($value);
                 break;
-
             default:
                 $this->parameters[$key] = $value;
                 break;
@@ -198,11 +192,13 @@ class Bootstrap
      */
     public function getViewModel()
     {
-        $this->viewModel->setVariables(array_merge($this->parameters, array(
-            'bootstrap' => $this,
-        )));
+        $this->viewModel->setVariables(array_merge(
+            $this->parameters,
+            array(
+                'bootstrap' => $this,
+            )
+        ));
 
         return $this->viewModel;
     }
-
 }

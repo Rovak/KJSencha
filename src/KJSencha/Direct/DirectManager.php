@@ -15,5 +15,4 @@ class DirectManager extends AbstractPluginManager
     public function validatePlugin($plugin)
     {
     }
-
 }

@@ -22,7 +22,7 @@ class Base implements ArrayAccess
      * @param  array            $attributes
      * @throws \DomainException if provided attributes is not an array
      */
-    public function __construct($name = NULL, array $attributes = NULL)
+    public function __construct($name = null, array $attributes = null)
     {
         if (is_array($name)) {
             $attributes = $name;
@@ -84,7 +84,7 @@ class Base implements ArrayAccess
     public function toArray()
     {
         // Recursive mapping, convert to class later
-        $map = function($func, $arr) use (&$map) {
+        $map = function ($func, $arr) use (&$map) {
             $result = array();
             foreach ($arr as $k => $v) {
                 $result[$k] = is_array($v) ? $map($func, $v) : $func($v);
@@ -93,7 +93,7 @@ class Base implements ArrayAccess
             return $result;
         };
 
-        return $map(function($item){
+        return $map(function ($item) {
             if ($item instanceof Base) {
                 return $item->toArray();
             }
@@ -109,9 +109,13 @@ class Base implements ArrayAccess
      */
     public function toJson()
     {
-        return Json::encode($this->toArray(), false, array(
-            'enableJsonExprFinder' => TRUE,
-        ));
+        return Json::encode(
+            $this->toArray(),
+            false,
+            array(
+                'enableJsonExprFinder' => true,
+            )
+        );
     }
 
     /**
