@@ -22,7 +22,7 @@ class Base implements ArrayAccess
      * @param  array            $attributes
      * @throws \DomainException if provided attributes is not an array
      */
-    public function __construct($name = NULL, array $attributes = NULL)
+    public function __construct($name = null, array $attributes = null)
     {
         if (is_array($name)) {
             $attributes = $name;
@@ -110,7 +110,7 @@ class Base implements ArrayAccess
     public function toJson()
     {
         return Json::encode($this->toArray(), false, array(
-            'enableJsonExprFinder' => TRUE,
+            'enableJsonExprFinder' => true,
         ));
     }
 

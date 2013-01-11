@@ -38,7 +38,7 @@ class Result extends JsonModel
     {
         parent::__construct($variables, $options);
 
-        $this->success = TRUE;
+        $this->success = true;
     }
 
     /**

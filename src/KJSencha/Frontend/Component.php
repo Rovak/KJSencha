@@ -17,7 +17,7 @@ class Component extends Base
      * @param string $name
      * @param array  $attributes
      */
-    public function __construct($name = NULL, array $attributes = NULL)
+    public function __construct($name = null, array $attributes = null)
     {
         parent::__construct($name, $attributes);
 

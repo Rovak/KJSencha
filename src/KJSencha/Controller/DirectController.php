@@ -124,9 +124,9 @@ class DirectController extends AbstractController
                 $rpcs = array();
 
                 if ($request->getContent()) {
-                    $rpcs = json_decode($GLOBALS['HTTP_RAW_POST_DATA'], TRUE);
+                    $rpcs = json_decode($GLOBALS['HTTP_RAW_POST_DATA'], true);
                 } elseif ($this->params()->fromQuery('callback')) {
-                    $rpcs = json_decode($this->params()->fromQuery('data'), TRUE);
+                    $rpcs = json_decode($this->params()->fromQuery('data'), true);
                 }
 
                 // TODO valid json check
@@ -160,7 +160,7 @@ class DirectController extends AbstractController
             'tid'       => $rpc->getId(),
             'action'    => $rpc->getAction(),
             'method'    => $rpc->getMethod(),
-            'result'    => NULL,
+            'result'    => null,
         );
 
         if (!$this->api->hasAction($rpc->getAction())) {
