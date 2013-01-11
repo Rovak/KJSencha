@@ -42,10 +42,13 @@ class Method extends AbstractObject
      */
     public function toApiArray()
     {
-        return array_merge($this->getOptions(), array(
-            'name'  => $this->getName(),
-            'len'   => $this->getNumberOfParameters(),
-        ));
+        return array_merge(
+            $this->getOptions(),
+            array(
+                'name'  => $this->getName(),
+                'len'   => $this->getNumberOfParameters(),
+            )
+        );
     }
 
     /**
