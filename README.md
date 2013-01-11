@@ -1,4 +1,4 @@
-KJSencha Module 0.1.2 [![Master Branch Build Status](https://secure.travis-ci.org/KablauJoustra/KJSencha.png?branch=master)](http://travis-ci.org/KablauJoustra/KJSencha)
+KJSencha Module 0.1.5 [![Master Branch Build Status](https://secure.travis-ci.org/KablauJoustra/KJSencha.png?branch=master)](http://travis-ci.org/KablauJoustra/KJSencha)
 ======================
 
 [Sencha Ext-JS](http://www.sencha.com/products/extjs/) / Sencha Touch Integration Module
@@ -22,19 +22,14 @@ specified in [`composer.json`](https://github.com/KablauJoustra/KJSencha/blob/ma
 
 ## Documentation
 
-See our [Wiki](https://github.com/KablauJoustra/KJSencha/wiki)
+- [Wiki](https://github.com/KablauJoustra/KJSencha/wiki)
+- [API](http://ci.razko.nl/job/KJSencha/Documentation/index.html)
 
 ## Features
 
-- Direct API generator
-
-## Roadmap
-
+- Direct API provider
+- Easy library loading
 - Unit tests
-- Ext JS code generator
-- Better integration with stores
-- Rest controllers which serialize and de-serialize your models
-- Direct Polling with CRON syntax
 
 Changelog
 ----------
