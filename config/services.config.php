@@ -16,12 +16,14 @@ use Zend\ServiceManager\ServiceManager;
 
 return array(
     'factories' => array(
-        
+
         /**
          * Produces a \KJSencha\Direct\Remoting\Api instance consumed by
          * the RPC services
          */
         'kjsencha.api' => 'KJSencha\Service\ApiFactory',
+        'kjsencha.cmpmgr' => 'KJSencha\Service\ComponentManagerFactory',
+
         /**
          * Annotation manager used to discover features available for the RPC services
          */
@@ -91,14 +93,6 @@ return array(
          */
         'kjsencha.echo' => function() {
             return new TestEchoService('Hello ');
-        },
-
-        'kjsencha.cmpmgr' => function($sm) {
-            $config = $sm->get('Config');
-            $serviceConfig = new ServiceManagerConfig($config['kjsencha']['components']);
-            $componentManager = new ComponentManager($serviceConfig);
-            $componentManager->addPeeringServiceManager($sm);
-            return $componentManager;
         }
     )
 );

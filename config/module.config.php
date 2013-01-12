@@ -23,16 +23,6 @@ return array(
                 'KJSencha.echo' => 'kjsencha.echo',
             ),
         ),
-        
-        'components' => array(
-            'factories' => array(
-                'TestComponent' => function($sm) {
-                    return new Ext\Panel(array(
-                        'title' => 'Test Component'
-                    ));
-                }
-            )
-        ),
 
         'bootstrap' => array(
             'default' => array(
