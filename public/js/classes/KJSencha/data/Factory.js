@@ -218,6 +218,7 @@ Ext.define('KJSencha.data.Factory', {
         return {
             url: this.cmpPath,
             renderer: 'component',
+            autoLoad: true,
             params: {
                 className: componentName
             }
