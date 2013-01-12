@@ -2,7 +2,6 @@
 
 namespace KJSencha\Service;
 
-use Zend\Console\Console;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -17,7 +16,7 @@ class ApiFactory implements FactoryInterface
     {
         /* @var $config array */
         $config = $serviceLocator->get('Config');
-        /* @var $cache StorageInterface */
+        /* @var $cache \Zend\Cache\Storage\StorageInterface */
         $cache = $serviceLocator->get('kjsencha.cache');
         /* @var $router \Zend\Mvc\Router\Http\RouteInterface */
         $router = $serviceLocator->get('HttpRouter');
