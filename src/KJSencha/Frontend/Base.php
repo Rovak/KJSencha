@@ -18,10 +18,11 @@ class Base implements ArrayAccess
     /**
      * Create a base class
      *
-     * @param string $name
-     * @param array  $attributes
+     * @param  string           $name
+     * @param  array            $attributes
+     * @throws \DomainException if provided attributes is not an array
      */
-    public function __construct($name = NULL, array $attributes = NULL)
+    public function __construct($name = null, array $attributes = null)
     {
         if (is_array($name)) {
             $attributes = $name;
@@ -38,6 +39,7 @@ class Base implements ArrayAccess
      * Factory system
      *
      * @param mixed
+     * @return self
      */
     public static function factory($attributes)
     {
@@ -45,8 +47,9 @@ class Base implements ArrayAccess
     }
 
     /**
-     * @param string $key
-     * @param string $value
+     * @param  string $key
+     * @param  string $value
+     * @return self
      */
     public function setProperty($key, $value)
     {
@@ -58,8 +61,9 @@ class Base implements ArrayAccess
     /**
      * Set a raw expression
      *
-     * @param string $key
-     * @param string $value
+     * @param  string $key
+     * @param  string $value
+     * @return self
      */
     public function setExpr($key, $value)
     {
@@ -80,7 +84,7 @@ class Base implements ArrayAccess
     public function toArray()
     {
         // Recursive mapping, convert to class later
-        $map = function($func, $arr) use (&$map) {
+        $map = function ($func, $arr) use (&$map) {
             $result = array();
             foreach ($arr as $k => $v) {
                 $result[$k] = is_array($v) ? $map($func, $v) : $func($v);
@@ -89,7 +93,7 @@ class Base implements ArrayAccess
             return $result;
         };
 
-        return $map(function($item){
+        return $map(function ($item) {
             if ($item instanceof Base) {
                 return $item->toArray();
             }
@@ -105,9 +109,13 @@ class Base implements ArrayAccess
      */
     public function toJson()
     {
-        return Json::encode($this->toArray(), false, array(
-            'enableJsonExprFinder' => TRUE,
-        ));
+        return Json::encode(
+            $this->toArray(),
+            false,
+            array(
+                'enableJsonExprFinder' => true,
+            )
+        );
     }
 
     /**
@@ -120,7 +128,7 @@ class Base implements ArrayAccess
 
     /**
      * Render as ExtJS class
-     * @return [type] [description]
+     * @return string
      */
     public function render()
     {
@@ -128,8 +136,7 @@ class Base implements ArrayAccess
     }
 
     /**
-     * @param  string  $key
-     * @return boolean
+     * {@inheritDoc}
      */
     public function offsetExists($key)
     {
@@ -137,8 +144,7 @@ class Base implements ArrayAccess
     }
 
     /**
-     * @param  string $key
-     * @return mixed
+     * {@inheritDoc}
      */
     public function offsetGet($key)
     {
@@ -150,10 +156,7 @@ class Base implements ArrayAccess
     }
 
     /**
-     * @param  type       $key
-     * @param  type       $value
-     * @return type
-     * @throws \Exception
+     * {@inheritDoc}
      */
     public function offsetSet($key, $value)
     {
@@ -161,9 +164,7 @@ class Base implements ArrayAccess
     }
 
     /**
-     * Unset
-     * @param  [type] $key [description]
-     * @return [type] [description]
+     * {@inheritDoc}
      */
     public function offsetUnset($key)
     {

@@ -2,55 +2,97 @@
 
 namespace KJSencha;
 
+use KJSencha\Frontend\Bootstrap;
+use KJSencha\Direct\Remoting\Api\Factory\ApiBuilder;
+use KJSencha\Direct\DirectManager;
+use KJSencha\Service\TestEchoService;
+
 use Zend\Cache\StorageFactory;
 use Zend\Code\Annotation\AnnotationManager;
 use Zend\Code\Annotation\Parser\DoctrineAnnotationParser;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceManager;
 
 return array(
-    'aliases' => array(
-        'kjsencha.api' => 'kjsencha.api.module',
-    ),
     'factories' => array(
-        'kjsencha.config' => 'KJSencha\Service\ModuleConfigurationFactory',
-        'kjsencha.api.module' => 'KJSencha\Service\ModuleApiFactory',
+        /**
+         * Produces a \KJSencha\Direct\Remoting\Api instance consumed by
+         * the RPC services
+         */
+        'kjsencha.api' => 'KJSencha\Service\ApiFactory',
 
-        'kjsencha.annotationmanager' => function($sm) {
-            $doctrineParser = new DoctrineAnnotationParser;
+        /**
+         * Annotation manager used to discover features available for the RPC services
+         */
+        'kjsencha.annotationmanager' => function() {
+            $doctrineParser = new DoctrineAnnotationParser();
             $doctrineParser->registerAnnotation('KJSencha\Annotation\Remotable');
             $doctrineParser->registerAnnotation('KJSencha\Annotation\Interval');
             $doctrineParser->registerAnnotation('KJSencha\Annotation\Formhandler');
             $doctrineParser->registerAnnotation('KJSencha\Annotation\Group');
-            $annotationManager = new AnnotationManager;
+            $annotationManager = new AnnotationManager();
             $annotationManager->attach($doctrineParser);
+
             return $annotationManager;
         },
-        'kjsencha.modulefactory' => function($sm) {
-            $moduleFactory = new Direct\Remoting\Api\Factory\ModuleFactory;
-            $moduleFactory->setAnnotationManager($sm->get('kjsencha.annotationmanager'));
-            return $moduleFactory;
+
+        /**
+         * Factory responsible for crawling module dirs and building APIs
+         */
+        'kjsencha.apibuilder' => function(ServiceLocatorInterface $sl) {
+            /* @var $annotationManager AnnotationManager */
+            $annotationManager = $sl->get('kjsencha.annotationmanager');
+            /* @var $directManager DirectManager */
+            $directManager = $sl->get('kjsencha.direct.manager');
+
+            return new ApiBuilder($annotationManager, $directManager);
         },
 
-        'kjsencha.cache' => function($sm) {
-            $config = $sm->get('Config');
+        /**
+         * Cache where the API will be stored once it is filled with data
+         */
+        'kjsencha.cache' => function(ServiceLocatorInterface $sl) {
+            $config = $sl->get('Config');
             $storage = StorageFactory::factory($config['kjsencha']['cache']);
+
             return $storage;
         },
 
-        'kjsencha.bootstrap' => function($sm) {
-            $config = $sm->get('Config');
-            $bootstrap = new Frontend\Bootstrap($config['kjsencha']['bootstrap']['default']);
+        /**
+         * Bootstrap service that allows rendering of the API into an output that the
+         * ExtJs direct manager can understand
+         */
+        'kjsencha.bootstrap' => function(ServiceLocatorInterface $sl) {
+            $config = $sl->get('Config');
+            $bootstrap = new Bootstrap($config['kjsencha']['bootstrap']['default']);
             $bootstrap->addVariables(array(
                 'App' => array(
-                    'basePath' => $sm->get('Request')->getBasePath(),
+                    'basePath' => $sl->get('Request')->getBasePath(),
                 )
             ));
-            $bootstrap->setDirectApi($sm->get('kjsencha.api'));
+            /* @var $directApi \KJSencha\Direct\Remoting\Api\Api */
+            $directApi = $sl->get('kjsencha.api');
+            $bootstrap->setDirectApi($directApi);
+
             return $bootstrap;
         },
-        'kjsencha.direct.manager' => function($sm) {
-            $directManager = new Direct\DirectManager();
+
+        /**
+         * Direct manager, handles instantiation of requested services
+         */
+        'kjsencha.direct.manager' => function(ServiceManager $sm) {
+            $directManager = new DirectManager();
             $directManager->addPeeringServiceManager($sm);
+
             return $directManager;
+        },
+
+        /**
+         * Echo service - registered by default with ExtJs's remoting provider to allow
+         * simple verification that the module's features are active and working.
+         */
+        'kjsencha.echo' => function() {
+            return new TestEchoService('Hello ');
         },
     )
 );

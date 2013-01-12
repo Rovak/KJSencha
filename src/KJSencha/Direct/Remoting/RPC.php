@@ -33,7 +33,7 @@ class RPC
     protected $action;
 
     /**
-     * Methodname
+     * Method name
      *
      * @var string
      */

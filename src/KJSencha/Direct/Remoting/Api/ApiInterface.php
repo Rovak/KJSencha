@@ -11,29 +11,36 @@ interface ApiInterface
     public function getUrl();
 
     /**
-     * @return string
-     */
-    public function getName();
-
-    /**
      * @param string $url
      */
     public function setUrl($url);
 
     /**
-     * @param string
+     * Retrieves a single Action by its name
+     *
+     * @param  string                                      $name
      * @return \KJSencha\Direct\Remoting\Api\Object\Action
      */
     public function getAction($name);
 
     /**
+     * Retrieves all Actions in this API
      *
-     * @param string $action
-     * @return boolean
+     * @return \KJSencha\Direct\Remoting\Api\Object\Action[]
      */
-    public function hasAction($action);
+    public function getActions();
 
     /**
+     * Checks if the API contains a given action
+     *
+     * @param  string $name
+     * @return bool
+     */
+    public function hasAction($name);
+
+    /**
+     * Retrieves an array serialization of the API that is compatible with the frontend rendered JS
+     *
      * @return array
      */
     public function toApiArray();

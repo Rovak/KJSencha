@@ -17,7 +17,7 @@ class Component extends Base
      * @param string $name
      * @param array  $attributes
      */
-    public function __construct($name = NULL, array $attributes = NULL)
+    public function __construct($name = null, array $attributes = null)
     {
         parent::__construct($name, $attributes);
 
@@ -33,8 +33,8 @@ class Component extends Base
     /**
      * Set the classname
      *
-     * @param  string                   $className
-     * @return \ExtJs\Web\AbstractClass
+     * @param  string $className
+     * @return self
      */
     public function setClassName($className)
     {
@@ -56,7 +56,8 @@ class Component extends Base
     /**
      * Set the class which this class should extend
      *
-     * @param string $extends
+     * @param  string $extends
+     * @return self
      */
     public function setExtend($extends)
     {
@@ -68,9 +69,10 @@ class Component extends Base
     /**
      * Create this class javascript side
      *
-     * @return string Optional name of class that is created
+     * @param  string $name of class that is created
+     * @return Expr
      */
-    public function create($name = NULL)
+    public function create($name = null)
     {
         $className = $name ?: $this['extend'];
         $className = $className ?: $this->getClassName();
@@ -87,7 +89,7 @@ class Component extends Base
     /**
      * Retrieve the code to define this PHP class
      *
-     * @return
+     * @return Expr
      */
     public function define()
     {

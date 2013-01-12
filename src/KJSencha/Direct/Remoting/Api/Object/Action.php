@@ -7,7 +7,9 @@ namespace KJSencha\Direct\Remoting\Api\Object;
  */
 class Action extends AbstractObject
 {
-
+    /**
+     * @var Method[]
+     */
     protected $methods = array();
 
     /**
@@ -42,7 +44,7 @@ class Action extends AbstractObject
     }
 
     /**
-     * @param string $name
+     * @param  string $name
      * @return Method
      */
     public function getMethod($name)
@@ -57,10 +59,8 @@ class Action extends AbstractObject
     {
         $methods = array();
 
-        foreach ($this->methods as $method) {
-            $methods[$method->getName()] = array(
-                'len' => $method->getNumberOfParameters(),
-            );
+        foreach ($this->getMethods() as $method) {
+            $methods[$method->getName()] = $method->toApiArray();
         }
 
         return array(
@@ -68,4 +68,32 @@ class Action extends AbstractObject
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            'methods'    => $this->getMethods(),
+            'parentData' => parent::serialize(),
+        ));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function unserialize($serialized)
+    {
+        $data = unserialize($serialized);
+
+        if (!is_array($data) || !isset($data['parentData'])) {
+            throw new \InvalidArgumentException('Incorrect unserialized data');
+        }
+
+        if (isset($data['methods'])) {
+            $this->methods = $data['methods'];
+        }
+
+        parent::unserialize($data['parentData']);
+    }
 }

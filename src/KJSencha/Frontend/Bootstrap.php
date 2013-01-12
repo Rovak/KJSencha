@@ -3,7 +3,8 @@
 namespace KJSencha\Frontend;
 
 use ArrayObject;
-use KJSencha\Direct\Remoting\Api\ModuleApi;
+use KJSencha\Direct\Remoting\Api\Api;
+use Zend\Stdlib\ArrayUtils;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -27,8 +28,6 @@ class Bootstrap
      */
     public function __construct($options = array())
     {
-        $this->variabeles = new ArrayObject;
-
         $this->viewModel = new ViewModel;
         $this->viewModel->setTemplate($this->template);
 
@@ -56,28 +55,22 @@ class Bootstrap
     public function setOption($key, $value)
     {
         switch (strtolower($key)) {
-
             case 'modules':
                 $this->setModules($value);
                 break;
-
             case 'require':
             case 'requires':
                 $this->setRequires($value);
                 break;
-
             case 'paths':
                 $this->setPaths($value);
                 break;
-
             case 'variables':
                 $this->setVariables($value);
                 break;
-
             case 'directapi':
                 $this->setDirectApi($value);
                 break;
-
             default:
                 $this->parameters[$key] = $value;
                 break;
@@ -101,7 +94,7 @@ class Bootstrap
      */
     public function addVariables(array $variables)
     {
-        $this->variables = array_merge($this->variables, $variables);
+        $this->variables = ArrayUtils::merge($this->variables, $variables);
     }
 
     /**
@@ -177,7 +170,7 @@ class Bootstrap
     /**
      * Retrieve the API
      *
-     * @return ModuleApi
+     * @return Api
      */
     public function getDirectApi()
     {
@@ -187,9 +180,9 @@ class Bootstrap
     /**
      * Set the Direct API
      *
-     * @param ModuleApi $directApi
+     * @param Api $directApi
      */
-    public function setDirectApi(ModuleApi $directApi)
+    public function setDirectApi(Api $directApi)
     {
         $this->directApi = $directApi;
     }
@@ -199,11 +192,13 @@ class Bootstrap
      */
     public function getViewModel()
     {
-        $this->viewModel->setVariables(array_merge($this->parameters, array(
-            'bootstrap' => $this,
-        )));
+        $this->viewModel->setVariables(array_merge(
+            $this->parameters,
+            array(
+                'bootstrap' => $this,
+            )
+        ));
 
         return $this->viewModel;
     }
-
 }
