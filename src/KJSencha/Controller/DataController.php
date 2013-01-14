@@ -24,7 +24,7 @@ class DataController extends AbstractActionController
         $response = $this->getResponse();
         $sm = $this->getServiceLocator();
         /* @var $componentManager \KJSencha\Service\ComponentManager */
-        $componentManager = $sm->get('kjsencha.cmpmgr');
+        $componentManager = $sm->get('kjsencha.componentmanager');
 
         try {
             $component = $componentManager->get($this->params()->fromPost('className'));

@@ -22,7 +22,7 @@ return array(
          * the RPC services
          */
         'kjsencha.api' => 'KJSencha\Service\ApiFactory',
-        'kjsencha.cmpmgr' => 'KJSencha\Service\ComponentManagerFactory',
+        'kjsencha.componentmanager' => 'KJSencha\Service\ComponentManagerFactory',
 
         /**
          * Annotation manager used to discover features available for the RPC services
