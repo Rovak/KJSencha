@@ -61,6 +61,7 @@ Ext.application({
     	KJSenchaApp.data = Ext.create('KJSencha.data.Factory');
     }
 });
+```
 
 This creates a global KJSencha.data variable which can later be used while creating a window
 that needs to load a service side component
