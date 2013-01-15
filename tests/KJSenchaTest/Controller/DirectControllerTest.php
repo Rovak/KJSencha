@@ -3,7 +3,7 @@
 namespace KJSenchaTest\Frontend;
 
 use KJSencha\Controller\DirectController;
-use KJSenchaTest\Bootstrap;
+use KJSenchaTest\Util\ServiceManagerFactory;
 use PHPUnit_Framework_TestCase;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Mvc\MvcEvent;
@@ -20,7 +20,7 @@ class DirectControllerTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $sl = Bootstrap::getServiceManager();
+        $sl = ServiceManagerFactory::getServiceManager();
 
         /* @var $manager DirectManager */
         $manager = $sl->get('kjsencha.direct.manager');
@@ -38,7 +38,7 @@ class DirectControllerTest extends PHPUnit_Framework_TestCase
     function testValidFormResponse()
     {
         $this->request->setPost(new Parameters(array(
-            'extAction' => 'KJSenchaTest.Direct.form.Profile',
+            'extAction' => 'KJSenchaTestAsset.Direct.form.Profile',
             'extMethod' => 'getBasicInfo',
             'extTID'    => 0,
             'extModule' => null,
@@ -55,7 +55,7 @@ class DirectControllerTest extends PHPUnit_Framework_TestCase
     function testValidUploadResponse()
     {
         $this->request->setPost(new Parameters(array(
-            'extAction' => 'KJSenchaTest.Direct.form.Upload',
+            'extAction' => 'KJSenchaTestAsset.Direct.form.Upload',
             'extMethod' => 'emptyUpload',
             'extUpload' => 'true',
             'extTID'    => 0,
@@ -69,7 +69,7 @@ class DirectControllerTest extends PHPUnit_Framework_TestCase
         $expectedResult = array(
             'type'      => 'rpc',
             'tid'       => 0,
-            'action'    => 'KJSenchaTest.Direct.form.Upload',
+            'action'    => 'KJSenchaTestAsset.Direct.form.Upload',
             'method'    => 'emptyUpload',
             'result'    => array(),
         );
