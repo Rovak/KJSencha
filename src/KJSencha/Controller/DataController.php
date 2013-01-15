@@ -4,10 +4,25 @@ namespace KJSencha\Controller;
 
 use Exception;
 use KJSencha\Frontend as Ext;
+use KJSencha\Service\ComponentManager;
+use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 
 class DataController extends AbstractActionController
 {
+    /**
+     * @var \KJSencha\Service\ComponentManager
+     */
+    protected $componentManager;
+
+    /**
+     * @param \KJSencha\Service\ComponentManager $componentManager
+     */
+    public function __construct(ComponentManager $componentManager)
+    {
+        $this->componentManager = $componentManager;
+    }
+
     /**
      * Component builder
      *
@@ -16,18 +31,15 @@ class DataController extends AbstractActionController
      *
      * The output can be used by Ext.ComponentLoader
      *
-     * @return \Zend\Http\Response
+     * @return Response
      * @throws Exception
      */
     public function componentAction()
     {
         $response = $this->getResponse();
-        $sm = $this->getServiceLocator();
-        /* @var $componentManager \KJSencha\Service\ComponentManager */
-        $componentManager = $sm->get('kjsencha.componentmanager');
 
         try {
-            $component = $componentManager->get($this->params()->fromPost('className'));
+            $component = $this->componentManager->get($this->params()->fromPost('className'));
         } catch(Exception $e) {
             // When something goes wrong create a new panel which holds the error message
             $component = new Ext\Panel(array(
