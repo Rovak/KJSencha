@@ -84,6 +84,7 @@ return array(
         'fieldname' => 'value',
     )
 );
+```
 
 - `success` marks the response valid or invalid, you can use this to listen to the `failure` or `success` events on the javascript side.
 - `data` is a simple array in which the key is the fieldname and the value is the new field value.
