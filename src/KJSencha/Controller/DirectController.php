@@ -15,11 +15,14 @@ use Zend\View\Model\JsonModel;
 
 /**
  * Direct Controller which executes RPC's
+ *
+ * The controller returns a format as specified by the official specifications
+ * which can be found at http://www.sencha.com/products/extjs/extdirect
  */
 class DirectController extends AbstractController
 {
     /**
-     * @var DirectManager
+     * @var \KJSencha\Direct\DirectManager
      */
     protected $manager;
 
@@ -27,6 +30,11 @@ class DirectController extends AbstractController
      * @var Api
      */
     protected $api;
+
+    /**
+     * @var array
+     */
+    protected $rpcs;
 
     /**
      * @param DirectManager $manager
@@ -37,13 +45,6 @@ class DirectController extends AbstractController
         $this->manager = $manager;
         $this->api = $api;
     }
-
-    /**
-     * Rpcs
-     *
-     * @var array
-     */
-    protected $rpcs;
 
     /**
      * Is it a upload request
@@ -68,11 +69,48 @@ class DirectController extends AbstractController
     /**
      * Dispatch controller
      *
-     * @param  MvcEvent  $e
+     * @param  MvcEvent $e
      * @return string
      * @throws Exception
      */
     public function onDispatch(MvcEvent $e)
+    {
+        $result = $this->dispatchRPCS();
+
+        // Build a valid upload response and directly return the result
+        if ($this->isForm() && $this->isUpload()) {
+            $result = $this->buildFormUploadResponse($result);
+            return $this->getResponse()
+                 ->setContent($result);
+        }
+
+        $e->setResult(new JsonModel($result));
+
+        return $e;
+    }
+
+    /**
+     * Build a valid upload response, the response expects the json result
+     * to be wrapped with <html><body><textarea>(json)</textarea></body></html>
+     *
+     * @param string $content
+     * @return string Content wrapped in a valid format
+     */
+    protected function buildFormUploadResponse($content)
+    {
+        $json = JsonFormatter::encode($content);
+        $json = preg_replace("/&quot;/", '\\&quot;', $json);
+
+        return '<html><body><textarea>' . $json . '</textarea></body></html>';
+    }
+
+    /**
+     * Dispatches the RPCS from the current request and returns the result
+     *
+     * @return array
+     * @throws Exception
+     */
+    protected function dispatchRPCS()
     {
         $rpcs = $this->getRPC();
 
@@ -88,16 +126,7 @@ class DirectController extends AbstractController
             throw new Exception('Invalid direct request');
         }
 
-        $result = new JsonModel($result);
-
-        // Wrap the result when its a form request
-        if ($this->isForm() && $this->isUpload()) {
-            $result = '<html><body><textarea>' . JsonFormatter::encode($result) . '</textarea></body></html>';
-        }
-
-        $e->setResult($result);
-
-        return $e;
+        return $result;
     }
 
     /**

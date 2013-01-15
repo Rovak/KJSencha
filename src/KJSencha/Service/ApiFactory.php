@@ -2,7 +2,7 @@
 
 namespace KJSencha\Service;
 
-use Zend\Cache\Storage\StorageInterface;
+use Zend\Console\Console;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
