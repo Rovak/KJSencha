@@ -44,11 +44,54 @@ class DirectControllerTest extends PHPUnit_Framework_TestCase
             'extModule' => null,
         )));
 
-        // Kick the controller into action
         $result = $this->controller->dispatch($this->request);
 
-
         $this->assertInstanceOf('Zend\View\Model\JsonModel', $result);
+        $this->assertTrue(is_array($result->result));
+        $this->assertEquals('rpc', $result->type);
+        $this->assertTrue($result->result['success']);
     }
 
+    function testValidUploadResponse()
+    {
+        $this->request->setPost(new Parameters(array(
+            'extAction' => 'KJSenchaTest.Direct.form.Upload',
+            'extMethod' => 'emptyUpload',
+            'extUpload' => 'true',
+            'extTID'    => 0,
+            'extModule' => null,
+        )));
+
+        $result = $this->controller->dispatch($this->request);
+
+        $this->assertInstanceOf('Zend\Http\PhpEnvironment\Response', $result);
+
+        $expectedResult = array(
+            'type'      => 'rpc',
+            'tid'       => 0,
+            'action'    => 'KJSenchaTest.Direct.form.Upload',
+            'method'    => 'emptyUpload',
+            'result'    => array(),
+        );
+
+        /**
+         * This matcher checks the following pattern
+         * <html><body><textarea>(content)</textarea></body></html>
+         */
+        $matcher = array(
+            'tag' => 'html',
+            'descendant' => array(
+                'tag' => 'body',
+                'children' => array(
+                    'count' => 1,
+                ),
+                'descendant' => array(
+                    'tag' => 'textarea',
+                    'content' => json_encode($expectedResult)
+                )
+            )
+        );
+
+        $this->assertTag($matcher, $result->getContent());
+    }
 }

@@ -1,7 +1,5 @@
 <?php
 
-var_dump(realpath( __DIR__ . '/../KJSenchaTest/Direct'));
-
 return array(
     'kjsencha' => array(
         'direct' => array(

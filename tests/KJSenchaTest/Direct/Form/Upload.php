@@ -32,4 +32,18 @@ class Upload
             'msg' => 'File(s) succesfully uploaded:<br>' . implode('<br>', $files),
         );
     }
+
+
+    /**
+     * Upload File example
+     *
+     * Simply return the filenames which have been uploaded
+     *
+     * @Ext\Formhandler
+     * @return array
+     */
+    public function emptyUpload()
+    {
+        return array();
+    }
 }
