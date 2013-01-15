@@ -7,6 +7,13 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\ArrayUtils;
 
+/**
+ * ComponentManager Factory
+ *
+ * The factory will look through the currently loaded modules and checks for every module
+ * if the method `getComponentConfig()` exists. It merges the results from all modules and
+ * uses this as configuration for the ServiceManager
+ */
 class ComponentManagerFactory implements FactoryInterface
 {
 

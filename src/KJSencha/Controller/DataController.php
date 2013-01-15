@@ -8,6 +8,10 @@ use KJSencha\Service\ComponentManager;
 use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 
+/**
+ * Handles component creation requests which are grabbed from the global
+ * ComponentManager
+ */
 class DataController extends AbstractActionController
 {
     /**
@@ -27,9 +31,10 @@ class DataController extends AbstractActionController
      * Component builder
      *
      * Fetches components from the ComponentManager and converts
-     * them to a JSON format
+     * them to a JSON format which can be read by a Ext.ComponentLoader
      *
-     * The output can be used by Ext.ComponentLoader
+     * When a component cannot be found or another exception occurs then a
+     * new panel will be created which will contain the error message
      *
      * @return Response
      * @throws Exception
