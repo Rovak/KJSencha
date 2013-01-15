@@ -12,10 +12,24 @@ use Zend\Stdlib\Parameters;
 
 class DirectControllerTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \KJSencha\Controller\DirectController
+     */
     protected $controller;
+
+    /**
+     * @var \Zend\Http\PhpEnvironment\Request
+     */
     protected $request;
-    protected $response;
+
+    /**
+     * @var \Zend\Mvc\Router\RouteMatch
+     */
     protected $routeMatch;
+
+    /**
+     * @var \Zend\Mvc\MvcEvent
+     */
     protected $event;
 
     public function setUp()
@@ -35,6 +49,11 @@ class DirectControllerTest extends PHPUnit_Framework_TestCase
         $this->controller->setEvent($this->event);
     }
 
+    /**
+     * @covers \KJSencha\Controller\DirectController::isForm
+     * @covers \KJSencha\Controller\DirectController::getRPC
+     * @covers \KJSencha\Controller\DirectController::dispatchRPCS
+     */
     function testValidFormResponse()
     {
         $this->request->setPost(new Parameters(array(
@@ -46,12 +65,20 @@ class DirectControllerTest extends PHPUnit_Framework_TestCase
 
         $result = $this->controller->dispatch($this->request);
 
+        $this->assertTrue($this->controller->isForm());
         $this->assertInstanceOf('Zend\View\Model\JsonModel', $result);
         $this->assertTrue(is_array($result->result));
         $this->assertEquals('rpc', $result->type);
         $this->assertTrue($result->result['success']);
     }
 
+    /**
+     * @covers \KJSencha\Controller\DirectController::buildFormUploadResponse
+     * @covers \KJSencha\Controller\DirectController::isUpload
+     * @covers \KJSencha\Controller\DirectController::isForm
+     * @covers \KJSencha\Controller\DirectController::getRPC
+     * @covers \KJSencha\Controller\DirectController::dispatchRPCS
+     */
     function testValidUploadResponse()
     {
         $this->request->setPost(new Parameters(array(
@@ -64,7 +91,10 @@ class DirectControllerTest extends PHPUnit_Framework_TestCase
 
         $result = $this->controller->dispatch($this->request);
 
+        $this->assertTrue($this->controller->isUpload());
+        $this->assertTrue($this->controller->isForm());
         $this->assertInstanceOf('Zend\Http\PhpEnvironment\Response', $result);
+
 
         $expectedResult = array(
             'type'      => 'rpc',
