@@ -98,7 +98,9 @@ class DirectController extends AbstractController
                      ->setContent($result);
         }
 
-        return new JsonModel($result);
+        $e->setResult(new JsonModel($result));
+
+        return $e;
     }
 
     /**
