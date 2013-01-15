@@ -6,11 +6,9 @@ use KJSencha\Direct\Remoting\Api\Factory\ApiBuilder;
 use KJSencha\Direct\DirectManager;
 use KJSencha\Service\TestEchoService;
 use KJSencha\Frontend\Bootstrap;
-use KJSencha\Service\ComponentManager;
 use Zend\Cache\StorageFactory;
 use Zend\Code\Annotation\AnnotationManager;
 use Zend\Code\Annotation\Parser\DoctrineAnnotationParser;
-use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceManager;
 
@@ -21,7 +19,7 @@ return array(
          * Produces a \KJSencha\Direct\Remoting\Api instance consumed by
          * the RPC services
          */
-        'kjsencha.api' => 'KJSencha\Service\ApiFactory',
+        'kjsencha.api'              => 'KJSencha\Service\ApiFactory',
         'kjsencha.componentmanager' => 'KJSencha\Service\ComponentManagerFactory',
 
         /**
