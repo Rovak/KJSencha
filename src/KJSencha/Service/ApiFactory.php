@@ -30,15 +30,10 @@ class ApiFactory implements FactoryInterface
             /* @var $request \Zend\Http\PhpEnvironment\Request */
             $request = $serviceLocator->get('Request');
             $api = $apiFactory->buildApi($config['kjsencha']['direct']);
-
-            // Console is used for unittests
-            if (!Console::isConsole()) {
-                $api->setUrl($request->getBasePath().$router->assemble(
-                    array('action'  => 'rpc'),
-                    array('name'    => 'kjsencha-direct')
-                ));
-            }
-
+            $api->setUrl($request->getBasePath().$router->assemble(
+                array('action'  => 'rpc'),
+                array('name'    => 'kjsencha-direct')
+            ));
             $cache->setItem($config['kjsencha']['cache_key'], $api);
         }
 

@@ -32,6 +32,11 @@ class DirectController extends AbstractController
     protected $api;
 
     /**
+     * @var array
+     */
+    protected $rpcs;
+
+    /**
      * @param DirectManager $manager
      * @param Api           $api
      */

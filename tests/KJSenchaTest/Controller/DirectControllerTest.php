@@ -34,6 +34,8 @@ class DirectControllerTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        // Used by \KJSencha\Service\ApiFactory::createService
+        \Zend\Console\Console::overrideIsConsole(false);
         $sl = ServiceManagerFactory::getServiceManager();
 
         /* @var $manager DirectManager */
