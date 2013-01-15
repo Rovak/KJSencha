@@ -4,6 +4,7 @@ namespace KJSencha\Service;
 
 use Exception;
 use KJSencha\Frontend\Base;
+use UnexpectedValueException;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ConfigInterface;
@@ -53,5 +54,7 @@ class ComponentManager extends AbstractPluginManager
         if ($plugin instanceof Base) {
             return;
         }
+
+        throw new UnexpectedValueException("Trying to retrieve an invalid component");
     }
 }
