@@ -6,7 +6,7 @@ return array(
     ),
     'module_listener_options' => array(
         'config_glob_paths' => array(
-            'config/autoload/{,*.}{global,local}.php',
+            __DIR__ . '/{,*.}{global,local,testing}.php',
         ),
         'module_paths' => array(
             './module',

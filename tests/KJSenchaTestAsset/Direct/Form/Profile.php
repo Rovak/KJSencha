@@ -1,6 +1,6 @@
 <?php
 
-namespace KJSenchaTest\Direct\Form;
+namespace KJSenchaTestAsset\Direct\Form;
 
 use KJSencha\Annotation as Ext;
 

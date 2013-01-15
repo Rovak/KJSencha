@@ -1,3 +1,6 @@
 nbproject
 clover.xml
 build
+.idea
+vendor
+composer.lock
