@@ -1,3 +1,16 @@
 <?php
 
-return array();
+return array(
+    'modules' => array(
+        'KJSencha',
+    ),
+    'module_listener_options' => array(
+        'config_glob_paths' => array(
+            __DIR__ . '/{,*.}{global,local,testing}.php',
+        ),
+        'module_paths' => array(
+            './module',
+            './vendor',
+        ),
+    ),
+);
