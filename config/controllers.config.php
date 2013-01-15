@@ -2,7 +2,6 @@
 
 namespace KJSencha;
 
-use KJSencha\Controller\DirectController;
 use Zend\ServiceManager\AbstractPluginManager;
 
 return array(
@@ -18,7 +17,12 @@ return array(
             /* @var $apiFactory \KJSencha\Direct\Remoting\Api\Api */
             $apiFactory = $sl->get('kjsencha.api');
 
-            return new DirectController($manager, $apiFactory);
+            return new Controller\DirectController($manager, $apiFactory);
+        },
+        'kjsencha_data' => function(AbstractPluginManager $pluginManager) {
+            /* @var $componentManager \KJSencha\Service\ComponentManager */
+            $componentManager = $pluginManager->get('kjsencha.componentmanager');
+            return new Controller\DataController($componentManager);
         },
     )
 );
