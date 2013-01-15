@@ -88,16 +88,17 @@ class DirectController extends AbstractController
             throw new Exception('Invalid direct request');
         }
 
-        $result = new JsonModel($result);
-
-        // Wrap the result when its a form request
+        // Wrap the result when its a form request and directly return the result
         if ($this->isForm() && $this->isUpload()) {
-            $result = '<html><body><textarea>' . JsonFormatter::encode($result) . '</textarea></body></html>';
+            $json = JsonFormatter::encode($result);
+            $json = preg_replace("/&quot;/", '\\&quot;', $json);
+            $result = '<html><body><textarea>' . $json . '</textarea></body></html>';
+
+            return $e->getResponse()
+                     ->setContent($result);
         }
 
-        $e->setResult($result);
-
-        return $e;
+        return new JsonModel($result);
     }
 
     /**
