@@ -29,7 +29,6 @@ var basicInfo = Ext.create('Ext.form.Panel', {
 });
 
 basicInfo.getForm().load();
-
 ```
 
 In PHP you can then define classes which handle the form requests.
@@ -90,7 +89,7 @@ return array(
 - `data` is a simple array in which the key is the fieldname and the value is the new field value.
 
 After loading the form and changing the data you can submit the form back using the `updateBasicInfo` method.
-Notice the `@Ext\Formhandler` annotation which is used to mark the Direct method as a formhandler, without this you wont be able
+Notice the `@Ext\Formhandler` annotation which is used to mark the Direct method as a formhandler, without this you won't be able
 to create valid form requests.
 
 If your response array contains an `error` key with an array then the key is linked to the fieldname and the value is the errormessage
