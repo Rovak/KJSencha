@@ -73,3 +73,21 @@ Ext.create('Ext.Window', {
     loader: Application.data.createCmpLoader('Application.php.Window')
 }).show();
 ```
+
+Components can be replaced recursively with the `cmp` property:
+
+```javascript
+Ext.create('Ext.Window', {
+    width: 800,
+    height: 400,
+    layout: 'fit',
+    loader: KJSenchaApp.data.createCmpLoader({
+        cmp: 'TestComponent',
+        title: 'Test Title',
+        layout: 'border',
+        items: [
+            {cmp: 'TestComponent', region: 'center'},
+            {cmp: 'TestComponent', region: 'east', width: 200}
+        ]})
+}).show();
+```
