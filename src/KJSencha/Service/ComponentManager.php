@@ -16,6 +16,11 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class ComponentManager extends AbstractPluginManager
 {
     /**
+     * @var boolean
+     */
+    protected $shareByDefault = false;
+
+    /**
      * Constructor
      *
      * @param  null|ConfigInterface $configuration
@@ -54,7 +59,5 @@ class ComponentManager extends AbstractPluginManager
         if ($plugin instanceof Base) {
             return;
         }
-
-        throw new UnexpectedValueException("Trying to retrieve an invalid component");
     }
 }

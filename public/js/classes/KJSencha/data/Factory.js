@@ -210,18 +210,25 @@ Ext.define('KJSencha.data.Factory', {
 	},
 
     /**
-     * @param {String} naam van het component
+     * @param {String|Object} componentConfig Component name or configuration
      * @return {Object}
      */
-    createCmpLoader: function(componentName)
+    createCmpLoader: function(componentConfig)
     {
+        var params = {};
+
+        if (Ext.isString(componentConfig)) {
+            params.componentName = componentConfig;
+        }
+        else if (Ext.isSimpleObject(componentConfig)) {
+            params.componentConfig = JSON.stringify(componentConfig);
+        }
+
         return {
             url: this.cmpPath,
             renderer: 'component',
             autoLoad: true,
-            params: {
-                className: componentName
-            }
-        }
+            params: params
+        };
     }
 });

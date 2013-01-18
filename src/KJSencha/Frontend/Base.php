@@ -57,6 +57,16 @@ class Base implements ArrayAccess
     }
 
     /**
+     * @param array $properties
+     */
+    public function setProperties(array $properties)
+    {
+        foreach ($properties as $key => $value) {
+            $this->setProperty($key, $value);
+        }
+    }
+
+    /**
      * Set a raw expression
      *
      * @param  string $key
