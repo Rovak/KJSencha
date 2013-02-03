@@ -150,7 +150,7 @@ class ApiBuilder
      * @param  string $className
      * @return Action
      */
-    protected function buildAction($className)
+    public function buildAction($className)
     {
         $classReflection = new ClassReflection($className);
         $scanner = new FileScanner($classReflection->getFileName(), $this->annotationManager);
