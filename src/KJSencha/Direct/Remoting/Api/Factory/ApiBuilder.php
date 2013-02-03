@@ -150,7 +150,7 @@ class ApiBuilder
      * @param  string $className
      * @return Action
      */
-    protected function buildAction($className)
+    public function buildAction($className)
     {
         $classReflection = new ClassReflection($className);
         $scanner = new FileScanner($classReflection->getFileName(), $this->annotationManager);
@@ -158,7 +158,7 @@ class ApiBuilder
         $action = new Action($classScanner->getName());
 
         foreach ($classScanner->getMethods() as $classMethod) {
-            if ($classMethod->isPublic()) {
+            if ($classMethod->isPublic() && $classMethod->getName() != '__construct') {
                 $action->addMethod($this->buildMethod($classMethod));
             }
         }
