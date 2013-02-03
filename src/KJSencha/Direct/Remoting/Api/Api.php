@@ -141,11 +141,13 @@ class Api implements Serializable, ApiInterface
      */
     public function serialize()
     {
-        return serialize(array(
+        $data = array(
             'type'    => $this->getType(),
             'url'     => $this->getUrl(),
             'actions' => $this->getActions(),
-        ));
+        );
+
+        return serialize($data);
     }
 
     /**
