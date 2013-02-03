@@ -63,11 +63,28 @@ class Method extends AbstractObject
     }
 
     /**
+     * Retrieve options
+     *
      * @return array
      */
     public function getOptions()
     {
         return $this->options;
+    }
+
+    /**
+     * Retrieve a single option
+     *
+     * @param string $key
+     * @return string
+     */
+    public function getOption($key)
+    {
+        if (!isset($this->options[$key])) {
+            return null;
+        }
+
+        return $this->options[$key];
     }
 
     /**
