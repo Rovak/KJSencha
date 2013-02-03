@@ -2,6 +2,8 @@
 
 namespace KJSencha\Direct\Remoting\Api\Object;
 
+use InvalidArgumentException;
+
 /**
  * A method which can be run by Ext.Direct
  */
@@ -92,11 +94,13 @@ class Method extends AbstractObject
      */
     public function serialize()
     {
-        return serialize(array(
+        $data = array(
             'numberOfParameters'    => $this->getNumberOfParameters(),
             'options'               => $this->getOptions(),
             'parentData'            => parent::serialize(),
-        ));
+        );
+
+        return serialize($data);
     }
 
     /**
@@ -107,7 +111,7 @@ class Method extends AbstractObject
         $data = unserialize($serialized);
 
         if (!is_array($data) || !isset($data['parentData'])) {
-            throw new \InvalidArgumentException('Incorrect unserialized data');
+            throw new InvalidArgumentException('Incorrect unserialized data');
         }
 
         if (isset($data['numberOfParameters'])) {
