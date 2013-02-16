@@ -211,12 +211,14 @@ class Bootstrap
      */
     public function getViewModel()
     {
-        $this->viewModel->setVariables(array_merge(
+        $parameters = array_merge(
             $this->parameters,
             array(
                 'bootstrap' => $this,
             )
-        ));
+        );
+
+        $this->viewModel->setVariables($parameters);
 
         return $this->viewModel;
     }

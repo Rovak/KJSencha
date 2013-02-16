@@ -6,11 +6,10 @@ use Exception;
 use KJSencha\Direct\DirectManager;
 use KJSencha\Direct\Remoting\Api\Api;
 use KJSencha\Direct\Remoting\RPC;
-
+use Zend\Json\Json as JsonFormatter;
 use Zend\Mvc\Controller\AbstractController;
 use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\ArrayUtils;
-use Zend\Json\Json as JsonFormatter;
 use Zend\View\Model\JsonModel;
 
 /**
@@ -141,13 +140,14 @@ class DirectController extends AbstractController
 
             if ($this->isForm()) {
                 $post = $this->params()->fromPost();
-                $this->rpcs = RPC::factory(array(
+                $rpc = array(
                     'action'	=> $post['extAction'],
                     'method'    => $post['extMethod'],
                     'tid'		=> $post['extTID'],
                     'module'    => $post['extModule'],
-                    'data'		=> array_merge($post, $this->params()->fromFiles())
-                ));
+                    'data'		=> ArrayUtils::merge($post, $this->params()->fromFiles())
+                );
+                $this->rpcs = RPC::factory($rpc);
             } else {
                 $rpcs = array();
 

@@ -87,11 +87,13 @@ abstract class AbstractObject implements Serializable
      */
     public function serialize()
     {
-        return serialize(array(
+        $data = array(
             'name'       => $this->getName(),
             'objectName' => $this->getObjectName(),
             'children'   => $this->getChildren(),
-        ));
+        );
+
+        return serialize($data);
     }
 
     /**
