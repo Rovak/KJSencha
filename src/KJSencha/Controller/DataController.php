@@ -50,17 +50,18 @@ class DataController extends AbstractActionController
 
             if ($componentName = $this->params()->fromPost('componentName')) {
                 $component = $this->componentManager->get($componentName);
-            } else if ($componentConfig = $this->params()->fromPost('componentConfig')) {
+            } elseif ($componentConfig = $this->params()->fromPost('componentConfig')) {
                 $component = $this->buildComponent(json_decode($componentConfig, true));
             }
         } catch (Exception $e) {
             // When something goes wrong create a new panel which holds the error message
-            $component = new Ext\Panel(array(
-                'html' => 'Exception: ' . $e->getMessage(),
-                'bodyPadding' => 5,
-                'bodyStyle' => 'color: #F00; text-align: center',
-                'border' => 0,
-                    ));
+            $attributes = array(
+                'html'          => 'Exception: ' . $e->getMessage(),
+                'bodyPadding'   => 5,
+                'bodyStyle'     => 'color: #F00; text-align: center',
+                'border'        => 0,
+            );
+            $component = new Ext\Panel($attributes);
         }
 
         $response->setContent($component->toJson());
@@ -78,7 +79,7 @@ class DataController extends AbstractActionController
     {
         $componentManager = $this->componentManager;
 
-        $transformObj = function($item) use ($componentManager) {
+        $transformObj = function ($item) use ($componentManager) {
             if (ArrayUtils::isHashTable($item) && isset($item['cmp'])) {
                 $itemObj = $componentManager->get($item['cmp']);
                 $itemObj->setProperties($item);
@@ -100,7 +101,7 @@ class DataController extends AbstractActionController
                 foreach ($arr as $b) {
                     $result[] = $transformObj($b);
                 }
-            } else if (is_string($arr)) {
+            } elseif (is_string($arr)) {
                 $result = $arr;
             }
 
@@ -111,5 +112,4 @@ class DataController extends AbstractActionController
             return $item;
         }, $component);
     }
-
 }
