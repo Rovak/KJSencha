@@ -1,3 +1,7 @@
+## 0.2.0
+
+- Added Component Generator (Rovak)
+
 ## 0.1.5
 
 - Added API documentation (Rovak/Ocramius)

@@ -28,11 +28,9 @@ class Base implements ArrayAccess
             $attributes = $name;
         }
 
-        if ( null !== $name && ! is_array($attributes)) {
-            throw new \DomainException('Invalid input');
+        if (is_array($attributes)) {
+            $this->attributes = ArrayUtils::merge($this->attributes, $attributes);
         }
-
-        $this->attributes = ArrayUtils::merge($this->attributes, $attributes);
     }
 
     /**
@@ -56,6 +54,16 @@ class Base implements ArrayAccess
         $this->attributes[$key] = $value;
 
         return $this;
+    }
+
+    /**
+     * @param array $properties
+     */
+    public function setProperties(array $properties)
+    {
+        foreach ($properties as $key => $value) {
+            $this->setProperty($key, $value);
+        }
     }
 
     /**

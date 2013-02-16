@@ -26,5 +26,11 @@
         "psr-0": {
             "KJSencha\\": "src/"
         }
+    },
+    "extra": {
+        "branch-alias" : {
+            "dev-master": "1.0.x-dev"
+        }
     }
+
 }
