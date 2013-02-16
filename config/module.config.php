@@ -1,5 +1,7 @@
 <?php
 
+use KJSencha\Frontend as Ext;
+
 return array(
 
     /**
@@ -25,7 +27,6 @@ return array(
         'bootstrap' => array(
             'default' => array(
                 'modules' => array(
-                    //'KJSencha'
                 ),
                 'paths' => array(
                     // Path is relative since it has been mapped in the asset resolvers
@@ -74,6 +75,15 @@ return array(
                     'route' => '/kjsencha/rpc/',
                     'defaults' => array(
                         'controller' => 'kjsencha_direct',
+                    ),
+                ),
+            ),
+            'kjsencha-data' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/kjsencha/data/[:action]',
+                    'defaults' => array(
+                        'controller' => 'kjsencha_data',
                     ),
                 ),
             ),
