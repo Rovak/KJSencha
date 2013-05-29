@@ -6,6 +6,7 @@ use Exception;
 use KJSencha\Direct\DirectManager;
 use KJSencha\Direct\Remoting\Api\Api;
 use KJSencha\Direct\Remoting\RPC;
+use KJSencha\Direct\DirectEvent;
 use Zend\Json\Json as JsonFormatter;
 use Zend\Mvc\Controller\AbstractController;
 use Zend\Mvc\MvcEvent;
@@ -208,6 +209,12 @@ class DirectController extends AbstractController
         }
 
         $object = $this->manager->get($action->getObjectName());
+
+        // Trigger a RPC dispatch event.
+        $result = $this->getEventManager()->trigger(DirectEvent::EVENT_RPCDISPATCH, $this, array('object' => $object));
+        if($result->stopped()) {
+            return $result->last();
+        }
 
         // Fetch result from the function call
         $response['result'] = call_user_func_array(array($object, $rpc->getMethod()), $rpc->getData());
