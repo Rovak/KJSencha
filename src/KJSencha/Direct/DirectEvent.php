@@ -6,5 +6,5 @@ use Zend\EventManager\Event;
 
 class DirectEvent extends Event
 {
-    const EVENT_RPCDISPATCH     = 'rpcDispatch';
+    const EVENT_RPCDISPATCH     = 'dispatch.rpc';
 }
