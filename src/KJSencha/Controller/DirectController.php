@@ -213,7 +213,7 @@ class DirectController extends AbstractController
         // Trigger a RPC dispatch event.
         $result = $this->getEventManager()->trigger(DirectEvent::EVENT_DISPATCH_RPC, $this, array(
             'object' => $object,
-            'method' => $rpc->getMethod()
+            'rpc'    => $rpc,
         ));
         if($result->stopped()) {
             return $result->last();
