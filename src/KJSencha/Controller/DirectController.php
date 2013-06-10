@@ -77,7 +77,7 @@ class DirectController extends AbstractController
      */
     public function setDebugMode($debugMode)
     {
-        $this->debugMode = $debugMode;
+        $this->debugMode = (boolean) $debugMode;
     }
 
     /**
