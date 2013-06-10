@@ -66,6 +66,15 @@ class DirectController extends AbstractController
     }
 
     /**
+     * @return boolean
+     */
+    public function isDebugMode()
+    {
+        $config = $this->getServiceLocator()->get('Config');
+        return $config['kjsencha']['debug_mode'];
+    }
+
+    /**
      * Dispatch controller
      *
      * @param  MvcEvent $e
@@ -215,12 +224,31 @@ class DirectController extends AbstractController
             'object' => $object,
             'rpc'    => $rpc,
         ));
+
         if($result->stopped()) {
             return $result->last();
         }
 
-        // Fetch result from the function call
-        $response['result'] = call_user_func_array(array($object, $rpc->getMethod()), $rpc->getData());
+        try {
+            // Fetch result from the function call
+            $response['result'] = call_user_func_array(array($object, $rpc->getMethod()), $rpc->getData());
+        }
+        catch (Exception $e) {
+            $error = array(
+                'type'      => 'exception',
+                'message'   => 'An unhandled exception occured',
+                'where'     => ''
+            );
+
+            if ($this->isDebugMode()) {
+                $error['message'] = $e->getMessage();
+                $error['where'] = $e->getTraceAsString();
+            }
+
+            $response['result'] = $error;
+        }
+
+
 
         return $response;
     }
