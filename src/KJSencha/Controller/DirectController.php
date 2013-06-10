@@ -36,6 +36,11 @@ class DirectController extends AbstractController
     protected $rpcs;
 
     /**
+     * @var boolean
+     */
+    protected $debugMode;
+
+    /**
      * @param DirectManager $manager
      * @param Api           $api
      */
@@ -43,6 +48,8 @@ class DirectController extends AbstractController
     {
         $this->manager = $manager;
         $this->api = $api;
+        $this->setDebugMode(false);
+
     }
 
     /**
@@ -63,6 +70,22 @@ class DirectController extends AbstractController
     public function isForm()
     {
         return (boolean) $this->params()->fromPost('extAction', false);
+    }
+
+    /**
+     * @param boolean $debugMode
+     */
+    public function setDebugMode($debugMode)
+    {
+        $this->debugMode = (boolean) $debugMode;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDebugMode()
+    {
+        return $this->debugMode;
     }
 
     /**
@@ -215,12 +238,28 @@ class DirectController extends AbstractController
             'object' => $object,
             'rpc'    => $rpc,
         ));
+
         if($result->stopped()) {
             return $result->last();
         }
 
-        // Fetch result from the function call
-        $response['result'] = call_user_func_array(array($object, $rpc->getMethod()), $rpc->getData());
+        try {
+            // Fetch result from the function call
+            $response['result'] = call_user_func_array(array($object, $rpc->getMethod()), $rpc->getData());
+        } catch (Exception $e) {
+            $error = array(
+                'type'      => 'exception',
+                'message'   => 'An unhandled exception occured',
+                'where'     => ''
+            );
+
+            if ($this->isDebugMode()) {
+                $error['message'] = $e->getMessage();
+                $error['where'] = $e->getTraceAsString();
+            }
+
+            $response['result'] = $error;
+        }
 
         return $response;
     }

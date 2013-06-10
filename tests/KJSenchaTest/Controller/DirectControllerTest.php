@@ -126,4 +126,45 @@ class DirectControllerTest extends PHPUnit_Framework_TestCase
 
         $this->assertTag($matcher, $result->getContent());
     }
+
+    /**
+     * @covers \KJSencha\Controller\DirectController::setDebugMode
+     * @covers \KJSencha\Controller\DirectController::isDebugMode
+     */
+    function testHiddenErrorResponseWhenDebugModeIsOff()
+    {
+        $this->request->setPost(new Parameters(array(
+            'extAction' => 'KJSenchaTestAsset.Direct.ErrorGenerator',
+            'extMethod' => 'throwException',
+            'extTID'    => 0,
+            'extModule' => null,
+        )));
+
+        $result = $this->controller->dispatch($this->request);
+
+        $this->assertEquals('exception', $result->result['type']);
+        $this->assertEmpty($result->result['where']);
+    }
+
+    /**
+     * @covers \KJSencha\Controller\DirectController::setDebugMode
+     * @covers \KJSencha\Controller\DirectController::isDebugMode
+     */
+    function testShowErrorResponseWhenDebugModeIsOn()
+    {
+        $this->request->setPost(new Parameters(array(
+            'extAction' => 'KJSenchaTestAsset.Direct.ErrorGenerator',
+            'extMethod' => 'throwException',
+            'extTID'    => 0,
+            'extModule' => null,
+        )));
+
+        $this->controller->setDebugMode(true);
+
+        $result = $this->controller->dispatch($this->request);
+
+        $this->assertEquals('exception', $result->result['type']);
+        $this->assertEquals('Exception!', $result->result['message']);
+        $this->assertNotEmpty($result->result['where']);
+    }
 }
