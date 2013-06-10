@@ -232,8 +232,7 @@ class DirectController extends AbstractController
         try {
             // Fetch result from the function call
             $response['result'] = call_user_func_array(array($object, $rpc->getMethod()), $rpc->getData());
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $error = array(
                 'type'      => 'exception',
                 'message'   => 'An unhandled exception occured',
