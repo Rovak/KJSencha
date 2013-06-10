@@ -36,6 +36,11 @@ class DirectController extends AbstractController
     protected $rpcs;
 
     /**
+     * @var boolean
+     */
+    protected $debugMode;
+
+    /**
      * @param DirectManager $manager
      * @param Api           $api
      */
@@ -43,6 +48,8 @@ class DirectController extends AbstractController
     {
         $this->manager = $manager;
         $this->api = $api;
+        $this->setDebugMode(false);
+
     }
 
     /**
@@ -66,12 +73,19 @@ class DirectController extends AbstractController
     }
 
     /**
+     * @param boolean $debugMode
+     */
+    public function setDebugMode($debugMode)
+    {
+        $this->debugMode = $debugMode;
+    }
+
+    /**
      * @return boolean
      */
     public function isDebugMode()
     {
-        $config = $this->getServiceLocator()->get('Config');
-        return $config['kjsencha']['debug_mode'];
+        return $this->debugMode;
     }
 
     /**
@@ -246,8 +260,6 @@ class DirectController extends AbstractController
 
             $response['result'] = $error;
         }
-
-
 
         return $response;
     }
