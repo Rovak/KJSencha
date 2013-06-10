@@ -117,3 +117,16 @@ to be initialized and crawled via reflection/tokenizers. You may want to enable 
 defining (in your config) `kjsencha.cache`. `kjsencha.cache` may be any array or traversable
 that could be passed to
 [`Zend\Cache\StorageFactory::factory()`](http://framework.zend.com/manual/2.0/en/modules/zend.cache.storage.adapter.html)
+
+## Debugging
+
+The default configuration does not show detailed error information when an exception occurs during
+a Direct action, this is to prevent unwanted information to be shown in a production environment.
+This can be changed by changing the 'debug_mode' to true.
+
+```php
+return array(
+    'kjsencha' => array(
+        'debug_mode' => true
+    )
+);
