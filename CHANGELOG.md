@@ -1,3 +1,7 @@
+## 0.2.1
+
+- Added exception handling
+
 ## 0.2.0
 
 - Added Component Generator (Rovak)

@@ -1,10 +1,10 @@
-KJSencha Module 0.2.0 [![Master Branch Build Status](https://secure.travis-ci.org/KablauJoustra/KJSencha.png?branch=master)](http://travis-ci.org/KablauJoustra/KJSencha)
+KJSencha Module 0.2.1 [![Master Branch Build Status](https://secure.travis-ci.org/KablauJoustra/KJSencha.png?branch=master)](http://travis-ci.org/KablauJoustra/KJSencha)
 ======================
 
 [Sencha Ext-JS](http://www.sencha.com/products/extjs/) / Sencha Touch Integration Module
 for [Zend Framework 2](http://framework.zend.com/).
 
-The project has an example application build with KJSencha, it is recommended 
+The project has an example application build with KJSencha, it is recommended
 to checkout the [Example application](https://github.com/KablauJoustra/KJSenchaExample) if you
 are interested in using the module
 
