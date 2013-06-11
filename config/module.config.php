@@ -53,6 +53,11 @@ return array(
         ),
 
         'cache_key' => 'module_api',
+
+        /**
+         * Debug mode is used to show more information when server exceptions occur
+         */
+        'debug_mode' => false,
     ),
 
     'view_manager' => array(
