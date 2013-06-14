@@ -142,8 +142,8 @@ class DirectControllerTest extends PHPUnit_Framework_TestCase
 
         $result = $this->controller->dispatch($this->request);
 
-        $this->assertEquals('exception', $result->result['type']);
-        $this->assertEmpty($result->result['where']);
+        $this->assertEquals('exception', $result->type);
+        $this->assertEmpty($result->where);
     }
 
     /**
@@ -163,8 +163,8 @@ class DirectControllerTest extends PHPUnit_Framework_TestCase
 
         $result = $this->controller->dispatch($this->request);
 
-        $this->assertEquals('exception', $result->result['type']);
-        $this->assertEquals('Exception!', $result->result['message']);
-        $this->assertNotEmpty($result->result['where']);
+        $this->assertEquals('exception', $result->type);
+        $this->assertEquals('Exception!', $result->message);
+        $this->assertNotEmpty($result->where);
     }
 }
