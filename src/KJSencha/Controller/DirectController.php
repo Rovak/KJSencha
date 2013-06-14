@@ -91,11 +91,11 @@ class DirectController extends AbstractController
     /**
      * Dispatch controller
      *
-     * @param  MvcEvent $e
+     * @param  MvcEvent $mvcEvent
      * @return string
      * @throws Exception
      */
-    public function onDispatch(MvcEvent $e)
+    public function onDispatch(MvcEvent $mvcEvent)
     {
         $result = $this->dispatchRPCS();
 
@@ -106,9 +106,9 @@ class DirectController extends AbstractController
                  ->setContent($result);
         }
 
-        $e->setResult(new JsonModel($result));
+        $mvcEvent->setResult(new JsonModel($result));
 
-        return $e;
+        return $mvcEvent;
     }
 
     /**
@@ -233,13 +233,15 @@ class DirectController extends AbstractController
 
         $object = $this->manager->get($action->getObjectName());
 
-        // Trigger a RPC dispatch event.
-        $result = $this->getEventManager()->trigger(DirectEvent::EVENT_DISPATCH_RPC, $this, array(
+        // Trigger a RPC dispatch event
+        $eventVars = array(
             'object' => $object,
             'rpc'    => $rpc,
-        ));
+        );
 
-        if($result->stopped()) {
+        $result = $this->getEventManager()->trigger(DirectEvent::EVENT_DISPATCH_RPC, $this, $eventVars);
+
+        if ($result->stopped()) {
             return $result->last();
         }
 
@@ -258,7 +260,7 @@ class DirectController extends AbstractController
                 $error['where'] = $e->getTraceAsString();
             }
 
-            $response['result'] = $error;
+            $response = $error;
         }
 
         return $response;
