@@ -91,11 +91,11 @@ class DirectController extends AbstractController
     /**
      * Dispatch controller
      *
-     * @param  MvcEvent $e
+     * @param  MvcEvent $mvcEvent
      * @return string
      * @throws Exception
      */
-    public function onDispatch(MvcEvent $e)
+    public function onDispatch(MvcEvent $mvcEvent)
     {
         $result = $this->dispatchRPCS();
 
@@ -106,9 +106,9 @@ class DirectController extends AbstractController
                  ->setContent($result);
         }
 
-        $e->setResult(new JsonModel($result));
+        $mvcEvent->setResult(new JsonModel($result));
 
-        return $e;
+        return $mvcEvent;
     }
 
     /**
