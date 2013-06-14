@@ -260,7 +260,7 @@ class DirectController extends AbstractController
                 $error['where'] = $e->getTraceAsString();
             }
 
-            $response['result'] = $error;
+            $response = $error;
         }
 
         return $response;
