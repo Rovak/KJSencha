@@ -1,5 +1,5 @@
 {
-    "name": "kablau-joustra/kj-sencha",
+    "name": "rovak/kj-sencha",
     "description": "Ext-JS / Sencha Touch RPC Intergration Module for Zend Framework 2",
     "type": "library",
     "license": "MIT",
@@ -11,9 +11,9 @@
     "homepage": "https://github.com/KablauJoustra/KJSencha",
     "authors": [
         {
-            "name": "KJ Business Software",
-            "email": "opensource@kj.nu",
-            "homepage": "http://www.kj.nu/"
+            "name": "Roy van Kaathoven",
+            "email": "ik@royvankaathoven.nl",
+            "homepage": "http://www.rovak.pro/"
         }
     ],
     "require": {
