@@ -9,6 +9,8 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
  */
 class ServiceAction implements ServiceLocatorAwareInterface
 {
+    protected $sl;
+
     public function __construct()
     {
 
@@ -16,17 +18,21 @@ class ServiceAction implements ServiceLocatorAwareInterface
 
     public function getServiceLocator()
     {
-
+        return $this->sl;
     }
 
     public function setServiceLocator(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
     {
-
+        $this->sl = $serviceLocator;
     }
 
 
     public function getServiceResult()
     {
-        return 'test';
+
+        /* @var $echoService \KJSenchaTestAsset\Service\EchoService */
+        $echoService = $this->getServiceLocator()->get('echo');
+
+        return $echoService->ping();
     }
 }
