@@ -7,24 +7,11 @@
 KJSencha |version| documentation
 ================================
 
-First Steps
-===========
-
-
 :doc:`topics/intro`
     Getting started
 
-Contents:
+:doc:`topics/component-generator`
+    How to generate Components with PHP
 
 .. toctree::
    :hidden:
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
