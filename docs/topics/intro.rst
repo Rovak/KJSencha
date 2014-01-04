@@ -14,7 +14,7 @@ command in your application's root directory:
 
 .. code-block:: c
 
-    $ ./composer.phar require kablau-joustra/kj-sencha
+    $ ./composer.phar require rovak/kj-sencha
 
 
 Enabling
