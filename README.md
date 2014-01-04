@@ -22,7 +22,7 @@ specified in [`composer.json`](https://github.com/Rovak/KJSencha/blob/master/com
 
 ## Documentation
 
-- [Wiki](https://github.com/Rovak/KJSencha/wiki)
+- [ReadTheDocs](http://kjsencha.readthedocs.org/)
 - [API](http://ci.razko.nl/job/KJSencha/Documentation/index.html)
 
 ## Features
