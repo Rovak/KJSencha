@@ -84,6 +84,8 @@ must stick to the following format in order to create a valid response:
 
 .. code-block:: php
 
+    <?php
+
     return array(
         'success' => true,
         'data' => array(
