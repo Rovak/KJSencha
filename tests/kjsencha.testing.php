@@ -1,6 +1,11 @@
 <?php
 
 return array(
+    'service_manager' => array(
+        'invokables' => array(
+            'echo' => 'KJSenchaTestAsset\Service\EchoService',
+        ),
+    ),
     'kjsencha' => array(
         'direct' => array(
             'modules' => array(
