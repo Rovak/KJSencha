@@ -34,4 +34,4 @@ specified in [`composer.json`](https://github.com/Rovak/KJSencha/blob/master/com
 Changelog
 ----------
 
-See [CHANGELOG.md](releases)
+See [CHANGELOG.md](https://github.com/Rovak/KJSencha/releases)
