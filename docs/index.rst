@@ -13,5 +13,8 @@ KJSencha |version| documentation
 :doc:`topics/component-generator`
     How to generate Components with PHP
 
+:doc:`topics/forms`
+    How to work with forms
+
 .. toctree::
    :hidden:
