@@ -167,4 +167,23 @@ class DirectControllerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Exception!', $result->message);
         $this->assertNotEmpty($result->where);
     }
+
+    /**
+     * Test if objects are being passed the service locator
+     */
+    function testServiceLocatorAwareMustBeGivenServiceLocator()
+    {
+        $this->request->setPost(new Parameters(array(
+            'extAction' => 'KJSenchaTestAsset.Direct.ServiceAction',
+            'extMethod' => 'getServiceResult',
+            'extTID'    => 0,
+            'extModule' => null,
+        )));
+
+        $this->controller->setDebugMode(true);
+
+        $result = $this->controller->dispatch($this->request);
+
+        $this->assertEquals('pong!', $result->result);
+    }
 }
