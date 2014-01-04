@@ -83,6 +83,7 @@ The `getBasicInfo()` method returns the data that fills the form, the returned d
 must stick to the following format in order to create a valid response:
 
 .. code-block:: php
+
     return array(
         'success' => true,
         'data' => array(
