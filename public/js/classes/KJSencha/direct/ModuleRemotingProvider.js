@@ -3,9 +3,9 @@
  */
 Ext.define('KJSencha.direct.ModuleRemotingProvider', {
 
-	extend: 'Ext.direct.RemotingProvider',
+    extend: 'Ext.direct.RemotingProvider',
 
-	alias: 'direct.kjsenchamoduleremotingprovider',
+    alias: 'direct.kjsenchamoduleremotingprovider',
 
     initAPI : function(){
         var actions = this.actions,
@@ -19,7 +19,7 @@ Ext.define('KJSencha.direct.ModuleRemotingProvider', {
         for (action in actions) {
             cls = Ext.ns(action);
             methods = actions[action];
- 
+
             for (i = 0, len = methods.length; i < len; ++i) {
                 method = new Ext.direct.RemotingMethod(methods[i]);
                 method.module = methods[i].module; // toegevoegd
@@ -31,8 +31,8 @@ Ext.define('KJSencha.direct.ModuleRemotingProvider', {
     configureRequest: function(action, method, args) {
         var me = this,
             callData = method.getCallData(args),
-            data = callData.data, 
-            callback = callData.callback, 
+            data = callData.data,
+            callback = callData.callback,
             scope = callData.scope,
             transaction;
 
@@ -52,7 +52,7 @@ Ext.define('KJSencha.direct.ModuleRemotingProvider', {
             me.fireEvent('call', me, transaction, method);
         }
     },
-    
+
     /**
      * Configure a form submission request
      * @private
@@ -78,7 +78,7 @@ Ext.define('KJSencha.direct.ModuleRemotingProvider', {
         if (me.fireEvent('beforecall', me, transaction, method) !== false) {
             Ext.direct.Manager.addTransaction(transaction);
             isUpload = String(form.getAttribute("enctype")).toLowerCase() == 'multipart/form-data';
-            
+
             params = {
                 extTID: transaction.id,
                 extAction: action,
@@ -87,7 +87,7 @@ Ext.define('KJSencha.direct.ModuleRemotingProvider', {
                 extModule: method.module,
                 extUpload: String(isUpload)
             };
-            
+
             // change made from typeof callback check to callback.params
             // to support addl param passing in DirectSubmit EAC 6/2
             Ext.apply(transaction, {

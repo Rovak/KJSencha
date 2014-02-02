@@ -5,12 +5,12 @@
  */
 Ext.define('KJSencha.data.Factory', {
 
-	restPath: App.basePath + '/kjsencha/data/rest',
-	restParameters: {},
-	servicePath: App.basePath + '/kjsencha/data/service',
-	serviceParameters: {},
-	pollingPath: App.basePath + '/kjsencha/data/polling',
-	cmpPath: App.basePath + '/kjsencha/data/component',
+    restPath: App.basePath + '/kjsencha/data/rest',
+    restParameters: {},
+    servicePath: App.basePath + '/kjsencha/data/service',
+    serviceParameters: {},
+    pollingPath: App.basePath + '/kjsencha/data/polling',
+    cmpPath: App.basePath + '/kjsencha/data/component',
 
     /**
      * Create a REST configuration that can be used in models
@@ -20,9 +20,9 @@ Ext.define('KJSencha.data.Factory', {
      * @param {String} options.model Model name, relative to your PHP namespace
      * @return {Object} configuration which can be used as model config
      */
-	createRestConfig: function(options)
-	{
-		var extraParams = Ext.clone(this.restParameters);
+    createRestConfig: function(options)
+    {
+        var extraParams = Ext.clone(this.restParameters);
 
         options = options || {};
 
@@ -38,39 +38,39 @@ Ext.define('KJSencha.data.Factory', {
         extraParams.model = options.model;
 
         if (Ext.isSimpleObject(options.params)) {
-			extraParams = Ext.Object.merge(extraParams, options.params);
+            extraParams = Ext.Object.merge(extraParams, options.params);
             delete options.params;
-		}
+        }
 
-		var obj = {
-			type: 'rest',
-			appendId: false,
-			batchActions: false,
-			url: this.restPath,
-			reader: {
-				type: 'json',
-				root: 'data',
-				successProperty: 'success',
-				messageProperty: 'message',
-				totalProperty  : 'total'
-			},
-			writer: {
-				type: 'json',
-				root: 'data'
-			},
-			extraParams: extraParams,
-			listeners: {
-				'metachange': {
-					fn: function(proxy, metaData) {
-						// Optional metadata change later
-					},
-					scope: this
-				}
-			}
-		};
+        var obj = {
+            type: 'rest',
+            appendId: false,
+            batchActions: false,
+            url: this.restPath,
+            reader: {
+                type: 'json',
+                root: 'data',
+                successProperty: 'success',
+                messageProperty: 'message',
+                totalProperty  : 'total'
+            },
+            writer: {
+                type: 'json',
+                root: 'data'
+            },
+            extraParams: extraParams,
+            listeners: {
+                'metachange': {
+                    fn: function(proxy, metaData) {
+                        // Optional metadata change later
+                    },
+                    scope: this
+                }
+            }
+        };
 
-		return Ext.merge(obj, options);
-	},
+        return Ext.merge(obj, options);
+    },
 
     /**
      * Create a REST configuration that can be used in models
@@ -81,15 +81,15 @@ Ext.define('KJSencha.data.Factory', {
      * @param {String} className Name of the proxy class
      * @return {Ext.data.proxy.Rest} Proxy which can be used in a model
      */
-	createRestProxy: function(config, className)
-	{
-		config = this.createRestConfig(config);
-		className = className || 'Ext.data.proxy.Rest';
+    createRestProxy: function(config, className)
+    {
+        config = this.createRestConfig(config);
+        className = className || 'Ext.data.proxy.Rest';
 
-		return Ext.create(className, config);
-	},
+        return Ext.create(className, config);
+    },
 
-	/**
+    /**
      * Store config factory
      *
      * @param {Object/String} options
@@ -97,9 +97,9 @@ Ext.define('KJSencha.data.Factory', {
      * @param {String} options.action Action which will be executed
      * @return {Object}
      */
-	createStoreConfig: function(options)
-	{
-		var extraParams = Ext.clone(this.restParameters);
+    createStoreConfig: function(options)
+    {
+        var extraParams = Ext.clone(this.restParameters);
 
         options = options || {};
 
@@ -115,35 +115,35 @@ Ext.define('KJSencha.data.Factory', {
         extraParams.action = options.action;
 
         if (Ext.isSimpleObject(options.params)) {
-			extraParams = Ext.Object.merge(extraParams, options.params);
+            extraParams = Ext.Object.merge(extraParams, options.params);
             delete options.params;
-		}
+        }
 
-		var obj = {
-			proxy: {
-				type: 'ajax',
-				api: {
-					create: 	this.servicePath + '?xaction=create',
-					read: 		this.servicePath + '?xaction=read',
-					update: 	this.servicePath + '?xaction=update',
-					destroy: 	this.servicePath + '?xaction=delete'
-				},
-				reader: {
-					type: 'json',
-					root: 'rows'
-				},
-				extraParams: extraParams,
-				writer: {
-					root: 'rows',
-					writeAllFields: false
-				}
-			}
-		};
+        var obj = {
+            proxy: {
+                type: 'ajax',
+                api: {
+                    create:     this.servicePath + '?xaction=create',
+                    read:       this.servicePath + '?xaction=read',
+                    update:     this.servicePath + '?xaction=update',
+                    destroy:    this.servicePath + '?xaction=delete'
+                },
+                reader: {
+                    type: 'json',
+                    root: 'rows'
+                },
+                extraParams: extraParams,
+                writer: {
+                    root: 'rows',
+                    writeAllFields: false
+                }
+            }
+        };
 
-		return Ext.merge(obj, options);
-	},
+        return Ext.merge(obj, options);
+    },
 
-	/**
+    /**
      * Store factory
      *
      * @param {Object/String} config
@@ -152,62 +152,62 @@ Ext.define('KJSencha.data.Factory', {
      * @param {String} className Name of the proxy class
      * @return {Ext.data.Store}
      */
-	createServiceStore: function(config, className)
-	{
-		config = this.createServiceConfig(config);
-		className = className || 'Ext.data.Store';
+    createServiceStore: function(config, className)
+    {
+        config = this.createServiceConfig(config);
+        className = className || 'Ext.data.Store';
 
-		return Ext.create(className, config);
-	},
+        return Ext.create(className, config);
+    },
 
     /**
      * Direct Proxy Factory
      */
-	createDirectProxy: function(config)
-	{
+    createDirectProxy: function(config)
+    {
         Ext.Error.raise('Not implemented, yet!');
-	},
+    },
 
-	/**
-	 * Create a polling provider
-	 *
-	 * @param  {Object} config
-	 * @return {Object}
-	 */
-	createPollingProvider: function(config)
-	{
-		config = config || {};
-		var interval = config.interval || 3000;
+    /**
+     * Create a polling provider
+     *
+     * @param  {Object} config
+     * @return {Object}
+     */
+    createPollingProvider: function(config)
+    {
+        config = config || {};
+        var interval = config.interval || 3000;
 
-		var data =  {
-			type:'polling',
-	        url: this.pollingPath,
-	        interval: interval,
+        var data =  {
+            type:'polling',
+            url: this.pollingPath,
+            interval: interval,
             runTasks: {},
-	        baseParams: {
-	        	interval: interval,
-	        	start:  Math.round(Ext.Date.now() / 1000)
-	        },
-	        updateLatency: function() {
-	        	if (this.latency) {
-	        		this.baseParams.latency = ( Ext.Date.now() - this.latency );
-	        		this.latency = null;
-	        	}
-	        },
-	        listeners: {
-	            data: function(provider, event){
+            baseParams: {
+                interval: interval,
+                start:  Math.round(Ext.Date.now() / 1000)
+            },
+            updateLatency: function() {
+                if (this.latency) {
+                    this.baseParams.latency = ( Ext.Date.now() - this.latency );
+                    this.latency = null;
+                }
+            },
+            listeners: {
+                data: function(provider, event){
                    this.runTasks[event.id] = true;
-	               this.updateLatency();
-	            },
-	            beforepoll: function() {
+                   this.updateLatency();
+                },
+                beforepoll: function() {
                     this.baseParams.runTasks = Ext.Object.getKeys(this.runTasks).join(',');
-					this.latency = Ext.Date.now();
-	            }
-        	}
-	    };
+                    this.latency = Ext.Date.now();
+                }
+            }
+        };
 
-	    return Ext.merge(data, config);
-	},
+        return Ext.merge(data, config);
+    },
 
     /**
      * @param {String|Object} componentConfig Component name or configuration
