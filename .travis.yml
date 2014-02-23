@@ -15,5 +15,5 @@ before_script:
 
 script:
   - phpunit
-  - php coverage-checker.php build/logs/clover.xml 1
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php coverage-checker.php build/logs/clover.xml 1; fi;'
   - output=$(php php-cs-fixer.phar fix -v --dry-run --level=psr2 ./src/); if [[ $output ]]; then while read -r line; do echo -e "\e[00;31m$line\e[00m"; done <<< "$output"; false; fi;
