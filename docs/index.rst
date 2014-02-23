@@ -10,6 +10,9 @@ KJSencha |version| documentation
 :doc:`topics/intro`
     Getting started
 
+:doc:`topics/configuration`
+    Configuring the library
+
 :doc:`topics/component-generator`
     How to generate Components with PHP
 

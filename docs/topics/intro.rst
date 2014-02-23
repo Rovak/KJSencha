@@ -127,8 +127,8 @@ objects will be available to the user.
 Caching
 -------
 
-Crawling mapped services and building API definitions to be exposed to the `
-Ext.direct.Manager` is a very expensive operation that causes all of the mapped services
+Crawling mapped services and building API definitions to be exposed to the
+`Ext.direct.Manager` is a very expensive operation that causes all of the mapped services
 to be initialized and crawled via reflection/tokenizers. You may want to enable caching by
 defining (in your config) `kjsencha.cache`. `kjsencha.cache` may be any array or traversable
 that could be passed to
