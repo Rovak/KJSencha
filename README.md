@@ -1,5 +1,6 @@
-KJSencha Module 0.2.3 [![Master Branch Build Status](https://secure.travis-ci.org/Rovak/KJSencha.png?branch=master)](http://travis-ci.org/Rovak/KJSencha)
-======================
+KJSencha Module 0.3.0
+=====================
+[![Master Branch Build Status](https://secure.travis-ci.org/Rovak/KJSencha.png?branch=master)](http://travis-ci.org/Rovak/KJSencha)
 
 [Sencha Ext-JS](http://www.sencha.com/products/extjs/) / Sencha Touch Integration Module
 for [Zend Framework 2](http://framework.zend.com/).
@@ -34,4 +35,4 @@ specified in [`composer.json`](https://github.com/Rovak/KJSencha/blob/master/com
 Changelog
 ----------
 
-See [CHANGELOG.md](https://github.com/Rovak/KJSencha/releases)
+See [Releases](https://github.com/Rovak/KJSencha/releases)
