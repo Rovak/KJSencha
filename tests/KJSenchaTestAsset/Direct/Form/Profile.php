@@ -18,7 +18,7 @@ class Profile
             'success' => true,
             'data' => array(
                 'name' => 'Roy van Kaathoven',
-                'email' => 'opensource@kj.nu',
+                'email' => 'ik@royvankaathoven.nl',
                 'company' => 'KJ Business Software',
             )
         );
