@@ -176,7 +176,6 @@ class DirectController extends AbstractController
                 $rpcs = array();
 
                 if ($request->getContent()) {
-                    //
                     $rpcs = json_decode(file_get_contents("php://input"), true);
                 } elseif ($this->params()->fromQuery('callback')) {
                     $rpcs = json_decode($this->params()->fromQuery('data'), true);
