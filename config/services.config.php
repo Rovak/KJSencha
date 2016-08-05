@@ -79,7 +79,7 @@ return array(
          * Direct manager, handles instantiation of requested services
          */
         'kjsencha.direct.manager' => function(ServiceManager $sm) {
-            $directManager = new DirectManager();
+            $directManager = new DirectManager($sm);
             $directManager->addPeeringServiceManager($sm);
 
             return $directManager;
